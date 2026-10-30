@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: thinkstorm-app
+    runtime: static
+    buildCommand: echo "site estático, sem build"
+    staticPublishPath: .
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache
