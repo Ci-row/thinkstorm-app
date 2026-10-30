@@ -1,4 +1,4 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>Thinkstorm App</title>
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>Thinkstorm App</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="theme-color" content="#0A0A0B">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,6 +17,9 @@
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent }
 html, body { height: 100% }
+/* A moldura cuida das bordas seguras sozinha; a altura acompanha a barra do navegador no celular. */
+:root { padding: 0 !important }
+.mesa { height: 100vh; height: 100dvh }
 body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 15px; line-height: 1.45; overflow: hidden }
 h1, h2, h3, h4 { font-family: var(--display); margin: 0; letter-spacing: -0.02em; text-wrap: balance }
 p { margin: 0 }
@@ -25,7 +28,7 @@ button { cursor: pointer }
 :focus-visible { outline: 2px solid var(--y); outline-offset: 2px }
 
 /* Moldura */
-.mesa { height: 100%; display: flex; justify-content: center; align-items: stretch }
+.mesa { display: flex; justify-content: center; align-items: stretch }
 .convite { display: none }
 .aparelho { position: relative; width: 100%; min-width: 0; height: 100%; display: flex; flex-direction: column; background: var(--bg); overflow: hidden }
 .tela > * { flex-shrink: 0; min-width: 0 }
@@ -83,7 +86,7 @@ button.chip:active { transform: scale(.97) }
 .hero h2 { font-size: 36px; line-height: .98 }
 .hero h2 em { font-style: normal; color: var(--y) }
 .hero .sub { color: #C8C8C8 }
-.faixa { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -18px; padding-inline: 18px; scrollbar-width: none }
+.faixa { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -18px; padding-inline: 18px; scroll-padding-inline: 18px; scrollbar-width: none }
 .faixa::-webkit-scrollbar { display: none }
 .vivo { flex: none; width: 210px; scroll-snap-align: start; background: var(--s1); border: 1px solid var(--line); border-radius: 20px; padding: 14px; display: flex; flex-direction: column; gap: 6px }
 .vivo b { font-family: var(--display); font-size: 17px; line-height: 1.1 }
@@ -213,6 +216,10 @@ button.chip:active { transform: scale(.97) }
 .abas { position: absolute; left: 10px; right: 10px; bottom: calc(env(safe-area-inset-bottom, 0px) + 10px); display: grid; grid-template-columns: repeat(5, 1fr); background: rgba(24,24,27,.86); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid var(--line); border-radius: 26px; padding: 6px; z-index: 5 }
 .aba { border: 0; background: none; border-radius: 20px; padding: 7px 2px; display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 10.5px; color: var(--muted); font-weight: 600 }
 .aba svg { width: 21px; height: 21px }
+.aba { white-space: nowrap; min-width: 0 }
+@media (max-width: 380px) { .aba { font-size: 9.5px } .hero h2 { font-size: 32px } }
+@media (max-width: 899px) { input:not([type=range]) { font-size: 16px } }
+#processo:empty, #resultado:empty, #historico:empty { display: none }
 .aba[aria-selected="true"] { color: var(--ink); background: var(--y) }
 
 /* Storm (assistente) */
@@ -247,7 +254,8 @@ button.chip:active { transform: scale(.97) }
 .capa-proj { position: relative; border-radius: 28px; overflow: hidden; min-height: 360px; display: flex; flex-direction: column; justify-content: flex-end; padding: 18px; gap: 10px; border: 1px solid var(--line) }
 .capa-proj img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover }
 .capa-proj::before { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(5,5,5,.97) 12%, rgba(5,5,5,.78) 58%, rgba(5,5,5,.3)) }
-.capa-proj > *:not(img) { position: relative }
+.capa-proj::before { z-index: 1 }
+.capa-proj > *:not(img) { position: relative; z-index: 2 }
 .capa-proj h2 { font-size: 34px; line-height: .98 }
 .indice { display: flex; flex-direction: column; gap: 14px }
 .parte h4 { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--y); font-weight: 500; margin-bottom: 8px }
@@ -303,7 +311,7 @@ button.chip:active { transform: scale(.97) }
 .eq { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-family: var(--display); font-weight: 700; font-size: 34px }
 .eq span { animation: sobe .5s both }
 .eq span:nth-child(2) { animation-delay: .2s; color: var(--y) } .eq span:nth-child(3) { animation-delay: .4s } .eq span:nth-child(4) { animation-delay: .6s; color: var(--y) } .eq span:nth-child(5) { animation-delay: .8s; color: var(--y) }
-.carrossel { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -20px; padding-inline: 20px; scrollbar-width: none; touch-action: pan-x pan-y }
+.carrossel { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -20px; padding-inline: 20px; scroll-padding-inline: 20px; scrollbar-width: none; touch-action: pan-x pan-y }
 .carrossel::-webkit-scrollbar { display: none }
 .carrossel figure { flex: none; width: 82%; margin: 0; scroll-snap-align: center; border-radius: 20px; overflow: hidden; position: relative; aspect-ratio: 4 / 5; background: #111 }
 .carrossel img { width: 100%; height: 100%; object-fit: cover }
@@ -663,7 +671,7 @@ function telaInicio() {
   <div class="painel" id="p-agora" ${sub === "agora" ? "" : "hidden"}>
   <div class="hero"><canvas id="mente" aria-hidden="true"></canvas>
     <div><span class="olho">${saudacao()} · hub de inteligência</span>
-    <h2>Criar ideias e <em>torná-las realidade.</em></h2>
+    <h2>Criar ideias e <em><span style="white-space:nowrap">torná-las</span> realidade.</em></h2>
     <p class="sub">Quinze áreas, uma incubadora e uma IA que cuida da casa. Tudo aqui, na palma da mão.</p></div></div>
   <div class="cab"><h3 class="t2">Agora na casa</h3><span class="mono">simulação</span></div>
   <div class="faixa">
@@ -685,7 +693,7 @@ function telaInicio() {
     <p class="sub">A estrutura de quem faz grandes eventos desde 1983, do G20 à COP-30, com a engenharia digital com IA da CHOSING. Cada casa já é referência no que faz; juntas, disputam os próximos mercados.</p></div>
   <p class="aviso">Demonstração do Thinkstorm · ideia inicial · os dados desta tela são exemplos</p></div>`;
 }
-let sub = "agora";
+let sub = "projeto";
 function trocarSub(k) {
   sub = k;
   document.querySelectorAll(".segm button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.sub === k)));
