@@ -743,7 +743,13 @@ function abrirStory(i) {
   try { history.replaceState(null, "", "#apresentacao"); } catch (_) {}
   mostrarCap(i, 1);
 }
-function fecharStory() { $("#story").classList.remove("on"); try { history.replaceState(null, "", "#inicio"); } catch (_) {} }
+function fecharStory(paraInicio = true) {
+  $("#story").classList.remove("on");
+  if (!paraInicio) return;
+  if (sub !== "agora") trocarSub("agora");
+  irPara("inicio");
+  try { history.replaceState(null, "", "#inicio"); } catch (_) {}
+}
 function mostrarCap(i, dir) {
   capAtual = Math.max(0, Math.min(CAPS.length - 1, i));
   const c = CAPS[capAtual];
@@ -791,7 +797,7 @@ function ligarStory() {
     const acc = e.target.closest(".acc"); if (acc) { acc.classList.toggle("aberto"); return; }
     const m = e.target.closest("[data-metodo]"); if (m) { escolher("metodo", +m.dataset.metodo); return; }
     const ro = e.target.closest("[data-rota]"); if (ro) { escolher("rota", +ro.dataset.rota); return; }
-    const sp = e.target.closest("[data-sair-para]"); if (sp) { fecharStory(); irPara(sp.dataset.sairPara); if (sp.dataset.sairPara === "casa") aplicarCena("room"); return; }
+    const sp = e.target.closest("[data-sair-para]"); if (sp) { fecharStory(false); irPara(sp.dataset.sairPara); if (sp.dataset.sairPara === "casa") aplicarCena("room"); return; }
     if (e.target.closest("[data-reiniciar]")) { mostrarCap(0, -1); return; }
     if (e.target.closest("#st-fecha")) { fecharStory(); return; }
     if (e.target.closest("#st-ant")) { mostrarCap(capAtual - 1, -1); return; }
