@@ -412,9 +412,7 @@ button.chip:active { transform: scale(.97) }
 .status-casa b { color: var(--fg) }
 .destaque { display: flex; justify-content: space-between; align-items: center; gap: 10px; background: var(--y); color: var(--ink); border-radius: 14px; padding: 8px 8px 8px 14px; font-weight: 600; font-size: 13.5px }
 .destaque button { border: 0; width: 28px; height: 28px; border-radius: 50%; background: rgba(0,0,0,.12); font-size: 16px }
-.planta-box { overflow-x: auto; margin-inline: -18px; padding-inline: 18px; scrollbar-width: none; overscroll-behavior-x: contain }
-.planta-box::-webkit-scrollbar { display: none }
-.planta-box .planta { width: 640px; max-width: none }
+.planta-box .planta { width: 100%; max-width: 420px; margin-inline: auto }
 .planta .sala { cursor: pointer }
 .planta .sala text.pct { font-family: var(--mono); font-size: 12px; font-weight: 400; fill: #8a8a8a }
 .planta .sala.acesa text.pct { fill: #4a3d14 }
@@ -1084,16 +1082,21 @@ function telaCasa() {
   <div class="faixa cenas-f">${Object.entries(CENAS).map(([k, c]) => `<button class="cena ${k === cenaAtual ? "on" : ""}" data-cena="${k}"><b>${c.nome}</b><small>${c.desc}</small></button>`).join("")}</div>
   <div class="status-casa" id="status-casa"></div>
   <div id="faixa-destaque"></div>
-  <div class="planta-box" id="planta-box"><svg class="planta" id="planta" viewBox="0 0 ${36 * ESC} ${22.45 * ESC}" role="img" aria-label="Planta do Thinkstorm">${SALAS.map(([n, x0, x1, z0, z1]) => {
-    const x = x0 * ESC, y = z0 * ESC, w = (x1 - x0) * ESC, h = (z1 - z0) * ESC;
-    return `<g class="sala" data-sala="${esc(n)}" role="button" tabindex="0" aria-label="${esc(n)}"><rect class="b" x="${x + 3}" y="${y + 3}" width="${w - 6}" height="${h - 6}" rx="12"/><rect class="l" x="${x + 3}" y="${y + 3}" width="${w - 6}" height="${h - 6}" rx="12" fill-opacity="0"/><text x="${x + 12}" y="${y + 28}">${esc(n.length > 11 && w < 120 ? n.split(" ")[0] : n)}</text><text class="pct" x="${x + 12}" y="${y + 48}"></text></g>`;
+  <div class="planta-box" id="planta-box"><svg class="planta" id="planta" viewBox="0 0 ${22.45 * ESC} ${36 * ESC}" role="img" aria-label="Planta do Thinkstorm">${SALAS.map(([n, x0, x1, z0, z1]) => {
+    // Em pé: o comprimento do andar vira a altura da tela.
+    const x = z0 * ESC, y = x0 * ESC, w = (z1 - z0) * ESC, h = (x1 - x0) * ESC;
+    // Rótulo do tamanho da sala: encolhe até 13 e, se ainda não couber, abrevia (o nome inteiro aparece ao tocar).
+    let rotulo = n.length > 10 && w < 120 ? n.split(" ")[0] : n;
+    const cabe = Math.floor((w - 16) / (13 * 0.58));
+    if (rotulo.length > cabe) rotulo = rotulo.slice(0, cabe - 1) + ".";
+    const tam = Math.max(13, Math.min(16, (w - 16) / (rotulo.length * 0.58))).toFixed(1);
+    return `<g class="sala" data-sala="${esc(n)}" role="button" tabindex="0" aria-label="${esc(n)}"><rect class="b" x="${x + 3}" y="${y + 3}" width="${w - 6}" height="${h - 6}" rx="10"/><rect class="l" x="${x + 3}" y="${y + 3}" width="${w - 6}" height="${h - 6}" rx="10" fill-opacity="0"/><text x="${x + 9}" y="${y + 25}" style="font-size:${tam}px">${esc(rotulo)}</text><text class="pct" x="${x + 9}" y="${y + 43}"></text></g>`;
   }).join("")}</svg></div>
-  <p class="mono" style="text-align:center;margin-top:-8px">deslize a planta · toque numa sala</p>
+  <p class="mono" style="text-align:center;margin-top:-8px">toque numa sala para ver e ajustar</p>
   <div class="cartao" id="info-sala"></div>
   <p class="aviso">Equipamentos simulados · na casa real, a Storm fala com o AV da Hoffmann</p>`;
   if (!Object.keys(luz).length) SALAS.forEach(([n]) => luz[n] = CENAS[cenaAtual].luz(n));
   pintar(); infoSala(); desenharDestaque();
-  const box = $("#planta-box"); requestAnimationFrame(() => { box.scrollLeft = (box.scrollWidth - box.clientWidth) / 2; });
 }
 function pintar() {
   document.querySelectorAll("#planta .sala").forEach(g => {
