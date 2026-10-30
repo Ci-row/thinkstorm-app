@@ -1,0 +1,798 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>Thinkstorm App</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="theme-color" content="#0A0A0B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: no celular, o app ocupa a tela inteira com barra de abas embaixo; no computador, o app fica num aparelho à esquerda e o convite para abrir no celular à direita. */
+:root {
+  --bg: #0A0A0B; --s1: #141416; --s2: #1D1D20; --s3: #28282C; --line: #2E2E33;
+  --fg: #F2F2F0; --muted: #9B9B9F; --dim: #6C6C72;
+  --y: #FFCC4E; --y2: #FFE29A; --ink: #111112; --good: #7FD89B; --bad: #FF8A7A;
+  --display: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --body: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent }
+html, body { height: 100% }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 15px; line-height: 1.45; overflow: hidden }
+h1, h2, h3, h4 { font-family: var(--display); margin: 0; letter-spacing: -0.02em; text-wrap: balance }
+p { margin: 0 }
+button, input, textarea { font: inherit; color: inherit }
+button { cursor: pointer }
+:focus-visible { outline: 2px solid var(--y); outline-offset: 2px }
+
+/* Moldura */
+.mesa { height: 100%; display: flex; justify-content: center; align-items: stretch }
+.convite { display: none }
+.aparelho { position: relative; width: 100%; min-width: 0; height: 100%; display: flex; flex-direction: column; background: var(--bg); overflow: hidden }
+.tela > * { flex-shrink: 0; min-width: 0 }
+@media (min-width: 900px) {
+  body { background: radial-gradient(900px 600px at 30% 40%, #1a1608, transparent 70%), var(--bg) }
+  .mesa { align-items: center; gap: 72px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 24px }
+  .aparelho { width: 392px; height: min(820px, calc(100% - 16px)); border-radius: 48px; border: 10px solid #1F1F22; box-shadow: 0 0 0 1px #333, 0 40px 120px rgba(0,0,0,.6) }
+  .convite { display: flex; flex-direction: column; gap: 20px; max-width: 420px }
+}
+.convite h1 { font-size: 54px; line-height: .98 }
+.convite h1 span { color: var(--y) }
+.convite p { color: var(--muted); font-size: 17px }
+.qr { display: flex; gap: 18px; align-items: center; background: var(--s1); border: 1px solid var(--line); border-radius: 24px; padding: 16px }
+.qr #qrcode { background: #fff; padding: 8px; border-radius: 12px; width: 132px; height: 132px; flex: none }
+.qr #qrcode img, .qr #qrcode canvas { width: 116px !important; height: 116px !important }
+.qr small { color: var(--muted); font-size: 13px; display: block; margin-top: 6px; word-break: break-all; font-family: var(--mono) }
+
+/* Topo do app */
+.topo { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: calc(env(safe-area-inset-top, 0px) + 14px); padding-bottom: 10px; padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); flex: none }
+.logo { display: flex; align-items: center; gap: 9px; font-family: var(--display); font-weight: 700; font-size: 21px; letter-spacing: -0.02em }
+.logo svg { width: 26px; height: 29px; color: var(--fg) }
+.logo span { color: var(--y) }
+.selo { font-family: var(--mono); font-size: 10.5px; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 3px 9px; letter-spacing: .04em }
+.raio { width: 40px; height: 40px; border-radius: 50%; border: 0; background: var(--y); color: var(--ink); display: grid; place-items: center; box-shadow: 0 0 0 0 rgba(255,204,78,.5); animation: pulso 2.6s infinite }
+.raio svg { width: 18px; height: 18px }
+@keyframes pulso { 0% { box-shadow: 0 0 0 0 rgba(255,204,78,.45) } 70% { box-shadow: 0 0 0 14px rgba(255,204,78,0) } 100% { box-shadow: 0 0 0 0 rgba(255,204,78,0) } }
+
+/* Telas */
+.telas { flex: 1; position: relative; overflow: hidden }
+.tela { position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); padding-block: 4px 110px; display: flex; flex-direction: column; gap: 18px; scrollbar-width: none }
+.tela::-webkit-scrollbar { display: none }
+.tela[hidden] { display: none }
+.tela.entra { animation: entra .35s ease both }
+@keyframes entra { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: none } }
+.olho { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--y) }
+.t1 { font-size: 34px; line-height: 1; font-weight: 700 }
+.t2 { font-size: 22px; line-height: 1.08; font-weight: 700 }
+.sub { color: var(--muted); font-size: 14.5px }
+.cartao { background: var(--s1); border: 1px solid var(--line); border-radius: 24px; padding: 16px; display: flex; flex-direction: column; gap: 10px; min-width: 0 }
+.cab { display: flex; justify-content: space-between; align-items: baseline; gap: 10px }
+.cab .olho { color: var(--muted) }
+.btn { border: 0; border-radius: 999px; padding: 13px 18px; font-weight: 600; background: var(--y); color: var(--ink); display: inline-flex; align-items: center; justify-content: center; gap: 8px }
+.btn.sec { background: var(--s2); color: var(--fg); border: 1px solid var(--line) }
+.btn:disabled { opacity: .5 }
+.chips { display: flex; flex-wrap: wrap; gap: 6px }
+.chip { font-size: 12.5px; padding: 6px 11px; border-radius: 999px; background: var(--s2); border: 1px solid var(--line); color: var(--fg) }
+button.chip:active { transform: scale(.97) }
+.chip.y { background: var(--y); color: var(--ink); border-color: var(--y); font-weight: 600 }
+.mono { font-family: var(--mono); font-size: 11.5px; color: var(--muted) }
+
+/* Início */
+.hero { position: relative; border-radius: 28px; overflow: hidden; background: #050505; border: 1px solid var(--line); min-height: 340px; display: flex; flex-direction: column; justify-content: flex-end; padding: 18px }
+.hero canvas { position: absolute; inset: 0; width: 100%; height: 100% }
+.hero > div { position: relative; display: flex; flex-direction: column; gap: 8px }
+.hero h2 { font-size: 36px; line-height: .98 }
+.hero h2 em { font-style: normal; color: var(--y) }
+.hero .sub { color: #C8C8C8 }
+.faixa { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -18px; padding-inline: 18px; scrollbar-width: none }
+.faixa::-webkit-scrollbar { display: none }
+.vivo { flex: none; width: 210px; scroll-snap-align: start; background: var(--s1); border: 1px solid var(--line); border-radius: 20px; padding: 14px; display: flex; flex-direction: column; gap: 6px }
+.vivo b { font-family: var(--display); font-size: 17px; line-height: 1.1 }
+.vivo .ponto { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 10.5px; color: var(--y) }
+.vivo .ponto i { width: 7px; height: 7px; border-radius: 50%; background: var(--y); animation: pisca 1.4s infinite }
+@keyframes pisca { 50% { opacity: .25 } }
+.cta { background: var(--y); color: var(--ink); border-radius: 26px; padding: 18px; display: flex; flex-direction: column; gap: 10px; border: 0; text-align: left }
+.cta h3 { font-size: 25px; line-height: 1.02 }
+.cta p { font-size: 14px; opacity: .8 }
+.cta .seta { align-self: flex-end; width: 44px; height: 44px; border-radius: 50%; background: var(--ink); color: var(--y); display: grid; place-items: center; font-size: 20px }
+.metodo { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px }
+.metodo div { background: var(--s2); border-radius: 16px; padding: 10px 8px; display: flex; flex-direction: column; gap: 4px; min-width: 0; transition: background .4s, color .4s }
+.metodo div.on { background: var(--y); color: var(--ink) }
+.metodo b { font-family: var(--display); font-size: 16px }
+.metodo span { font-size: 11px; color: inherit; opacity: .75 }
+.areas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px }
+.area { background: var(--s2); border-radius: 14px; padding: 9px 10px; font-size: 12.5px; font-weight: 600; display: flex; flex-direction: column; gap: 2px }
+.area small { font-family: var(--mono); font-size: 10px; color: var(--muted); font-weight: 400 }
+.area.y { background: var(--y); color: var(--ink) }
+.area.y small { color: #4a3d14 }
+.dupla { display: grid; grid-template-columns: 1fr 1fr; gap: 10px }
+.dupla .cartao b { font-family: var(--display); font-size: 18px; line-height: 1.1 }
+
+/* Laboratório */
+.campo { background: var(--s1); border: 1px solid var(--line); border-radius: 22px; padding: 14px; display: flex; flex-direction: column; gap: 12px }
+.campo textarea { background: transparent; border: 0; resize: none; min-height: 72px; font-size: 18px; font-family: var(--display); line-height: 1.2 }
+.campo textarea::placeholder { color: var(--dim) }
+.campo textarea:focus { outline: none }
+.etapas { display: grid; gap: 8px }
+.etapa { display: grid; grid-template-columns: 34px 1fr auto; gap: 10px; align-items: center; background: var(--s1); border: 1px solid var(--line); border-radius: 18px; padding: 10px 12px }
+.etapa .n { width: 34px; height: 34px; border-radius: 50%; background: var(--s2); display: grid; place-items: center; font-family: var(--display); font-weight: 700 }
+.etapa b { font-family: var(--display); font-size: 16px; display: block }
+.etapa small { color: var(--muted); font-size: 12.5px }
+.etapa .st { font-family: var(--mono); font-size: 11px; color: var(--dim) }
+.etapa.roda .n { background: transparent; border: 2px solid var(--y); border-top-color: transparent; animation: gira .8s linear infinite }
+.etapa.roda .st { color: var(--y) }
+.etapa.ok .n { background: var(--y); color: var(--ink) }
+.etapa.ok .st { color: var(--good) }
+@keyframes gira { to { transform: rotate(360deg) } }
+.marca { border-radius: 26px; padding: 22px 18px; display: flex; flex-direction: column; gap: 8px; color: var(--ink); position: relative; overflow: hidden }
+.marca .nome { font-family: var(--display); font-size: 40px; line-height: .95; font-weight: 700; letter-spacing: -0.03em }
+.marca .slogan { font-size: 15px; font-weight: 500 }
+.marca .setor { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; opacity: .7 }
+.marca svg.fundo { position: absolute; right: -30px; top: -20px; width: 190px; opacity: .14 }
+.linha { display: grid; grid-template-columns: 92px 1fr; gap: 10px; font-size: 14px; padding-block: 8px; border-top: 1px solid var(--line) }
+.linha:first-of-type { border-top: 0 }
+.linha span:first-child { font-family: var(--mono); font-size: 11px; color: var(--muted); padding-top: 2px }
+.mock { align-self: center; width: 230px; background: #000; border-radius: 34px; padding: 10px; border: 1px solid #333 }
+.mock .scr { background: var(--s1); border-radius: 26px; padding: 16px 12px; display: flex; flex-direction: column; gap: 8px; min-height: 330px }
+.mock .scr .bar { height: 5px; width: 60px; background: #333; border-radius: 9px; align-self: center; margin-bottom: 4px }
+.mock h4 { font-size: 20px; line-height: 1 }
+.mock .item { background: var(--s2); border-radius: 14px; padding: 10px; font-size: 12.5px; display: flex; gap: 8px; align-items: center }
+.mock .item i { width: 22px; height: 22px; border-radius: 8px; flex: none }
+.mock .acao { margin-top: auto; border-radius: 999px; padding: 10px; text-align: center; font-weight: 700; font-size: 13px; color: var(--ink) }
+.barras { display: grid; gap: 7px }
+.barra { display: grid; grid-template-columns: 96px 1fr; gap: 10px; align-items: center; font-size: 12.5px }
+.barra .tr { height: 8px; background: var(--s3); border-radius: 9px; overflow: hidden }
+.barra .tr i { display: block; height: 100%; background: var(--y); border-radius: 9px; width: 0; transition: width .9s cubic-bezier(.2,.8,.2,1) }
+.barra small { grid-column: 2; color: var(--muted); font-size: 11.5px; margin-top: -3px }
+.plano { display: grid; gap: 8px }
+.plano div { display: grid; grid-template-columns: 62px 1fr; gap: 10px; font-size: 13.5px }
+.plano b { font-family: var(--display); color: var(--y) }
+.banca { display: grid; gap: 8px }
+.jurado { display: grid; grid-template-columns: 38px 1fr auto; gap: 10px; align-items: center }
+.av { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font-family: var(--display); font-weight: 700; font-size: 14px; background: var(--s3) }
+.av.h { background: #F2F2F0; color: var(--ink) }
+.av.c { background: #E9E2D3; color: var(--ink) }
+.av.i { background: var(--y); color: var(--ink) }
+.jurado p { font-size: 12.5px; color: var(--muted) }
+.jurado b { font-size: 13px }
+.nota { font-family: var(--display); font-size: 26px; font-weight: 700 }
+.aviso { font-size: 12px; color: var(--dim); text-align: center }
+.revela { animation: revela .5s ease both }
+@keyframes revela { from { opacity: 0; transform: translateY(14px) scale(.98) } to { opacity: 1; transform: none } }
+
+/* Storm Room */
+.pilha { position: relative; height: 430px }
+.startup { position: absolute; inset: 0; border-radius: 28px; padding: 20px; display: flex; flex-direction: column; gap: 10px; background: var(--s1); border: 1px solid var(--line); touch-action: pan-y; user-select: none; transition: transform .35s ease, opacity .35s ease }
+.startup.atras { transform: scale(.94) translateY(16px); opacity: .6 }
+.startup .tag { align-self: flex-start }
+.startup h3 { font-size: 32px; line-height: .98 }
+.startup .pede { margin-top: auto; display: grid; gap: 6px; font-size: 13px }
+.startup .carimbo { position: absolute; top: 24px; right: 22px; font-family: var(--display); font-weight: 700; font-size: 22px; padding: 4px 12px; border-radius: 10px; border: 3px solid; transform: rotate(10deg); opacity: 0 }
+.startup .carimbo.sim { color: var(--y); border-color: var(--y) }
+.startup .carimbo.nao { color: var(--bad); border-color: var(--bad); right: auto; left: 22px; transform: rotate(-10deg) }
+.decide { display: grid; grid-template-columns: 1fr 1fr; gap: 10px }
+.votos { display: flex; gap: 8px; justify-content: center; min-height: 54px; align-items: center }
+.voto { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 10.5px; color: var(--muted); animation: revela .4s ease both }
+.voto .av { width: 34px; height: 34px; font-size: 12px }
+.voto.sim .av { box-shadow: 0 0 0 2px var(--y) }
+.portfolio { display: grid; gap: 8px }
+.port { display: flex; justify-content: space-between; align-items: center; gap: 10px; background: var(--s2); border-radius: 16px; padding: 12px }
+.port b { font-family: var(--display); font-size: 16px }
+
+/* Casa */
+.planta { width: 100%; height: auto; display: block; border-radius: 20px; background: #070707; border: 1px solid var(--line) }
+.planta .sala rect.b { fill: #141416; stroke: #2C2C30; stroke-width: 2 }
+.planta .sala rect.l { fill: var(--y); transition: fill-opacity .8s ease; pointer-events: none }
+.planta .sala text { font-family: var(--body); font-size: 15px; fill: #BDBDBD; pointer-events: none; font-weight: 600 }
+.planta .sala.acesa text { fill: var(--ink) }
+.planta .sala.sel rect.b { stroke: var(--y); stroke-width: 4 }
+.cenas { display: grid; grid-template-columns: 1fr 1fr; gap: 8px }
+.cena { border: 1px solid var(--line); background: var(--s1); border-radius: 18px; padding: 12px; text-align: left; display: flex; flex-direction: column; gap: 3px }
+.cena b { font-family: var(--display); font-size: 16px }
+.cena small { color: var(--muted); font-size: 12px }
+.cena.on { background: var(--y); color: var(--ink); border-color: var(--y) }
+.cena.on small { color: #4a3d14 }
+
+/* Rede */
+.agenda { display: grid; gap: 8px }
+.evento { display: grid; grid-template-columns: 58px 1fr auto; gap: 12px; align-items: center; background: var(--s1); border: 1px solid var(--line); border-radius: 20px; padding: 12px }
+.evento .hora { text-align: center; font-family: var(--display); line-height: 1 }
+.evento .hora b { font-size: 22px; display: block }
+.evento .hora small { font-family: var(--mono); font-size: 10px; color: var(--muted) }
+.evento h4 { font-size: 16px }
+.evento p { font-size: 12.5px; color: var(--muted) }
+.vou { border-radius: 999px; padding: 8px 12px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); background: var(--s2) }
+.vou[aria-pressed="true"] { background: var(--y); color: var(--ink); border-color: var(--y) }
+.perfil { display: grid; grid-template-columns: 46px 1fr; gap: 12px; background: var(--s1); border: 1px solid var(--line); border-radius: 20px; padding: 14px }
+.perfil .av { width: 46px; height: 46px; font-size: 15px }
+.perfil h4 { font-size: 16px }
+.perfil p { font-size: 12.5px; color: var(--muted) }
+.perfil .rodape { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; gap: 10px }
+.match { font-family: var(--display); font-weight: 700; color: var(--y); font-size: 18px }
+
+/* Abas */
+.abas { position: absolute; left: 10px; right: 10px; bottom: calc(env(safe-area-inset-bottom, 0px) + 10px); display: grid; grid-template-columns: repeat(5, 1fr); background: rgba(24,24,27,.86); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid var(--line); border-radius: 26px; padding: 6px; z-index: 5 }
+.aba { border: 0; background: none; border-radius: 20px; padding: 7px 2px; display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 10.5px; color: var(--muted); font-weight: 600 }
+.aba svg { width: 21px; height: 21px }
+.aba[aria-selected="true"] { color: var(--ink); background: var(--y) }
+
+/* Storm (assistente) */
+.veu { position: absolute; inset: 0; background: rgba(0,0,0,.55); z-index: 8; opacity: 0; pointer-events: none; transition: opacity .25s }
+.veu.on { opacity: 1; pointer-events: auto }
+.folha { position: absolute; left: 0; right: 0; bottom: 0; z-index: 9; background: var(--s1); border-top: 1px solid var(--line); border-radius: 28px 28px 0 0; height: 78%; display: flex; flex-direction: column; transform: translateY(102%); transition: transform .32s cubic-bezier(.2,.8,.2,1); padding-bottom: env(safe-area-inset-bottom, 0px) }
+.folha.on { transform: none }
+.folha .pega { width: 44px; height: 5px; border-radius: 9px; background: #444; align-self: center; margin-top: 8px }
+.folha header { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px }
+.folha header b { font-family: var(--display); font-size: 20px }
+.folha header button { border: 0; background: var(--s2); border-radius: 999px; padding: 6px 12px; font-size: 13px }
+.chat { flex: 1; overflow-y: auto; padding: 4px 18px 12px; display: flex; flex-direction: column; gap: 10px }
+.bal { max-width: 88%; padding: 10px 13px; border-radius: 18px; font-size: 14.5px }
+.bal.eu { align-self: flex-end; background: var(--y); color: var(--ink); border-bottom-right-radius: 6px }
+.bal.ia { align-self: flex-start; background: var(--s2); border-bottom-left-radius: 6px }
+.bal.ia small { display: block; font-family: var(--mono); font-size: 10px; color: var(--muted); margin-top: 5px }
+.digita::after { content: "…"; animation: pisca 1s infinite }
+.pergunta { display: flex; gap: 8px; padding: 10px 14px 14px; border-top: 1px solid var(--line) }
+.pergunta input { flex: 1; min-width: 0; background: var(--s2); border: 1px solid var(--line); border-radius: 999px; padding: 12px 16px }
+.pergunta .btn { padding: 12px 16px }
+.sugs { display: flex; gap: 6px; overflow-x: auto; padding: 0 14px 8px; scrollbar-width: none }
+.sugs .chip { flex: none }
+.toast { position: absolute; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 92px); transform: translate(-50%, 20px); background: var(--fg); color: var(--ink); padding: 10px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; opacity: 0; transition: .3s; z-index: 7; pointer-events: none; white-space: nowrap }
+.toast.on { opacity: 1; transform: translate(-50%, 0) }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important } }
+</style>
+
+<div class="mesa">
+  <div class="aparelho" id="app"></div>
+  <aside class="convite" aria-label="Abrir no celular">
+    <span class="olho">Thinkstorm · hub de inteligência</span>
+    <h1>O hub inteiro <span>na palma da mão.</span></h1>
+    <p>Uma demonstração do que a casa faz: transformar uma ideia em plano de empresa em segundos, decidir investimentos no Storm Room, operar o espaço por conversa e conectar quem cria com quem investe.</p>
+    <div class="qr"><div id="qrcode" aria-label="QR code do link"></div><div><b>Aponte a câmera do celular</b><small id="link-texto">ci-row.github.io/thinkstorm-app/</small></div></div>
+    <p class="mono">Hoffmann × CHOSING© DEPT. · ideia inicial · dados de demonstração</p>
+  </aside>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+(() => {
+"use strict";
+const ICONE = "M 872.929 13.967 C 861.149 18.757, 857.494 22.626, 850.130 38.097 C 845.191 48.476, 843.797 51.608, 839.498 62 C 829.738 85.589, 826.707 92.642, 825.926 93.586 C 825.431 94.184, 824.402 96.434, 823.638 98.586 C 822.457 101.916, 817.570 113.278, 808.838 133 C 807.742 135.475, 806.255 138.625, 805.533 140 C 804.811 141.375, 802.111 147.675, 799.533 154 C 796.955 160.325, 793.030 169.325, 790.811 174 C 788.593 178.675, 785.935 184.634, 784.907 187.241 C 783.878 189.849, 781.405 195.249, 779.412 199.241 C 777.418 203.234, 774.971 208.750, 773.973 211.500 C 772.975 214.250, 770.514 220.325, 768.504 225 C 766.494 229.675, 764.247 235.075, 763.511 237 C 762.775 238.925, 760.733 243.424, 758.974 246.997 C 757.215 250.571, 754.900 255.717, 753.829 258.434 C 752.103 262.812, 750.683 266.046, 745.458 277.500 C 743.893 280.929, 736.141 299.117, 731.819 309.500 C 730.216 313.350, 727.129 320.179, 724.959 324.676 C 722.790 329.173, 719.503 336.598, 717.655 341.176 C 715.807 345.754, 712.204 353.796, 709.648 359.046 C 707.092 364.296, 705 368.965, 705 369.421 C 705 369.877, 703.902 372.781, 702.559 375.875 C 701.217 378.969, 696.244 390.500, 691.509 401.500 C 686.774 412.500, 682.290 422.625, 681.545 424 C 680.800 425.375, 678.544 430.550, 676.532 435.500 C 674.520 440.450, 670.904 448.775, 668.497 454 C 666.089 459.225, 662.468 467.550, 660.449 472.500 C 654.749 486.473, 651.008 494.375, 649.698 495.208 C 647.550 496.573, 412.572 496.172, 411.200 494.800 C 409.141 492.741, 409.502 355.641, 411.571 353.571 C 412.861 352.281, 416.041 351.982, 429.321 351.900 C 453.365 351.751, 461.919 350.881, 490.500 345.679 C 500.059 343.940, 518.935 338.812, 525.670 336.126 C 528.327 335.067, 533.959 332.827, 538.187 331.149 C 547.505 327.450, 554.834 323.804, 561.500 319.552 C 564.250 317.798, 569.262 314.594, 572.638 312.432 C 586.961 303.257, 605.998 283.815, 616.143 268 C 618.084 264.975, 621.059 260.340, 622.755 257.701 C 626.705 251.552, 633.591 237.464, 635.939 230.728 C 636.941 227.853, 638.450 223.700, 639.292 221.500 C 641.936 214.587, 648.015 192.614, 648.007 189.993 C 648.003 188.615, 648.471 185.915, 649.046 183.993 C 654.920 164.379, 656.852 92.631, 651.955 75.945 C 645.808 55, 634.822 50.949, 584.500 51.072 C 545.592 51.167, 513.707 55.797, 488.500 65.013 C 485.750 66.018, 482.375 67.152, 481 67.532 C 476.030 68.907, 461.308 75.541, 452.500 80.375 C 421.571 97.349, 397.720 120.603, 384.879 146.302 C 378.505 159.060, 376.885 159.201, 367.889 147.781 C 351.616 127.121, 324.784 111.154, 285 98.455 C 253.870 88.519, 185.138 86.279, 167.508 94.626 C 159.423 98.454, 152.770 107.627, 151.520 116.667 C 145.725 158.597, 152.602 217.600, 167.069 250.080 C 168.681 253.699, 170 257.094, 170 257.626 C 170 258.157, 172.025 261.876, 174.500 265.891 C 176.975 269.905, 179 273.382, 179 273.618 C 179 275.795, 191.692 291.707, 200.500 300.573 C 232.373 332.657, 284.092 351.464, 341.679 351.913 C 350.423 351.981, 353.199 352.342, 354.429 353.571 C 356.614 355.757, 356.847 493.052, 354.669 494.860 C 353.719 495.648, 322.101 496.042, 244.419 496.233 L 135.500 496.500 130.377 499.203 C 119.106 505.148, 111.859 520.269, 106.030 550 C 104.898 555.775, 103.476 562.750, 102.870 565.500 C 102.264 568.250, 101.237 577.254, 100.587 585.508 L 99.406 600.516 93.781 610.008 C 90.688 615.229, 86.209 622.626, 83.828 626.447 C 81.448 630.267, 79.313 633.867, 79.084 634.447 C 78.239 636.585, 55.918 675.108, 51.709 681.691 C 49.315 685.436, 45.218 692.325, 42.605 697 C 36.528 707.872, 31.006 717.412, 24.905 727.577 C 16.667 741.303, 16.047 743.207, 16.022 754.849 C 15.996 767.004, 17.225 770.435, 23.384 775.411 C 31.122 781.662, 29.850 781.459, 64.702 782 C 85.656 782.325, 97.278 782.875, 97.976 783.573 C 98.710 784.309, 99.126 804.914, 99.300 849.073 C 99.583 921.254, 99.112 916.307, 107.246 932.492 C 115.219 948.359, 128.429 959.132, 147.278 965.141 C 156.160 967.973, 156.484 968, 181.400 968 C 202.549 968, 206.909 968.248, 208.777 969.557 L 211 971.113 211 1029.241 C 211 1094.780, 210.765 1092.695, 218.741 1098 C 224.879 1102.082, 249.114 1102.257, 257 1098.276 C 266.540 1093.461, 266.018 1097.455, 265.976 1029.639 C 265.951 988.300, 266.267 970.383, 267.039 969.454 C 267.850 968.476, 272.545 968.048, 285.006 967.815 L 301.874 967.500 304.953 964.548 C 309.396 960.287, 310.215 955.814, 309.835 937.899 C 309.535 923.786, 309.282 921.847, 307.410 919.321 C 302.959 913.314, 305.793 913.545, 230 913 C 191.775 912.725, 159.773 912.138, 158.885 911.695 C 155.091 909.803, 155 907.905, 155 830.291 C 155 745.955, 155.215 748.784, 148.081 739.354 C 146.112 736.750, 142.025 733.133, 139 731.314 L 133.500 728.008 113.332 728.004 C 102.239 728.002, 92.452 727.727, 91.582 727.393 C 88.741 726.303, 89.887 723.025, 97.500 710.468 C 101.625 703.663, 105 697.919, 105 697.701 C 105 697.484, 109.324 690.150, 114.608 681.403 C 119.892 672.656, 125.311 663.475, 126.651 661 C 127.990 658.525, 133.085 649.750, 137.972 641.500 C 154.413 613.750, 154.365 613.876, 155.118 596.500 C 155.700 583.084, 156.586 576.301, 160.116 558.247 C 160.775 554.876, 161.816 552.634, 163.021 551.989 C 166.460 550.148, 644.950 550.645, 646.990 552.491 C 649.007 554.316, 650.243 559.450, 653.179 578.190 C 658.871 614.530, 654.221 662.463, 641.858 694.905 C 639.637 700.732, 636.993 707.750, 635.982 710.500 C 632.594 719.715, 619.515 743.351, 608.869 759.500 C 603.067 768.300, 595.931 779.550, 593.012 784.500 C 590.092 789.450, 586.470 795.525, 584.961 798 C 583.453 800.475, 579.641 807.675, 576.491 814 C 573.340 820.325, 568.622 829.775, 566.006 835 C 563.390 840.225, 560.685 846.300, 559.994 848.500 C 559.304 850.700, 558.378 852.960, 557.936 853.523 C 556.147 855.800, 545.469 885.832, 544.432 891.500 C 544.030 893.700, 542.932 897.750, 541.992 900.500 C 538.661 910.242, 533.867 931.586, 529.977 954 C 528.879 960.325, 527.326 969.100, 526.526 973.500 C 520.577 1006.211, 516.539 1084.412, 520.418 1091.800 C 522.313 1095.411, 528.935 1101.612, 531.823 1102.482 C 535.725 1103.656, 559.937 1100.155, 564.965 1097.690 C 572.791 1093.852, 573.399 1091.819, 574.152 1067 C 574.889 1042.678, 576.552 1015.140, 577.956 1004 C 579.878 988.760, 583.261 966.324, 584.516 960.500 C 585.227 957.200, 586.578 950, 587.517 944.500 C 588.456 939, 589.807 932.908, 590.519 930.963 C 591.231 929.017, 592.136 925.192, 592.530 922.463 C 592.924 919.733, 593.899 915.925, 594.698 914 C 595.496 912.075, 597.211 906.675, 598.508 902 C 599.806 897.325, 602.284 889.675, 604.014 885 C 605.745 880.325, 607.760 874.648, 608.492 872.385 C 610.583 865.919, 630.217 827.260, 637.311 815.639 C 639.615 811.865, 645.369 802.865, 650.098 795.639 C 668.945 766.841, 679.322 748.066, 686.655 729.500 C 688.610 724.550, 690.843 719.274, 691.617 717.776 C 692.392 716.277, 694.112 711.102, 695.440 706.276 C 696.768 701.449, 698.816 694.350, 699.991 690.500 C 709.998 657.720, 713.012 606.345, 707.001 571 C 703.619 551.112, 703.479 551.696, 711.863 550.703 C 714.543 550.385, 718.334 549.035, 720.311 547.693 C 723.660 545.420, 725.016 545.222, 740.699 544.716 C 758.325 544.148, 758.759 544.064, 783.500 536.488 C 792.352 533.778, 804.605 529.277, 810.500 526.570 C 825.897 519.499, 844.181 510.002, 851 505.532 C 852.925 504.270, 857.650 501.198, 861.500 498.705 C 893.790 477.794, 923.969 447.119, 947.758 411.028 C 955.128 399.847, 970.932 369.873, 973.034 363.091 C 973.475 361.666, 975.690 355.550, 977.955 349.500 C 981.914 338.925, 985.025 328.373, 989.102 311.682 C 990.152 307.382, 992.022 301.757, 993.256 299.182 C 996.778 291.834, 996.774 201.261, 993.251 193.626 C 991.230 189.244, 988.584 179.984, 984.360 162.500 C 983.563 159.200, 982.058 154.250, 981.017 151.500 C 979.975 148.750, 977.314 141.550, 975.102 135.500 C 956.903 85.706, 908.954 22.533, 882.556 13.570 C 880.012 12.707, 877.833 12.025, 877.715 12.055 C 877.597 12.085, 875.443 12.945, 872.929 13.967 M 885.130 93.390 C 884.645 94, 882.558 98.775, 880.493 104 C 878.428 109.225, 875.672 115.623, 874.369 118.217 C 873.066 120.811, 872 123.422, 872 124.019 C 872 124.616, 869.581 130.174, 866.625 136.370 C 863.669 142.566, 860.908 148.730, 860.489 150.068 C 860.070 151.406, 857.343 157.568, 854.427 163.763 C 851.512 169.957, 848.809 176.032, 848.421 177.263 C 848.033 178.493, 845.029 185.350, 841.745 192.500 C 838.461 199.650, 835.190 207.131, 834.476 209.125 C 833.237 212.583, 829.536 221.066, 826.460 227.500 C 825.671 229.150, 824.393 232.300, 823.620 234.500 C 822.847 236.700, 820.192 242.775, 817.719 248 C 812.439 259.157, 800 287.444, 800 288.294 C 800 288.617, 798.254 292.621, 796.119 297.191 C 793.985 301.761, 791.904 306.594, 791.494 307.932 C 791.085 309.270, 788.331 315.434, 785.375 321.630 C 782.419 327.826, 780 333.232, 780 333.644 C 780 334.056, 776.573 342.068, 772.385 351.447 C 762.544 373.487, 759.360 380.924, 758.448 383.998 C 758.041 385.371, 755.578 390.996, 752.974 396.498 C 746.613 409.939, 744.377 415.021, 743.515 418 C 743.117 419.375, 742.182 421.468, 741.438 422.651 C 740.693 423.834, 738.429 429.009, 736.407 434.151 C 734.386 439.293, 731.444 446.071, 729.870 449.212 C 728.297 452.354, 725.704 458.204, 724.110 462.212 C 722.515 466.221, 718.881 474.335, 716.035 480.245 C 710.398 491.948, 709.967 495.321, 714.046 495.797 C 722.323 496.761, 780.717 482.443, 786.500 478.031 C 787.050 477.611, 791.325 475.563, 796 473.479 C 805.596 469.201, 819.799 461.542, 828 456.223 C 842.416 446.873, 867.977 425.429, 875.683 416.220 C 878.315 413.074, 882.585 408.132, 885.172 405.238 C 887.758 402.344, 891.185 398.069, 892.787 395.738 C 894.389 393.407, 898.317 387.675, 901.515 383 C 907.362 374.453, 921.148 347.243, 924.821 337 C 932.120 316.641, 934.041 310.206, 935.544 301.069 C 936.306 296.432, 937.414 291.257, 938.004 289.569 C 942.852 275.711, 942.469 216.247, 937.435 201.215 C 936.646 198.858, 936 195.358, 936 193.436 C 936 191.514, 934.650 185.846, 933 180.839 C 931.350 175.832, 930 171.200, 930 170.547 C 930 163.613, 911.480 125.066, 899.157 106.352 C 890.641 93.418, 887.451 90.471, 885.130 93.390 M 582.500 105.689 C 528.433 107.354, 496.090 115.272, 468.427 133.614 C 437.998 153.789, 418.563 188.149, 411.963 233.441 C 411.326 237.809, 410.429 242.373, 409.968 243.584 C 408 248.760, 412.399 253.021, 415.778 249.211 C 420.459 243.932, 452.652 217.475, 464.808 208.917 C 472.611 203.422, 493.139 189.871, 498.500 186.675 C 500.700 185.363, 505.174 182.650, 508.441 180.645 C 515.059 176.585, 519.983 175.954, 524.027 178.646 C 530.438 182.915, 530.638 187.163, 524.849 196.095 C 522.566 199.618, 519.721 204.300, 518.528 206.500 C 516.657 209.947, 502.545 231.550, 497.296 239 C 492.069 246.420, 467.736 276.325, 462.077 282.284 C 449.325 295.712, 450.882 297.038, 474.637 292.977 C 527.503 283.939, 562.822 259.782, 581.364 219.983 C 583.802 214.749, 586.322 208.449, 586.964 205.983 C 587.605 203.517, 588.950 199.250, 589.953 196.500 C 595.830 180.376, 602.480 121.016, 599.665 109.802 C 599.063 107.403, 595.111 104.794, 592.703 105.206 C 592.041 105.319, 587.450 105.536, 582.500 105.689 M 206.141 144.809 C 203.410 146.705, 203.638 157.731, 207.031 187.880 C 209.005 205.432, 214.736 224.819, 222.026 238.616 C 236.960 266.876, 261.033 283.694, 298.453 292.010 C 314.360 295.545, 314.761 294.483, 303.029 279.899 C 289.238 262.758, 277.374 244.916, 264.196 221.500 C 257.301 209.248, 257.414 201.047, 264.524 197.807 C 267.033 196.664, 277.367 200.357, 286 205.482 C 287.925 206.625, 290.400 208.079, 291.500 208.713 C 299.948 213.586, 309.597 219.694, 315.500 223.907 C 323.859 229.873, 339.296 241.287, 340 242.022 C 346.418 248.718, 354.001 252.092, 353.999 248.250 C 353.998 245.189, 350.980 231.796, 348.313 223.016 C 341.177 199.521, 327.005 179.278, 310.039 168.345 C 306.993 166.382, 303.356 163.982, 301.958 163.012 C 292.591 156.511, 258.879 146.782, 241.082 145.443 C 225.737 144.288, 207.371 143.955, 206.141 144.809";
+const LINK = "https://ci-row.github.io/thinkstorm-app/";
+const $ = s => document.querySelector(s);
+const esc = t => String(t ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const espera = ms => new Promise(r => setTimeout(r, ms));
+const quieto = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const guardar = (k, v) => { try { localStorage.setItem("ts-app-" + k, JSON.stringify(v)); } catch (_) {} };
+const ler = (k, d) => { try { const v = JSON.parse(localStorage.getItem("ts-app-" + k)); return v ?? d; } catch (_) { return d; } };
+
+// ---------- Conhecimento da casa ----------
+const AREAS = [
+  ["TEC", "Tecnologia", "a que lidera"], ["INT", "Inteligência", "dados e IA"], ["ENG", "Engenharia", "produção"],
+  ["SOC", "Social Media", "nova"], ["CRI", "Criação", "conceito"], ["PRO", "Produção", "protótipo"],
+  ["ART", "Arte", "cenografia"], ["STY", "Style", "estética"], ["VIS", "Visual", "foto e vídeo"],
+  ["AUD", "Áudio", "som"], ["STU", "Studio", "transmissão"], ["MKT", "Marketing", "motor"],
+  ["NEG", "Negócios", "motor"], ["EVT", "Eventos", "motor"], ["ACA", "Academy", "motor"]
+];
+const AREA = Object.fromEntries(AREAS.map(a => [a[0], a[1]]));
+const FRENTES = ["Fintech", "Produtos de consumo", "Engenharia de produção", "Tecnologia e IA", "Eventos e experiências", "Mídia e conteúdo"];
+const SOBRE = `O Thinkstorm é um hub de inteligência no Rio de Janeiro: um andar de 808 m² no Centro, proposto pela CHOSING© DEPT. aos donos da Hoffmann. Propósito: criar ideias e torná-las realidade, em qualquer ramo, para disputar a liderança de mercados nacionais. Nome: think (pensar, como num think tank) + storm (a tempestade de ideias de um brainstorm) = um think tank que faz.
+Hoffmann: engenharia audiovisual de grandes eventos desde 1983 no Rio, mais de 35 mil eventos, Rio-92, Rio 2016, G20 no MAM Rio e COP-30 em Belém, interpretação simultânea, estúdios, Hoffmann Academy.
+CHOSING© DEPT.: engenharia digital com IA para empresas e governo.
+Três camadas: inteligência (entender o mercado), criação (as áreas da casa), escala (levar ao mercado com clientes e estrutura das casas).
+Método: Think, Storm, Make, Scale. 15 áreas: Tecnologia (a fonte de receita que lidera), Inteligência, Engenharia de produção, Social Media (nova), Criação, Produção, Arte, Style, Visual, Áudio, Studio e os motores Marketing, Negócios, Eventos, Academy.
+Frentes: fintech, produtos de consumo, engenharia de produção, tecnologia e IA, eventos e experiências, mídia e conteúdo.
+Incubadora: ideias entram, passam pelo Storm Room (programa de pitch no estilo Shark Tank e Dragon's Den, no palco do salão, banca com Hoffmann, CHOSING, investidores e empresas líderes convidadas) e as aprovadas são incubadas. Smart money: a casa cede espaço, infraestrutura, estrutura, fornecedores e conexões; e um fundo do Thinkstorm pode investir capital em troca de equity. Quanto colocar no fundo se decide junto, sem valores por enquanto.
+Receita recorrente: tecnologia, locação, colab (pagar em serviço) e palco. Networking: social meets, jantares temáticos, cafés de fundadores, noite pós-Storm Room.
+Storm é a IA da casa: opera luz, som, telões e clima por conversa e aprende comandos.
+Este app é uma demonstração: os dados do dia, as startups e os perfis são exemplos.`;
+
+// ---------- Exemplos do laboratório (também usados sem IA) ----------
+const EXEMPLOS = {
+  "Tradutor com IA para congressos": {
+    nome: "Intérprete IA", slogan: "Todo idioma, ao vivo, em qualquer palco.", cor: "#FFCC4E", setor: "Eventos e experiências",
+    problema: "Congressos internacionais dependem de cabines e equipes grandes de intérpretes, caras e difíceis de escalar para eventos menores.",
+    publico: "Organizadores de congressos, hotéis e eventos corporativos que já contratam a Hoffmann.",
+    porque_agora: "A tradução de voz por IA chegou a uma qualidade que permite um modelo híbrido: a IA cobre os idiomas de menor demanda e o intérprete humano cuida dos principais.",
+    mvp: { titulo: "Intérprete IA", funcoes: ["Escolher o idioma pelo celular", "Áudio traduzido ao vivo no fone", "Legenda no telão e transcrição no fim"], cta: "Entrar no evento" },
+    areas: [["TEC", 5, "modelo de voz e app"], ["EVT", 5, "operação no evento"], ["AUD", 4, "captação e mixagem"], ["INT", 3, "avaliação de qualidade"], ["NEG", 3, "venda para a carteira"], ["ACA", 2, "treinar intérpretes"]],
+    piloto: "Um congresso médico de médio porte da carteira da Hoffmann, com dois idiomas por IA e um humano.",
+    plano: [["Think", "Mapear os congressos da carteira e os idiomas mais pedidos."], ["Storm", "Desenhar o modelo híbrido com intérpretes da casa."], ["Make", "Piloto em um evento real, com pesquisa de qualidade."], ["Scale", "Vender como serviço para a rede de hotéis e eventos."]],
+    pitch: "A cabine de interpretação que cabe no bolso de cada participante.",
+    banca: [["Hoffmann", 9, "Conversa direto com o que já fazemos em 40 anos de interpretação."], ["CHOSING", 8, "Tecnologia madura; o desafio é a latência no salão."], ["Investidor convidado", 8, "Receita recorrente por evento, com cliente pronto."]]
+  },
+  "Carteira digital para quem vai a eventos": {
+    nome: "Fila Zero", slogan: "Pague, ganhe de volta e nunca mais pegue fila.", cor: "#9BE7C4", setor: "Fintech",
+    problema: "Em grandes eventos, o público perde tempo em filas de bar e caixa, e o organizador perde venda e dados.",
+    publico: "Público de festivais e congressos, e os fornecedores de comida e bebida dos eventos.",
+    porque_agora: "O Pix tornou o pagamento instantâneo comum para o público, e cashback virou hábito.",
+    mvp: { titulo: "Fila Zero", funcoes: ["Pagar com Pix ou crédito pelo QR", "Cashback para o próximo evento", "Retirada no balcão sem fila"], cta: "Abrir a carteira" },
+    areas: [["TEC", 5, "app e pagamento"], ["NEG", 5, "parceria com fornecedores"], ["INT", 4, "dados de consumo"], ["EVT", 4, "teste no evento"], ["MKT", 3, "adesão do público"], ["SOC", 3, "lançamento nas redes"]],
+    piloto: "Um festival da carteira da Hoffmann, com os bares de uma área do evento.",
+    plano: [["Think", "Medir as filas e o ticket médio em dois eventos."], ["Storm", "Desenhar cashback e parceria com os fornecedores."], ["Make", "Lançar num setor do festival e comparar com o resto."], ["Scale", "Levar para o mercado de experiências do país."]],
+    pitch: "O dinheiro do evento passa por nós, e o público ganha tempo e cashback.",
+    banca: [["Hoffmann", 8, "Temos o público e os eventos para testar já."], ["CHOSING", 9, "Plataforma recorrente, com dados próprios."], ["Investidor convidado", 7, "Mercado disputado; o diferencial é nascer dentro dos eventos."]]
+  },
+  "Bebida funcional lançada num festival": {
+    nome: "Raio", slogan: "Energia limpa para quem cria até tarde.", cor: "#FF9E6B", setor: "Produtos de consumo",
+    problema: "Quem trabalha com criação e eventos vive de café e energético, e quer uma opção com menos açúcar e mais marca.",
+    publico: "Jovens profissionais criativos e o público dos eventos da casa.",
+    porque_agora: "Bebidas funcionais cresceram nas prateleiras, e um lançamento ao vivo gera conteúdo e prova social ao mesmo tempo.",
+    mvp: { titulo: "Raio", funcoes: ["Três sabores testados na casa", "Lançamento no palco do salão", "Venda direta pelo app do evento"], cta: "Provar o Raio" },
+    areas: [["CRI", 5, "conceito e marca"], ["STY", 4, "embalagem"], ["VIS", 4, "campanha"], ["SOC", 5, "lançamento ao vivo"], ["PRO", 3, "protótipo da lata"], ["EVT", 4, "ativação no festival"]],
+    piloto: "Ativação num festival da carteira, com degustação e pesquisa ao vivo.",
+    plano: [["Think", "Ler os dados de público e as tendências de consumo."], ["Storm", "Criar três conceitos e testar na comunidade da casa."], ["Make", "Lote piloto e ativação num evento real."], ["Scale", "Parceria com um fabricante e distribuição nacional."]],
+    pitch: "Uma marca que nasce no palco, com o público decidindo o sabor.",
+    banca: [["Hoffmann", 7, "Ótimo para eventos, mas não é o nosso negócio central."], ["CHOSING", 7, "Os dados de público dão vantagem real."], ["Investidor convidado", 8, "Marca com comunidade antes do primeiro lote."]]
+  }
+};
+const SETOR_DE = [
+  [/pag|banc|cr[eé]dit|carteira|pix|financ|dinheiro|cashback|seguro|invest/, "Fintech"],
+  [/f[aá]brica|ind[uú]stri|produ[cç][aã]o|manuten|log[ií]stic|energia|obra|engenh/, "Engenharia de produção"],
+  [/evento|show|festival|congress|palco|ingresso|turismo|hotel/, "Eventos e experiências"],
+  [/podcast|v[ií]deo|conte[uú]do|m[ií]dia|s[eé]rie|stream|influenc|rede social/, "Mídia e conteúdo"],
+  [/bebida|comida|roupa|moda|cosm[eé]t|produto|marca|loja|varejo|aliment/, "Produtos de consumo"]
+];
+const AREAS_DO_SETOR = {
+  "Fintech": [["TEC", 5, "plataforma"], ["NEG", 5, "parcerias"], ["INT", 4, "dados e risco"], ["MKT", 3, "aquisição"], ["SOC", 3, "lançamento"], ["EVT", 2, "teste em eventos"]],
+  "Engenharia de produção": [["ENG", 5, "processo"], ["INT", 5, "modelos de IA"], ["TEC", 4, "sistema"], ["PRO", 4, "protótipo"], ["NEG", 3, "venda B2B"], ["ACA", 2, "treinamento"]],
+  "Eventos e experiências": [["EVT", 5, "operação"], ["TEC", 4, "tecnologia"], ["AUD", 3, "som"], ["ART", 3, "cenografia"], ["SOC", 4, "conteúdo"], ["NEG", 3, "venda"]],
+  "Mídia e conteúdo": [["STU", 5, "gravação"], ["SOC", 5, "distribuição"], ["VIS", 4, "imagem"], ["AUD", 4, "som"], ["CRI", 4, "roteiro"], ["MKT", 3, "patrocínio"]],
+  "Produtos de consumo": [["CRI", 5, "conceito"], ["STY", 4, "design"], ["VIS", 4, "campanha"], ["SOC", 4, "lançamento"], ["PRO", 3, "protótipo"], ["NEG", 3, "distribuição"]],
+  "Tecnologia e IA": [["TEC", 5, "produto"], ["INT", 5, "IA"], ["ENG", 3, "integração"], ["NEG", 4, "venda"], ["MKT", 3, "aquisição"], ["ACA", 2, "onboarding"]]
+};
+const CORES = ["#FFCC4E", "#9BE7C4", "#FF9E6B", "#A8C7FF", "#F5A8D0", "#C9F27B"];
+function hash(t) { let h = 0; for (const c of t) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h; }
+function gerarLocal(ideia) {
+  if (EXEMPLOS[ideia]) return EXEMPLOS[ideia];
+  const t = ideia.toLowerCase();
+  const setor = (SETOR_DE.find(([r]) => r.test(t)) || [null, "Tecnologia e IA"])[1];
+  const palavras = ideia.replace(/[^\p{L}\s]/gu, " ").split(/\s+/).filter(w => w.length > 3);
+  const raiz = (palavras.sort((a, b) => b.length - a.length)[0] || "Ideia");
+  const sufixos = ["ly", " Lab", " Hub", "io", " Storm", " One"];
+  const h = hash(ideia);
+  const nome = raiz.charAt(0).toUpperCase() + raiz.slice(1, 7).toLowerCase() + sufixos[h % sufixos.length];
+  return {
+    nome, slogan: "Da ideia ao mercado, com a força da casa.", cor: CORES[h % CORES.length], setor,
+    problema: `A ideia: ${ideia.trim()}. O primeiro passo é provar quem tem esse problema e quanto ele custa hoje.`,
+    publico: "Clientes que a Hoffmann e a CHOSING já atendem, antes de abrir para o mercado.",
+    porque_agora: "IA e ciclos curtos permitem testar com clientes reais em semanas, não em anos.",
+    mvp: { titulo: nome, funcoes: ["Cadastro em um minuto", "O recurso principal da ideia", "Painel com o resultado para o cliente"], cta: "Começar" },
+    areas: AREAS_DO_SETOR[setor], piloto: "Um cliente da carteira das casas, com um teste de quatro semanas.",
+    plano: [["Think", "Entrevistar clientes da carteira e medir o problema."], ["Storm", "Gerar três caminhos e escolher um com a banca da casa."], ["Make", "Protótipo funcionando com um cliente real."], ["Scale", "Levar ao mercado nacional com a marca e os parceiros das casas."]],
+    pitch: `${nome}: ${ideia.trim().charAt(0).toLowerCase() + ideia.trim().slice(1)}.`,
+    banca: [["Hoffmann", 7, "Quero ver onde isso encosta nos nossos clientes."], ["CHOSING", 8, "Dá para ter um protótipo rápido."], ["Investidor convidado", 7, "Bom começo; falta provar demanda."]]
+  };
+}
+
+// ---------- Storm Room ----------
+const STARTUPS = [
+  { nome: "Intérprete IA", setor: "Eventos", pitch: "Tradução simultânea híbrida: IA para os idiomas de menor demanda, intérprete humano nos principais.", pede: ["Palco e eventos da Hoffmann para pilotar", "Engenharia de voz da CHOSING", "Capital para o primeiro ano"] },
+  { nome: "Fila Zero", setor: "Fintech", pitch: "Carteira do evento: pagamento, cashback e retirada sem fila para o público e os fornecedores.", pede: ["Acesso aos eventos da carteira", "Parceria com os bares", "Capital por equity"] },
+  { nome: "Fábrica Inteligente", setor: "Engenharia de produção", pitch: "IA que planeja a produção e prevê manutenção, começando por indústrias clientes das casas.", pede: ["Duas indústrias para o piloto", "Sala de Engenharia", "Capital para sensores"] },
+  { nome: "Corte ao Vivo", setor: "Mídia", pitch: "Cortes de vídeo prontos para as redes poucos minutos depois de cada palestra.", pede: ["Studio e Social Media da casa", "Transmissão da Hoffmann", "Só estrutura, sem capital"] },
+  { nome: "Raio", setor: "Consumo", pitch: "Bebida funcional para quem cria até tarde, lançada e ajustada ao vivo num festival.", pede: ["Palco para o lançamento", "Áreas de Criação e Style", "Capital para o lote piloto"] }
+];
+const JURADOS = [["H", "h", "Hoffmann"], ["C", "c", "CHOSING"], ["I", "i", "Investidor"]];
+
+// ---------- Planta e cenas ----------
+const SALAS = [
+  ["Áudio", 0, 4.5, 0, 4.5], ["Visual", 4.5, 9.25, 0, 4.5], ["Marketing", 9.25, 14, 0, 4.5], ["WC", 14, 17.5, 0, 4.5], ["Hall", 17.5, 20.5, 0, 4.5], ["WC", 20.5, 24, 0, 4.5],
+  ["Produção", 24, 28, 0, 4.5], ["Arte", 28, 32, 0, 4.5], ["Style", 32, 36, 0, 4.5], ["Inteligência", 0, 4.5, 4.5, 8.98], ["Criação", 0, 4.5, 8.98, 13.47], ["Reunião", 0, 4.5, 13.47, 17.95],
+  ["Academy", 31.5, 36, 4.5, 8.98], ["Negócios", 31.5, 36, 8.98, 13.47], ["Eventos", 31.5, 36, 13.47, 17.95], ["Studio", 0, 6, 17.95, 22.45], ["Social Media", 6, 10, 17.95, 22.45], ["Incubadora", 10, 14, 17.95, 22.45],
+  ["Copa", 14, 22, 17.95, 22.45], ["Engenharia", 22, 26, 17.95, 22.45], ["Servidores", 26, 30, 17.95, 22.45], ["Tecnologia", 30, 36, 17.95, 22.45], ["Salão central", 4.5, 31.5, 4.5, 17.95]
+];
+const SOBRE_SALA = {
+  "Salão central": "Cowork de dia, palco à noite. É aqui que acontece o Storm Room.", "Studio": "Gravação e transmissão, com o LED de fundo.", "Social Media": "Publica o que o Studio grava, ao lado dele.",
+  "Incubadora": "As startups aprovadas no Storm Room trabalham aqui.", "Tecnologia": "O lab da fonte de receita que lidera.", "Servidores": "A Storm roda aqui, com os dados da casa.",
+  "Copa": "Onde as pessoas se encontram sem marcar.", "Engenharia": "Engenharia de produção e processos.", "Inteligência": "Dados, pesquisa e IA aplicada.", "Academy": "Cursos, workshops e mentorias."
+};
+const CENAS = {
+  bomdia: { nome: "Bom dia", desc: "Persianas abertas, casa clara", luz: () => 0.8 },
+  room: { nome: "Storm Room", desc: "Palco aceso, salão em meia luz", luz: n => n === "Salão central" ? 0.35 : ["Studio", "Social Media"].includes(n) ? 0.9 : 0.15 },
+  evento: { nome: "Noite de evento", desc: "Salão e copa, o resto apagado", luz: n => ["Salão central", "Copa"].includes(n) ? 0.55 : n === "Servidores" ? 0.3 : 0.05 },
+  fechar: { nome: "Fechar a casa", desc: "Tudo apagado, só os servidores", luz: n => n === "Servidores" ? 0.25 : 0 }
+};
+
+// ---------- Rede ----------
+const AGENDA = [
+  ["08:30", "seg", "Café de fundadores", "Manhã curta na copa para trocar contatos e clientes."],
+  ["19:00", "qua", "Storm Room", "Cinco ideias no palco, banca decide na hora."],
+  ["21:00", "qua", "Noite pós-Storm Room", "A conversa segue na copa com a banca e a plateia."],
+  ["20:00", "qui", "Jantar temático · fintech", "Uma mesa com quem lidera e quem quer desafiar."],
+  ["18:30", "sex", "Social meet no lounge", "Noite aberta para a comunidade se conhecer."]
+];
+const PERFIS = [
+  ["ED", "Engenheira de dados", "Ex-banco digital, quer montar uma fintech de crédito para eventos.", 92, "Combina com Fila Zero e com a frente de fintech."],
+  ["DP", "Designer de produto", "Desenhou apps de varejo; procura time para um produto de consumo.", 87, "Precisa de Tecnologia; você precisa de interface."],
+  ["IN", "Investidora anjo", "Investe em B2B e participa da banca do Storm Room.", 84, "Procura startups que já tenham um cliente-piloto."],
+  ["PR", "Produtor de eventos", "Vinte anos de festivais; quer testar formatos novos no palco da casa.", 79, "Abre portas para pilotos em eventos reais."]
+];
+
+// ---------- Estado ----------
+let tela = "inicio";
+let deck = STARTUPS.map(s => ({ ...s }));
+let decisoes = [];
+let cenaAtual = "bomdia";
+let salaSel = "Salão central";
+let vou = ler("vou", []);
+let conectados = ler("conectados", []);
+let ultimoResultado = null;
+let sample = null, iaPronta = null;
+let conversa = [];
+let ocupadoChat = false;
+
+// ---------- Ícones ----------
+const I = {
+  inicio: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>',
+  lab: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/><path d="M7.5 14h9"/></svg>',
+  room: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>',
+  casa: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 9v12M15 15h6"/></svg>',
+  rede: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="8" r="3"/><circle cx="10" cy="18" r="3"/><path d="M8.5 7.5l6.7 1M16.4 10.5l-4.8 5.5M7 9l2 6"/></svg>',
+  raio: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>'
+};
+const iconeMarca = (cls = "") => `<svg class="${cls}" viewBox="0 0 1012 1120" aria-hidden="true"><path d="${ICONE}" fill="currentColor" fill-rule="evenodd"/></svg>`;
+
+// ---------- Montagem ----------
+function montar() {
+  $("#app").innerHTML = `
+  <div class="topo"><div class="logo">${iconeMarca()}thinkstorm<span>.</span></div>
+    <div style="display:flex;gap:8px;align-items:center"><span class="selo" id="selo-ia">demo</span><button class="raio" id="abre-storm" aria-label="Falar com a Storm">${I.raio}</button></div></div>
+  <div class="telas">
+    <section class="tela" id="t-inicio" data-tela="inicio"></section>
+    <section class="tela" id="t-lab" data-tela="lab" hidden></section>
+    <section class="tela" id="t-room" data-tela="room" hidden></section>
+    <section class="tela" id="t-casa" data-tela="casa" hidden></section>
+    <section class="tela" id="t-rede" data-tela="rede" hidden></section>
+  </div>
+  <nav class="abas" role="tablist" aria-label="Telas">
+    ${[["inicio", "Início"], ["lab", "Ideia"], ["room", "Storm Room"], ["casa", "Casa"], ["rede", "Rede"]].map(([k, n]) => `<button class="aba" role="tab" data-ir="${k}" aria-selected="${k === tela}">${I[k]}<span>${n}</span></button>`).join("")}
+  </nav>
+  <div class="toast" id="toast" role="status"></div>
+  <div class="veu" id="veu"></div>
+  <div class="folha" id="folha" role="dialog" aria-label="Storm">
+    <div class="pega"></div>
+    <header><b>Storm</b><button id="fecha-storm">Fechar</button></header>
+    <div class="chat" id="chat" aria-live="polite"></div>
+    <div class="sugs" id="sugs">${["O que é o Thinkstorm?", "Como funciona o Storm Room?", "Prepara o palco", "Transforma uma ideia: app de tradução para hotéis", "O que a Hoffmann ganha?"].map(t => `<button class="chip">${esc(t)}</button>`).join("")}</div>
+    <form class="pergunta" id="pergunta"><input id="pergunta-txt" autocomplete="off" placeholder="Pergunte ou peça algo" aria-label="Mensagem para a Storm"><button class="btn">Enviar</button></form>
+  </div>`;
+  telaInicio(); telaLab(); telaRoom(); telaCasa(); telaRede(); chatInicial();
+  ligar();
+}
+
+// ---------- Início ----------
+function saudacao() { const h = new Date().getHours(); return h < 12 ? "Bom dia" : h < 18 ? "Boa tarde" : "Boa noite"; }
+function telaInicio() {
+  $("#t-inicio").innerHTML = `
+  <div class="hero"><canvas id="mente" aria-hidden="true"></canvas>
+    <div><span class="olho">${saudacao()} · hub de inteligência</span>
+    <h2>Criar ideias e <em>torná-las realidade.</em></h2>
+    <p class="sub">Quinze áreas, uma incubadora e uma IA que cuida da casa. Tudo aqui, na palma da mão.</p></div></div>
+  <div class="cab"><h3 class="t2">Agora na casa</h3><span class="mono">simulação</span></div>
+  <div class="faixa">
+    <div class="vivo"><span class="ponto"><i></i>ao vivo</span><b>Studio gravando o podcast da casa</b><span class="mono">Social Media publica em seguida</span></div>
+    <div class="vivo"><span class="ponto"><i></i>hoje · 19h</span><b>Storm Room: cinco ideias no palco</b><span class="mono">banca: Hoffmann, CHOSING, investidores</span></div>
+    <div class="vivo"><span class="ponto"><i></i>Make</span><b>Três ideias em protótipo na Incubadora</b><span class="mono">portão: cliente pagando</span></div>
+    <div class="vivo"><span class="ponto"><i></i>Storm</span><b>Salão em 60%, ar em 23 °C</b><span class="mono">a casa opera por conversa</span></div>
+  </div>
+  <button class="cta" data-ir="lab"><span class="olho" style="color:#4a3d14">Laboratório de ideias</span><h3>Transforme uma ideia em empresa em segundos.</h3><p>Escreva a ideia. A casa pensa, cria, monta o protótipo e leva para a banca.</p><span class="seta" aria-hidden="true">→</span></button>
+  <div class="cartao"><div class="cab"><h3 class="t2">O método</h3><span class="mono">da ideia ao mercado</span></div>
+    <div class="metodo" id="metodo">${[["Think", "entender"], ["Storm", "gerar"], ["Make", "fazer"], ["Scale", "escalar"]].map(([a, b]) => `<div><b>${a}</b><span>${b}</span></div>`).join("")}</div></div>
+  <div class="cartao"><div class="cab"><h3 class="t2">Quinze áreas</h3><span class="mono">uma casa</span></div>
+    <div class="areas">${AREAS.map(([k, n, s]) => `<div class="area ${["TEC", "SOC", "ENG"].includes(k) ? "y" : ""}">${n}<small>${k} · ${s}</small></div>`).join("")}</div></div>
+  <div class="dupla">
+    <button class="cartao" data-ir="room" style="text-align:left"><span class="olho">Incubadora</span><b>Storm Room</b><span class="sub" style="font-size:12.5px">Decida em que ideias a casa investe.</span></button>
+    <button class="cartao" data-ir="casa" style="text-align:left"><span class="olho">A casa</span><b>808 m² por conversa</b><span class="sub" style="font-size:12.5px">Luz, som e palco pela Storm.</span></button>
+  </div>
+  <div class="cartao"><span class="olho">Quem está junto</span><b style="font-family:var(--display);font-size:20px;line-height:1.1">Hoffmann × CHOSING© DEPT.</b>
+    <p class="sub">A estrutura de quem faz grandes eventos desde 1983, do G20 à COP-30, com a engenharia digital com IA da CHOSING. Cada casa já é referência no que faz; juntas, disputam os próximos mercados.</p></div>
+  <p class="aviso">Demonstração do Thinkstorm · ideia inicial · os dados desta tela são exemplos</p>`;
+}
+
+// Animação da mente: nós (as áreas) ligados, ideias correndo e raios saindo para o mercado
+let mente = null;
+function iniciarMente() {
+  const cv = $("#mente"); if (!cv) return;
+  const ctx = cv.getContext("2d");
+  const r = cv.getBoundingClientRect(); const dpr = Math.min(2, devicePixelRatio || 1);
+  cv.width = r.width * dpr; cv.height = r.height * dpr; ctx.scale(dpr, dpr);
+  const W = r.width, H = r.height, cx = W * 0.5, cy = H * 0.36;
+  const nos = []; let semente = 7; const rnd = () => (semente = (semente * 16807) % 2147483647) / 2147483647;
+  for (let i = 0; i < 46; i++) { const a = rnd() * Math.PI * 2, d = Math.sqrt(rnd()); nos.push({ x: cx + Math.cos(a) * d * W * 0.42, y: cy + Math.sin(a) * d * H * 0.27, vx: (rnd() - .5) * .12, vy: (rnd() - .5) * .12, area: i < 15 }); }
+  const arestas = [];
+  nos.forEach((a, i) => nos.forEach((b, j) => { if (j > i && Math.hypot(a.x - b.x, a.y - b.y) < W * 0.2) arestas.push([i, j]); }));
+  const pulsos = []; let raio = null;
+  let caminho = null; try { caminho = new Path2D(ICONE); } catch (_) {}
+  function quadro(t) {
+    ctx.clearRect(0, 0, W, H);
+    if (caminho) { ctx.save(); const s = H * 0.72 / 1120; ctx.translate(cx - 506 * s, cy - 600 * s); ctx.scale(s, s); ctx.fillStyle = "rgba(255,204,78,0.05)"; ctx.fill(caminho, "evenodd"); ctx.restore(); }
+    for (const n of nos) { if (!quieto) { n.x += n.vx; n.y += n.vy; if (Math.hypot(n.x - cx, (n.y - cy) * 1.5) > W * 0.44) { n.vx *= -1; n.vy *= -1; } } }
+    ctx.lineWidth = 1;
+    for (const [i, j] of arestas) { const a = nos[i], b = nos[j]; ctx.strokeStyle = "rgba(242,242,240,0.08)"; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+    if (!quieto && Math.random() < 0.18 && arestas.length) pulsos.push({ e: arestas[(Math.random() * arestas.length) | 0], p: 0 });
+    for (let k = pulsos.length - 1; k >= 0; k--) { const pu = pulsos[k]; pu.p += 0.025; if (pu.p >= 1) { pulsos.splice(k, 1); continue; } const a = nos[pu.e[0]], b = nos[pu.e[1]]; const x = a.x + (b.x - a.x) * pu.p, y = a.y + (b.y - a.y) * pu.p; ctx.fillStyle = "#FFCC4E"; ctx.shadowColor = "#FFCC4E"; ctx.shadowBlur = 10; ctx.beginPath(); ctx.arc(x, y, 2.2, 0, 7); ctx.fill(); ctx.shadowBlur = 0; }
+    for (const n of nos) { ctx.fillStyle = n.area ? "#FFCC4E" : "rgba(242,242,240,0.55)"; ctx.beginPath(); ctx.arc(n.x, n.y, n.area ? 2.6 : 1.6, 0, 7); ctx.fill(); }
+    if (!quieto && !raio && Math.random() < 0.012) { const pts = [[cx, cy]]; let x = cx, y = cy; while (x < W + 10) { x += 18 + Math.random() * 26; y += (Math.random() - .5) * 34; pts.push([x, y]); } raio = { pts, vida: 1 }; }
+    if (raio) { ctx.strokeStyle = `rgba(255,204,78,${raio.vida})`; ctx.lineWidth = 2.2; ctx.shadowColor = "#FFCC4E"; ctx.shadowBlur = 16; ctx.beginPath(); raio.pts.forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); ctx.stroke(); ctx.shadowBlur = 0; raio.vida -= 0.035; if (raio.vida <= 0) raio = null; }
+    const g = ctx.createLinearGradient(0, H * 0.35, 0, H); g.addColorStop(0, "rgba(5,5,5,0)"); g.addColorStop(1, "rgba(5,5,5,0.96)"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    if (!quieto && mente) mente.raf = requestAnimationFrame(quadro);
+  }
+  if (mente?.raf) cancelAnimationFrame(mente.raf);
+  mente = { raf: 0 }; quadro(0);
+}
+let passoMetodo = 0;
+setInterval(() => { const m = $("#metodo"); if (!m || quieto) return; passoMetodo = (passoMetodo + 1) % 4; [...m.children].forEach((d, i) => d.classList.toggle("on", i === passoMetodo)); }, 1400);
+
+// ---------- Laboratório ----------
+function telaLab() {
+  $("#t-lab").innerHTML = `
+  <div><span class="olho">Laboratório de ideias</span><h2 class="t1" style="margin-top:6px">Da ideia ao mercado, agora.</h2></div>
+  <p class="sub">Escreva uma ideia de negócio. A casa passa por Think, Storm, Make e Scale e devolve marca, protótipo, áreas envolvidas, plano de 90 dias e a nota da banca do Storm Room.</p>
+  <form class="campo" id="form-ideia"><textarea id="ideia" rows="3" placeholder="Ex.: um app que traduz palestras em tempo real para hotéis" aria-label="Sua ideia"></textarea>
+    <div class="chips">${Object.keys(EXEMPLOS).map(t => `<button type="button" class="chip" data-exemplo="${esc(t)}">${esc(t)}</button>`).join("")}</div>
+    <button class="btn" id="rodar">${I.raio.replace("<svg", '<svg width="16" height="16"')} Rodar a tempestade</button></form>
+  <div class="etapas" id="etapas" hidden></div>
+  <div id="resultado" style="display:flex;flex-direction:column;gap:14px"></div>`;
+}
+const ETAPAS = [["Think", "Entendendo o mercado e o problema"], ["Storm", "Gerando conceito, marca e caminhos"], ["Make", "Montando o protótipo e as áreas"], ["Scale", "Plano de 90 dias e banca do Storm Room"]];
+async function rodarIdeia(ideia) {
+  ideia = (ideia || "").trim(); if (!ideia) { toast("Escreva uma ideia primeiro"); $("#ideia").focus(); return; }
+  irPara("lab"); $("#ideia").value = ideia;
+  const bt = $("#rodar"); bt.disabled = true;
+  const et = $("#etapas"); et.hidden = false; $("#resultado").innerHTML = "";
+  et.innerHTML = ETAPAS.map(([a, b], i) => `<div class="etapa" id="et-${i}"><span class="n">${i + 1}</span><div><b>${a}</b><small>${b}</small></div><span class="st">na fila</span></div>`).join("");
+  et.scrollIntoView({ behavior: quieto ? "auto" : "smooth", block: "start" });
+  let feito = false, resultado = null, modo = "demo";
+  const animar = (async () => { for (let i = 0; i < 4; i++) { const e = $("#et-" + i); e.className = "etapa roda"; e.querySelector(".st").textContent = "pensando"; await espera(quieto ? 50 : 1100); while (i === 3 && !feito) await espera(150); e.className = "etapa ok"; e.querySelector(".st").textContent = "pronto"; } })();
+  if (sample && !EXEMPLOS[ideia]) {
+    try { resultado = normalizar(await perguntarIdeia(ideia), ideia); modo = "IA"; }
+    catch (e) { resultado = gerarLocal(ideia); modo = "demo"; if (e?.code && !["cancelled"].includes(e.code)) toast("A IA não respondeu; mostrando a versão de demonstração"); }
+  } else { await espera(quieto ? 100 : 2600); resultado = gerarLocal(ideia); }
+  feito = true; await animar;
+  ultimoResultado = { ...resultado, ideia }; bt.disabled = false;
+  mostrarResultado(ultimoResultado, modo);
+}
+async function perguntarIdeia(ideia) {
+  const prompt = `${SOBRE}
+
+Tarefa: aplique o método Think, Storm, Make, Scale do Thinkstorm a esta ideia e devolva SOMENTE um objeto JSON.
+Ideia: """${ideia.slice(0, 600)}"""
+
+Regras: português do Brasil, frases curtas e concretas. Não invente estatísticas, números de mercado, valores em dinheiro nem percentuais. O piloto começa dentro da carteira de clientes da Hoffmann ou da CHOSING. Notas da banca de 1 a 10 são opinião.
+Formato exato:
+{"nome": "nome de marca curto e original", "slogan": "até 8 palavras", "cor": "#hex vibrante que combine com preto", "setor": "uma de: ${FRENTES.join(", ")}",
+"problema": "1 frase", "publico": "1 frase", "porque_agora": "1 frase",
+"mvp": {"titulo": "nome da tela inicial", "funcoes": ["3 funções curtas"], "cta": "texto do botão, até 3 palavras"},
+"areas": [["código da área", peso 1 a 5, "papel em até 4 palavras"]] com 6 itens, códigos válidos: ${AREAS.map(a => a[0]).join(", ")},
+"piloto": "1 frase", "plano": [["Think","ação"],["Storm","ação"],["Make","ação"],["Scale","ação"]],
+"pitch": "1 frase de efeito",
+"banca": [["Hoffmann", nota, "comentário curto"], ["CHOSING", nota, "comentário curto"], ["Investidor convidado", nota, "comentário curto"]]}`;
+  return sample.json(prompt, { modelTier: "quick", cache: false });
+}
+function normalizar(r, ideia) {
+  const base = gerarLocal(ideia); if (!r || typeof r !== "object") return base;
+  const txt = (v, d) => (typeof v === "string" && v.trim() ? v.trim().slice(0, 220) : d);
+  const cor = /^#[0-9a-f]{6}$/i.test(r.cor) ? r.cor : base.cor;
+  const areas = Array.isArray(r.areas) ? r.areas.filter(a => Array.isArray(a) && AREA[a[0]]).map(a => [a[0], Math.max(1, Math.min(5, Number(a[1]) || 3)), txt(a[2], "")]).slice(0, 6) : [];
+  const plano = Array.isArray(r.plano) && r.plano.length >= 4 ? r.plano.slice(0, 4).map((p, i) => [ETAPAS[i][0], txt(Array.isArray(p) ? p[1] : p, base.plano[i][1])]) : base.plano;
+  const banca = Array.isArray(r.banca) && r.banca.length >= 3 ? r.banca.slice(0, 3).map((b, i) => [base.banca[i][0], Math.max(1, Math.min(10, Number(b?.[1]) || 7)), txt(b?.[2], base.banca[i][2])]) : base.banca;
+  const f = Array.isArray(r.mvp?.funcoes) ? r.mvp.funcoes.filter(x => typeof x === "string").slice(0, 3) : [];
+  return {
+    nome: txt(r.nome, base.nome).slice(0, 28), slogan: txt(r.slogan, base.slogan), cor, setor: FRENTES.includes(r.setor) ? r.setor : base.setor,
+    problema: txt(r.problema, base.problema), publico: txt(r.publico, base.publico), porque_agora: txt(r.porque_agora, base.porque_agora),
+    mvp: { titulo: txt(r.mvp?.titulo, base.mvp.titulo).slice(0, 24), funcoes: f.length === 3 ? f : base.mvp.funcoes, cta: txt(r.mvp?.cta, base.mvp.cta).slice(0, 22) },
+    areas: areas.length >= 4 ? areas : base.areas, piloto: txt(r.piloto, base.piloto), plano, pitch: txt(r.pitch, base.pitch), banca
+  };
+}
+function mostrarResultado(r, modo) {
+  const media = (r.banca.reduce((s, b) => s + b[1], 0) / r.banca.length).toFixed(1);
+  const avc = { "Hoffmann": "h", "CHOSING": "c", "Investidor convidado": "i" };
+  const blocos = [
+    `<div class="marca" style="background:${r.cor}">${iconeMarca("fundo")}<span class="setor">${esc(r.setor)} · gerado ${modo === "IA" ? "pela IA" : "na demo"}</span><span class="nome">${esc(r.nome)}</span><span class="slogan">${esc(r.slogan)}</span></div>`,
+    `<div class="cartao"><span class="olho">Think · o mercado</span><div class="linha"><span>problema</span><span>${esc(r.problema)}</span></div><div class="linha"><span>público</span><span>${esc(r.publico)}</span></div><div class="linha"><span>por que agora</span><span>${esc(r.porque_agora)}</span></div></div>`,
+    `<div class="cartao"><span class="olho">Make · o protótipo</span><div class="mock"><div class="scr"><span class="bar"></span><span class="mono" style="color:${r.cor}">${esc(r.nome)}</span><h4>${esc(r.mvp.titulo)}</h4>${r.mvp.funcoes.map((f, i) => `<div class="item"><i style="background:${r.cor};opacity:${1 - i * 0.25}"></i>${esc(f)}</div>`).join("")}<div class="acao" style="background:${r.cor}">${esc(r.mvp.cta)}</div></div></div></div>`,
+    `<div class="cartao"><div class="cab"><span class="olho">Storm · as áreas da casa</span><span class="mono">peso 1 a 5</span></div><div class="barras">${r.areas.map(([k, p, papel]) => `<div class="barra"><span>${esc(AREA[k])}</span><span class="tr"><i data-w="${p * 20}"></i></span><small>${esc(papel)}</small></div>`).join("")}</div></div>`,
+    `<div class="cartao"><span class="olho">Scale · 90 dias</span><div class="plano">${r.plano.map(([a, b]) => `<div><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join("")}</div><div class="linha"><span>piloto</span><span>${esc(r.piloto)}</span></div></div>`,
+    `<div class="cartao"><div class="cab"><span class="olho">Storm Room · prévia da banca</span><span class="nota" style="color:var(--y)">${media}</span></div><p style="font-family:var(--display);font-size:19px;line-height:1.15">“${esc(r.pitch)}”</p><div class="banca">${r.banca.map(([q, n, c]) => `<div class="jurado"><span class="av ${avc[q] || "i"}">${esc(q[0])}</span><div><b>${esc(q)}</b><p>${esc(c)}</p></div><span class="nota">${n}</span></div>`).join("")}</div>
+     <button class="btn" id="levar">Levar ao Storm Room</button><button class="btn sec" id="outra">Testar outra ideia</button></div>`,
+    `<p class="aviso">${modo === "IA" ? "Gerado agora pela IA a partir da sua ideia. Sem números de mercado inventados." : "Versão de demonstração. Com a IA ligada, cada ideia gera um resultado próprio."}</p>`
+  ];
+  const box = $("#resultado"); box.innerHTML = "";
+  blocos.forEach((h, i) => setTimeout(() => {
+    const d = document.createElement("div"); d.className = "revela"; d.style.display = "contents"; d.innerHTML = h;
+    [...d.children].forEach(c => { c.classList.add("revela"); box.appendChild(c); });
+    box.querySelectorAll("[data-w]").forEach(el => requestAnimationFrame(() => el.style.width = el.dataset.w + "%"));
+    if (i === 0) box.firstElementChild.scrollIntoView({ behavior: quieto ? "auto" : "smooth", block: "start" });
+  }, quieto ? 0 : i * 260));
+}
+
+// ---------- Storm Room ----------
+function telaRoom() {
+  const fim = deck.length === 0;
+  $("#t-room").innerHTML = `
+  <div><span class="olho">Incubadora · no estilo Shark Tank</span><h2 class="t1" style="margin-top:6px">Storm Room</h2></div>
+  <p class="sub">${fim ? "Edição encerrada. Este é o portfólio que a banca montou hoje." : `Ideias no palco hoje: ${deck.length}. Arraste para a direita para investir, para a esquerda para passar. A banca vota junto.`}</p>
+  ${fim ? portfolio() : `<div class="pilha" id="pilha">${deck.slice(0, 2).reverse().map((s, i, a) => cartaoStartup(s, i === a.length - 1)).join("")}</div>
+  <div class="votos" id="votos"></div>
+  <div class="decide"><button class="btn sec" id="passar">Passar</button><button class="btn" id="investir">Investir</button></div>`}
+  <div class="cartao"><span class="olho">Smart money</span><b style="font-family:var(--display);font-size:18px">O que a casa coloca em cada ideia</b>
+    <div class="chips">${["Espaço", "Infraestrutura", "Palco da Hoffmann", "Fornecedores", "Conexões e clientes", "Engenharia e IA"].map(c => `<span class="chip">${c}</span>`).join("")}<span class="chip y">Capital por equity</span></div>
+    <p class="sub" style="font-size:13px">Um fundo do Thinkstorm investe nas aprovadas. Quanto colocar no fundo é uma decisão dos parceiros.</p></div>
+  <p class="aviso">Startups de exemplo, com base nas ideias da proposta</p>`;
+  if (!fim) prepararArrasto();
+}
+function cartaoStartup(s, topo) {
+  return `<article class="startup ${topo ? "" : "atras"}" ${topo ? 'id="topo"' : ""} aria-label="${esc(s.nome)}">
+    <span class="carimbo sim">INVESTE</span><span class="carimbo nao">PASSA</span>
+    <span class="chip tag">${esc(s.setor)}</span><h3>${esc(s.nome)}</h3><p class="sub">${esc(s.pitch)}</p>
+    <div class="pede"><span class="olho" style="color:var(--muted)">O que pede à casa</span>${s.pede.map(p => `<span>· ${esc(p)}</span>`).join("")}</div></article>`;
+}
+function portfolio() {
+  const inv = decisoes.filter(d => d.sim);
+  return `<div class="cartao"><div class="cab"><h3 class="t2">Portfólio do fundo</h3><span class="nota" style="color:var(--y)">${inv.length}/${decisoes.length}</span></div>
+    <div class="portfolio">${inv.length ? inv.map(d => `<div class="port"><div><b>${esc(d.nome)}</b><div class="mono">${esc(d.setor)} · ${d.votos}/3 votos da banca</div></div><span class="chip y">incubada</span></div>`).join("") : '<p class="sub">Nenhuma ideia recebeu investimento nesta edição.</p>'}</div>
+    <button class="btn sec" id="nova-edicao">Nova edição</button></div>`;
+}
+function prepararArrasto() {
+  const c = $("#topo"); if (!c) return;
+  let x0 = null, dx = 0;
+  c.addEventListener("pointerdown", e => { x0 = e.clientX; dx = 0; c.setPointerCapture(e.pointerId); c.style.transition = "none"; });
+  c.addEventListener("pointermove", e => { if (x0 === null) return; dx = e.clientX - x0; c.style.transform = `translateX(${dx}px) rotate(${dx / 18}deg)`; c.querySelector(".sim").style.opacity = Math.max(0, dx / 90); c.querySelector(".nao").style.opacity = Math.max(0, -dx / 90); });
+  const solta = () => { if (x0 === null) return; x0 = null; c.style.transition = ""; if (Math.abs(dx) > 90) decidir(dx > 0); else { c.style.transform = ""; c.querySelectorAll(".carimbo").forEach(k => k.style.opacity = 0); } };
+  c.addEventListener("pointerup", solta); c.addEventListener("pointercancel", solta);
+}
+let decidindo = false;
+async function decidir(sim) {
+  if (decidindo || !deck.length) return; decidindo = true;
+  const c = $("#topo"); const s = deck[0];
+  if (c) { c.querySelector(sim ? ".sim" : ".nao").style.opacity = 1; c.style.transform = `translateX(${sim ? 420 : -420}px) rotate(${sim ? 24 : -24}deg)`; c.style.opacity = 0; }
+  const h = hash(s.nome);
+  const votos = JURADOS.map((j, i) => (sim ? ((h >> i) & 3) !== 0 : ((h >> i) & 3) === 0));
+  if (sim) votos[0] = true;
+  const vv = $("#votos"); vv.innerHTML = "";
+  for (let i = 0; i < 3; i++) { await espera(quieto ? 0 : 220); vv.insertAdjacentHTML("beforeend", `<div class="voto ${votos[i] ? "sim" : ""}"><span class="av ${JURADOS[i][1]}">${JURADOS[i][0]}</span>${JURADOS[i][2]}: ${votos[i] ? "investe" : "passa"}</div>`); }
+  decisoes.push({ nome: s.nome, setor: s.setor, sim, votos: votos.filter(Boolean).length });
+  await espera(quieto ? 0 : 750);
+  deck.shift(); decidindo = false; telaRoom();
+  toast(sim ? `${s.nome} entra na incubadora` : `${s.nome} fica para a próxima`);
+}
+
+// ---------- Casa ----------
+const ESC = 20;
+function telaCasa() {
+  $("#t-casa").innerHTML = `
+  <div><span class="olho">A casa · 808 m²</span><h2 class="t1" style="margin-top:6px">Tudo responde à Storm.</h2></div>
+  <p class="sub">Escolha uma cena ou peça pela Storm, no botão amarelo. Toque numa sala para ver o que acontece nela.</p>
+  <svg class="planta" id="planta" viewBox="0 0 ${36 * ESC} ${22.45 * ESC}" role="img" aria-label="Planta do Thinkstorm">${SALAS.map(([n, x0, x1, z0, z1]) => {
+    const x = x0 * ESC, y = z0 * ESC, w = (x1 - x0) * ESC, h = (z1 - z0) * ESC;
+    return `<g class="sala" data-sala="${esc(n)}"><rect class="b" x="${x + 3}" y="${y + 3}" width="${w - 6}" height="${h - 6}" rx="12"/><rect class="l" x="${x + 3}" y="${y + 3}" width="${w - 6}" height="${h - 6}" rx="12" fill-opacity="0"/><text x="${x + 12}" y="${y + 28}">${esc(n.length > 11 && w < 120 ? n.split(" ")[0] : n)}</text></g>`;
+  }).join("")}</svg>
+  <div class="cenas">${Object.entries(CENAS).map(([k, c]) => `<button class="cena ${k === cenaAtual ? "on" : ""}" data-cena="${k}"><b>${c.nome}</b><small>${c.desc}</small></button>`).join("")}</div>
+  <div class="cartao" id="info-sala"></div>
+  <p class="aviso">Equipamentos simulados · na casa real, a Storm fala com o AV da Hoffmann</p>`;
+  aplicarCena(cenaAtual, true); infoSala();
+}
+function aplicarCena(k, silencio) {
+  cenaAtual = k; const c = CENAS[k];
+  document.querySelectorAll("#planta .sala").forEach(g => { const n = g.dataset.sala; const v = c.luz(n); g.querySelector("rect.l").setAttribute("fill-opacity", (v * 0.9).toFixed(2)); g.classList.toggle("acesa", v >= 0.45); g.classList.toggle("sel", n === salaSel); });
+  document.querySelectorAll(".cena").forEach(b => b.classList.toggle("on", b.dataset.cena === k));
+  infoSala(); if (!silencio) toast(`Cena “${c.nome}” aplicada`);
+}
+function infoSala() {
+  const el = $("#info-sala"); if (!el) return;
+  const v = Math.round(CENAS[cenaAtual].luz(salaSel) * 100);
+  el.innerHTML = `<div class="cab"><h3 class="t2">${esc(salaSel)}</h3><span class="mono">luz ${v}%</span></div><p class="sub">${esc(SOBRE_SALA[salaSel] || "Uma das salas da casa, ligada a uma área do hub.")}</p>`;
+}
+
+// ---------- Rede ----------
+function telaRede() {
+  $("#t-rede").innerHTML = `
+  <div><span class="olho">Networking · uma possibilidade</span><h2 class="t1" style="margin-top:6px">Encontros que viram negócios.</h2></div>
+  <p class="sub">Quem investe, quem cria e quem compra se conhecem aqui. A Storm sugere conexões pelo que cada um procura.</p>
+  <div class="cab"><h3 class="t2">Esta semana</h3><span class="mono">agenda de exemplo</span></div>
+  <div class="agenda">${AGENDA.map(([h, d, t, p], i) => `<div class="evento"><div class="hora"><b>${h}</b><small>${d}</small></div><div><h4>${esc(t)}</h4><p>${esc(p)}</p></div><button class="vou" data-vou="${i}" aria-pressed="${vou.includes(i)}">${vou.includes(i) ? "Vou" : "Ir"}</button></div>`).join("")}</div>
+  <div class="cab"><h3 class="t2">Conexões sugeridas</h3><span class="mono">perfis de exemplo</span></div>
+  ${PERFIS.map(([ini, quem, desc, m, porque], i) => `<div class="perfil"><span class="av ${i % 2 ? "c" : "i"}">${ini}</span><div><h4>${esc(quem)}</h4><p>${esc(desc)}</p></div><div class="rodape"><span><span class="match">${m}%</span> <span class="mono">afinidade · ${esc(porque)}</span></span><button class="vou" data-conecta="${i}" aria-pressed="${conectados.includes(i)}">${conectados.includes(i) ? "Conectado" : "Conectar"}</button></div></div>`).join("")}
+  <p class="aviso">Na demo, as confirmações ficam só neste aparelho</p>`;
+}
+
+// ---------- Storm (assistente) ----------
+function chatInicial() { addMsg("ia", "Oi, eu sou a Storm, a inteligência da casa. Posso explicar o Thinkstorm, preparar a casa para um evento ou transformar uma ideia em plano. O que você quer ver?", "Storm"); }
+function addMsg(quem, texto, nota) {
+  const c = $("#chat"); const d = document.createElement("div"); d.className = "bal " + quem;
+  d.innerHTML = esc(texto) + (nota ? `<small>${esc(nota)}</small>` : ""); c.appendChild(d); c.scrollTop = c.scrollHeight; return d;
+}
+function abrirStorm(on = true) { $("#folha").classList.toggle("on", on); $("#veu").classList.toggle("on", on); if (on) setTimeout(() => $("#pergunta-txt").focus({ preventScroll: true }), 300); }
+const FERR = () => [
+  { name: "ir_para", description: "Abre uma tela do app: inicio, lab (laboratório de ideias), room (Storm Room), casa (planta e cenas), rede (networking).", inputSchema: { type: "object", properties: { tela: { type: "string", enum: ["inicio", "lab", "room", "casa", "rede"] } }, required: ["tela"] }, execute: ({ tela }) => { irPara(String(tela)); return "aberta " + tela; } },
+  { name: "cena_casa", description: "Aplica uma cena na casa: bomdia, room (prepara o palco para o Storm Room), evento (noite de evento), fechar (fecha a casa). Abre a tela da casa.", inputSchema: { type: "object", properties: { cena: { type: "string", enum: Object.keys(CENAS) } }, required: ["cena"] }, execute: ({ cena }) => { if (!CENAS[cena]) throw new Error("cena inexistente"); irPara("casa"); aplicarCena(String(cena)); return "cena aplicada"; } },
+  { name: "rodar_ideia", description: "Leva uma ideia de negócio para o Laboratório e roda o método Think, Storm, Make, Scale. Use quando a pessoa quiser transformar, testar ou avaliar uma ideia.", inputSchema: { type: "object", properties: { ideia: { type: "string" } }, required: ["ideia"] }, execute: ({ ideia }) => { setTimeout(() => { abrirStorm(false); rodarIdeia(String(ideia)); }, 600); return "ideia enviada ao laboratório"; } }
+];
+function respostaLocal(t) {
+  const n = t.toLowerCase();
+  if (/ideia|transform|testa|avalia/.test(n)) { const ideia = (t.includes(":") ? t.split(":").slice(1).join(":") : t.replace(/^.*?ideia\s*/i, "")).trim(); if (ideia.length > 6) { setTimeout(() => { abrirStorm(false); rodarIdeia(ideia); }, 600); return "Levei a ideia para o Laboratório. Acompanhe as quatro etapas."; } irPara("lab"); return "Abri o Laboratório. Escreva a ideia e toque em Rodar a tempestade."; }
+  if (/palco|storm room.*prepar|prepara/.test(n)) { irPara("casa"); aplicarCena("room"); return "Palco pronto: salão em meia luz, Studio e Social Media acesos para gravar o Storm Room."; }
+  if (/fecha|boa noite/.test(n)) { irPara("casa"); aplicarCena("fechar"); return "Casa fechada. Só os servidores seguem ligados."; }
+  if (/evento|festa/.test(n)) { irPara("casa"); aplicarCena("evento"); return "Noite de evento: salão e copa acesos, o resto apagado."; }
+  if (/storm room|investe|incubad|shark|equity|fundo/.test(n)) return "O Storm Room é o programa de investimento da casa, no estilo Shark Tank: fundadores apresentam no palco e uma banca com Hoffmann, CHOSING e investidores decide na hora. A casa cede espaço, estrutura, fornecedores e conexões, e um fundo pode investir capital por equity. Quer ver uma edição na aba Storm Room?";
+  if (/hoffmann.*ganha|ganha|vantag/.test(n)) return "A Hoffmann ganha uma porta para mercados além dos eventos, com risco dividido; receita recorrente; participação no que nasce na casa; um showroom e laboratório para os clientes; talento por perto; e a marca de quem cria o que vem depois.";
+  if (/hoffmann/.test(n)) return "A Hoffmann faz a engenharia audiovisual de grandes eventos desde 1983: mais de 35 mil eventos, da Rio-92 ao G20 e à COP-30. No Thinkstorm, entra com estrutura, palco, operação e clientes.";
+  if (/chosing/.test(n)) return "A CHOSING© DEPT. é engenharia digital com IA. No Thinkstorm, cuida da tecnologia, da curadoria, da comunidade e do comercial.";
+  if (/área|areas|áreas/.test(n)) return "São quinze áreas: onze de criação, com Tecnologia, Engenharia de produção e Social Media em destaque, e quatro motores, que são Marketing, Negócios, Eventos e Academy.";
+  return "O Thinkstorm é um hub de inteligência: junta a estrutura da Hoffmann, a engenharia com IA da CHOSING, empresas líderes e as melhores cabeças para criar o que vai liderar mercados nacionais. Pense, gere, faça e escale: Think, Storm, Make, Scale.";
+}
+async function perguntar(texto) {
+  texto = texto.trim(); if (!texto || ocupadoChat) return; ocupadoChat = true;
+  addMsg("eu", texto);
+  const bal = addMsg("ia", ""); bal.classList.add("digita");
+  try {
+    if (!sample) throw { code: "local" };
+    conversa.push({ role: "user", content: texto }); conversa = conversa.slice(-8);
+    const regras = `${SOBRE}\n\nVocê é a Storm, a IA da casa Thinkstorm, falando com alguém que está conhecendo o projeto pelo celular. Responda em português do Brasil, em no máximo 3 frases curtas, com entusiasmo contido. Não invente números, valores ou percentuais. Quando fizer sentido, use as ferramentas para mostrar em vez de só contar.`;
+    const turnos = [{ role: "user", content: regras }, ...conversa];
+    while (turnos[1]?.role === "assistant") turnos.splice(1, 1);
+    const { text } = await sample(turnos, { modelTier: "quick", tools: FERR(), onText: ({ text }) => { bal.classList.remove("digita"); bal.textContent = ultima(text); $("#chat").scrollTop = 1e6; } });
+    const final = ultima(text) || "Pronto.";
+    bal.classList.remove("digita"); bal.innerHTML = esc(final) + "<small>Storm · IA</small>";
+    conversa.push({ role: "assistant", content: final });
+  } catch (e) {
+    bal.classList.remove("digita"); bal.innerHTML = esc(respostaLocal(texto)) + "<small>Storm · modo demonstração</small>";
+    if (e && ["not_granted", "sampling_disabled", "tools_unavailable", "capability_disabled", "not_declared"].includes(e.code)) { sample = null; $("#selo-ia").textContent = "demo"; }
+  }
+  ocupadoChat = false;
+}
+const ultima = t => String(t).split(/\n\s*\n/).map(x => x.trim()).filter(Boolean).at(-1) || "";
+
+// ---------- Navegação e eventos ----------
+function irPara(k) {
+  if (!document.getElementById("t-" + k)) k = "inicio";
+  tela = k;
+  document.querySelectorAll(".tela").forEach(t => { const on = t.dataset.tela === k; if (on && t.hidden) { t.hidden = false; t.classList.remove("entra"); void t.offsetWidth; t.classList.add("entra"); } else if (!on) t.hidden = true; });
+  document.querySelectorAll(".aba").forEach(b => b.setAttribute("aria-selected", String(b.dataset.ir === k)));
+  try { if (location.hash !== "#" + k) history.replaceState(null, "", "#" + k); } catch (_) {}
+  if (k === "inicio") setTimeout(iniciarMente, 30); else if (mente?.raf) { cancelAnimationFrame(mente.raf); mente.raf = 0; mente = null; }
+}
+let tt = 0;
+function toast(t) { const el = $("#toast"); el.textContent = t; el.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => el.classList.remove("on"), 2200); }
+function ligar() {
+  document.addEventListener("click", e => {
+    const ir = e.target.closest("[data-ir]"); if (ir) { irPara(ir.dataset.ir); return; }
+    const ex = e.target.closest("[data-exemplo]"); if (ex) { rodarIdeia(ex.dataset.exemplo); return; }
+    const ce = e.target.closest("[data-cena]"); if (ce) { aplicarCena(ce.dataset.cena); return; }
+    const sa = e.target.closest("#planta .sala"); if (sa) { salaSel = sa.dataset.sala; aplicarCena(cenaAtual, true); return; }
+    const vb = e.target.closest("[data-vou]"); if (vb) { const i = +vb.dataset.vou; vou = vou.includes(i) ? vou.filter(x => x !== i) : [...vou, i]; guardar("vou", vou); telaRede(); toast(vou.includes(i) ? "Presença confirmada na demo" : "Presença retirada"); return; }
+    const cb = e.target.closest("[data-conecta]"); if (cb) { const i = +cb.dataset.conecta; if (!conectados.includes(i)) { conectados.push(i); guardar("conectados", conectados); telaRede(); toast("Conexão marcada na demo"); } return; }
+    if (e.target.closest("#passar")) { decidir(false); return; }
+    if (e.target.closest("#investir")) { decidir(true); return; }
+    if (e.target.closest("#nova-edicao")) { deck = STARTUPS.map(s => ({ ...s })); decisoes = []; telaRoom(); return; }
+    if (e.target.closest("#levar") && ultimoResultado) { const r = ultimoResultado; deck = deck.filter(s => s.nome !== r.nome); deck.unshift({ nome: r.nome, setor: r.setor, pitch: r.pitch, pede: ["Estrutura e áreas da casa", r.piloto, "Capital por equity"] }); if (!deck.length) deck = [r]; decisoes = decisoes.filter(d => d.nome !== r.nome); telaRoom(); irPara("room"); toast(`${r.nome} subiu ao palco`); return; }
+    if (e.target.closest("#outra")) { $("#resultado").innerHTML = ""; $("#etapas").hidden = true; $("#ideia").value = ""; $("#t-lab").scrollTo({ top: 0, behavior: "smooth" }); $("#ideia").focus(); return; }
+    if (e.target.closest("#abre-storm")) { abrirStorm(true); return; }
+    if (e.target.closest("#fecha-storm") || e.target.id === "veu") { abrirStorm(false); return; }
+    const sg = e.target.closest("#sugs .chip"); if (sg) { perguntar(sg.textContent); return; }
+  });
+  $("#form-ideia").addEventListener("submit", e => { e.preventDefault(); rodarIdeia($("#ideia").value); });
+  $("#pergunta").addEventListener("submit", e => { e.preventDefault(); const i = $("#pergunta-txt"); const t = i.value; i.value = ""; perguntar(t); });
+  addEventListener("hashchange", () => irPara(location.hash.slice(1)));
+  addEventListener("keydown", e => { if (e.key === "Escape") abrirStorm(false); if (tela === "room" && !$("#folha").classList.contains("on") && document.activeElement?.tagName !== "INPUT") { if (e.key === "ArrowRight") decidir(true); if (e.key === "ArrowLeft") decidir(false); } });
+  let rt = 0; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (tela === "inicio") iniciarMente(); }, 200); });
+}
+
+// ---------- Início ----------
+function iniciar() {
+  montar();
+  irPara((location.hash || "#inicio").slice(1));
+  try { if (window.QRCode && LINK.startsWith("https")) new QRCode(document.getElementById("qrcode"), { text: LINK, width: 116, height: 116, colorDark: "#111112", colorLight: "#ffffff" }); } catch (_) {}
+  if (window.claude?.use) {
+    window.claude.use("sample").then(async s => {
+      if (!s) return;
+      const l = await s.limits().catch(() => null);
+      if (!l?.tools) return;
+      sample = s; $("#selo-ia").textContent = "IA ao vivo";
+    }).catch(() => {});
+  }
+}
+iniciar();
+})();
+</script>
+</body></html>
