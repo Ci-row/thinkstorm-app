@@ -238,6 +238,95 @@ button.chip:active { transform: scale(.97) }
 .toast { position: absolute; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 92px); transform: translate(-50%, 20px); background: var(--fg); color: var(--ink); padding: 10px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; opacity: 0; transition: .3s; z-index: 7; pointer-events: none; white-space: nowrap }
 .toast.on { opacity: 1; transform: translate(-50%, 0) }
 
+/* Início: Agora | O projeto */
+.segm { display: grid; grid-template-columns: 1fr 1fr; background: var(--s1); border: 1px solid var(--line); border-radius: 999px; padding: 4px; position: sticky; top: 0; z-index: 3 }
+.segm button { border: 0; background: none; border-radius: 999px; padding: 9px; font-weight: 600; font-size: 14px; color: var(--muted) }
+.segm button[aria-selected="true"] { background: var(--fg); color: var(--ink) }
+.painel { display: flex; flex-direction: column; gap: 18px }
+.painel[hidden] { display: none }
+.capa-proj { position: relative; border-radius: 28px; overflow: hidden; min-height: 360px; display: flex; flex-direction: column; justify-content: flex-end; padding: 18px; gap: 10px; border: 1px solid var(--line) }
+.capa-proj img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover }
+.capa-proj::before { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(5,5,5,.97) 12%, rgba(5,5,5,.78) 58%, rgba(5,5,5,.3)) }
+.capa-proj > *:not(img) { position: relative }
+.capa-proj h2 { font-size: 34px; line-height: .98 }
+.indice { display: flex; flex-direction: column; gap: 14px }
+.parte h4 { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--y); font-weight: 500; margin-bottom: 8px }
+.caps { display: grid; grid-template-columns: 1fr 1fr; gap: 8px }
+.cap { position: relative; border: 1px solid var(--line); background: var(--s1); border-radius: 18px; overflow: hidden; min-height: 92px; padding: 10px; text-align: left; display: flex; flex-direction: column; justify-content: flex-end; gap: 2px }
+.cap img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .55 }
+.cap > span, .cap > b { position: relative }
+.cap span { font-family: var(--mono); font-size: 10px; color: var(--y) }
+.cap b { font-family: var(--display); font-size: 15px; line-height: 1.05 }
+
+/* Leitor de histórias */
+.story { position: absolute; inset: 0; z-index: 20; background: #050505; display: flex; flex-direction: column; opacity: 0; pointer-events: none; transition: opacity .25s }
+.story.on { opacity: 1; pointer-events: auto }
+.story-top { position: absolute; left: 0; right: 0; top: 0; z-index: 3; padding: calc(env(safe-area-inset-top, 0px) + 10px) 12px 8px; display: flex; flex-direction: column; gap: 8px; background: linear-gradient(180deg, rgba(5,5,5,.85), transparent) }
+.barras-st { display: flex; gap: 3px }
+.barras-st i { flex: 1; height: 3px; border-radius: 3px; background: rgba(255,255,255,.22); overflow: hidden; position: relative }
+.barras-st i.feito { background: var(--fg) }
+.barras-st i.atual { background: var(--y) }
+.story-cab { display: flex; justify-content: space-between; align-items: center; gap: 8px }
+.story-cab span { font-family: var(--mono); font-size: 11px; color: #CFCFCF }
+.story-cab button { border: 0; width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,.12); font-size: 18px; line-height: 1 }
+.palco-st { position: relative; flex: 1; overflow: hidden }
+.sl { position: absolute; inset: 0; overflow-y: auto; scrollbar-width: none; padding: calc(env(safe-area-inset-top, 0px) + 74px) 20px calc(env(safe-area-inset-bottom, 0px) + 72px); display: flex; flex-direction: column; gap: 14px }
+.sl::-webkit-scrollbar { display: none }
+.sl.foto { justify-content: flex-end }
+.sl .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; animation: zoom 9s ease-out both }
+.sl .bg + .veu-f { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(5,5,5,.97) 18%, rgba(5,5,5,.5) 55%, rgba(5,5,5,.15)); z-index: 0 }
+.sl > *:not(.bg):not(.veu-f) { position: relative; z-index: 1 }
+@keyframes zoom { from { transform: scale(1.08) } to { transform: scale(1) } }
+.sl.vai { animation: vai .38s cubic-bezier(.2,.8,.2,1) both }
+.sl.volta { animation: volta .38s cubic-bezier(.2,.8,.2,1) both }
+@keyframes vai { from { opacity: 0; transform: translateX(36px) } to { opacity: 1; transform: none } }
+@keyframes volta { from { opacity: 0; transform: translateX(-36px) } to { opacity: 1; transform: none } }
+.sl .st-t { font-family: var(--display); font-size: 36px; line-height: .98; font-weight: 700; letter-spacing: -0.025em }
+.sl .st-t em { font-style: normal; color: var(--y) }
+.sl .st-g { font-family: var(--display); font-size: 52px; line-height: .95; font-weight: 700; letter-spacing: -0.03em; color: var(--y) }
+.sl .st-p { color: #CFCFCF; font-size: 15.5px }
+.sl .q3 > * { animation: sobe .5s both }
+.sl .q3 > *:nth-child(2) { animation-delay: .12s } .sl .q3 > *:nth-child(3) { animation-delay: .24s } .sl .q3 > *:nth-child(4) { animation-delay: .36s } .sl .q3 > *:nth-child(5) { animation-delay: .48s } .sl .q3 > *:nth-child(6) { animation-delay: .6s }
+@keyframes sobe { from { opacity: 0; transform: translateY(14px) } to { opacity: 1; transform: none } }
+.bloco { background: rgba(28,28,30,.92); border: 1px solid var(--line); border-radius: 20px; padding: 14px; display: flex; flex-direction: column; gap: 4px }
+.bloco b { font-family: var(--display); font-size: 18px; line-height: 1.1 }
+.bloco p { font-size: 13.5px; color: #BDBDBD }
+.bloco.y { background: var(--y); color: var(--ink); border-color: var(--y) }
+.bloco.y p { color: #3d3210 }
+.acc { cursor: pointer }
+.acc p { display: none }
+.acc.aberto p { display: block; animation: sobe .3s both }
+.acc b::after { content: " +"; color: var(--y) }
+.acc.aberto b::after { content: " −" }
+.acc.y b::after { color: var(--ink) }
+.seta-v { text-align: center; color: var(--y); font-size: 18px; line-height: 1 }
+.eq { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-family: var(--display); font-weight: 700; font-size: 34px }
+.eq span { animation: sobe .5s both }
+.eq span:nth-child(2) { animation-delay: .2s; color: var(--y) } .eq span:nth-child(3) { animation-delay: .4s } .eq span:nth-child(4) { animation-delay: .6s; color: var(--y) } .eq span:nth-child(5) { animation-delay: .8s; color: var(--y) }
+.carrossel { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -20px; padding-inline: 20px; scrollbar-width: none; touch-action: pan-x pan-y }
+.carrossel::-webkit-scrollbar { display: none }
+.carrossel figure { flex: none; width: 82%; margin: 0; scroll-snap-align: center; border-radius: 20px; overflow: hidden; position: relative; aspect-ratio: 4 / 5; background: #111 }
+.carrossel img { width: 100%; height: 100%; object-fit: cover }
+.carrossel figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 14px 14px; background: linear-gradient(0deg, rgba(5,5,5,.94), transparent); display: flex; flex-direction: column; gap: 2px }
+.carrossel figcaption span { font-family: var(--mono); font-size: 10.5px; color: var(--y) }
+.carrossel figcaption b { font-family: var(--display); font-size: 19px; line-height: 1.05 }
+.carrossel figcaption small { font-size: 12.5px; color: #CFCFCF }
+.pontos { display: flex; gap: 5px; justify-content: center }
+.pontos i { width: 6px; height: 6px; border-radius: 50%; background: #444; transition: .2s }
+.pontos i.on { background: var(--y); width: 16px; border-radius: 9px }
+.num { display: grid; grid-template-columns: 1fr 1fr; gap: 8px }
+.num div { background: rgba(28,28,30,.92); border: 1px solid var(--line); border-radius: 18px; padding: 12px; display: flex; flex-direction: column; gap: 2px }
+.num b { font-family: var(--display); font-size: 30px; line-height: 1; color: var(--y); font-variant-numeric: tabular-nums }
+.num span { font-size: 12px; color: #BDBDBD }
+.marcos { display: flex; flex-wrap: wrap; gap: 6px }
+.fase-st { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px }
+.fase-st button { border: 1px solid var(--line); background: var(--s1); border-radius: 14px; padding: 8px 4px; font-size: 12px; font-weight: 600 }
+.fase-st button[aria-pressed="true"] { background: var(--y); color: var(--ink); border-color: var(--y) }
+.dica { position: absolute; bottom: calc(env(safe-area-inset-bottom, 0px) + 18px); left: 0; right: 0; text-align: center; font-family: var(--mono); font-size: 10.5px; color: #8a8a8a; z-index: 3; pointer-events: none }
+.nav-st { position: absolute; bottom: calc(env(safe-area-inset-bottom, 0px) + 10px); left: 12px; right: 12px; z-index: 3; display: flex; justify-content: space-between; pointer-events: none }
+.nav-st button { pointer-events: auto; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: rgba(20,20,22,.8); font-size: 18px }
+.nav-st button.ir { background: var(--y); color: var(--ink); border-color: var(--y) }
+
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important } }
 </style>
 
@@ -465,15 +554,24 @@ function montar() {
     <div class="chat" id="chat" aria-live="polite"></div>
     <div class="sugs" id="sugs">${["O que é o Thinkstorm?", "Como funciona o Storm Room?", "Prepara o palco", "Transforma uma ideia: app de tradução para hotéis", "O que a Hoffmann ganha?"].map(t => `<button class="chip">${esc(t)}</button>`).join("")}</div>
     <form class="pergunta" id="pergunta"><input id="pergunta-txt" autocomplete="off" placeholder="Pergunte ou peça algo" aria-label="Mensagem para a Storm"><button class="btn">Enviar</button></form>
+  </div>
+  <div class="story" id="story" role="dialog" aria-label="Apresentação do Thinkstorm">
+    <div class="story-top"><div class="barras-st" id="barras-st"></div><div class="story-cab"><span id="cap-nome"></span><button id="st-fecha" aria-label="Fechar a apresentação">×</button></div></div>
+    <div class="palco-st" id="palco-st" aria-live="polite"></div>
+    <div class="dica" id="dica-st"></div>
+    <div class="nav-st"><button id="st-ant" aria-label="Capítulo anterior">←</button><button id="st-prox" class="ir" aria-label="Próximo capítulo">→</button></div>
   </div>`;
   telaInicio(); telaLab(); telaRoom(); telaCasa(); telaRede(); chatInicial();
-  ligar();
+  ligar(); ligarStory();
 }
 
 // ---------- Início ----------
 function saudacao() { const h = new Date().getHours(); return h < 12 ? "Bom dia" : h < 18 ? "Boa tarde" : "Boa noite"; }
 function telaInicio() {
   $("#t-inicio").innerHTML = `
+  <div class="segm" role="tablist" aria-label="Início"><button role="tab" data-sub="agora" aria-selected="${sub === "agora"}">Agora</button><button role="tab" data-sub="projeto" aria-selected="${sub === "projeto"}">O projeto</button></div>
+  <div class="painel" id="p-projeto" ${sub === "projeto" ? "" : "hidden"}>${painelProjeto()}</div>
+  <div class="painel" id="p-agora" ${sub === "agora" ? "" : "hidden"}>
   <div class="hero"><canvas id="mente" aria-hidden="true"></canvas>
     <div><span class="olho">${saudacao()} · hub de inteligência</span>
     <h2>Criar ideias e <em>torná-las realidade.</em></h2>
@@ -496,7 +594,121 @@ function telaInicio() {
   </div>
   <div class="cartao"><span class="olho">Quem está junto</span><b style="font-family:var(--display);font-size:20px;line-height:1.1">Hoffmann × CHOSING© DEPT.</b>
     <p class="sub">A estrutura de quem faz grandes eventos desde 1983, do G20 à COP-30, com a engenharia digital com IA da CHOSING. Cada casa já é referência no que faz; juntas, disputam os próximos mercados.</p></div>
-  <p class="aviso">Demonstração do Thinkstorm · ideia inicial · os dados desta tela são exemplos</p>`;
+  <p class="aviso">Demonstração do Thinkstorm · ideia inicial · os dados desta tela são exemplos</p></div>`;
+}
+let sub = "agora";
+function trocarSub(k) {
+  sub = k;
+  document.querySelectorAll(".segm button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.sub === k)));
+  $("#p-agora").hidden = k !== "agora"; $("#p-projeto").hidden = k !== "projeto";
+  $("#t-inicio").scrollTop = 0;
+  if (k === "agora") setTimeout(iniciarMente, 30); else if (mente?.raf) { cancelAnimationFrame(mente.raf); mente.raf = 0; mente = null; }
+}
+
+// ---------- O projeto: a apresentação para a Hoffmann ----------
+const F = n => `fotos/${["", "thinkstorm-01-entrada", "thinkstorm-02-salao-central", "thinkstorm-03-sala-think-tank", "thinkstorm-04-lounge-e-copa", "thinkstorm-05-palco-e-audiovisual", "thinkstorm-06-tecnologia", "thinkstorm-07-servidores", "thinkstorm-08-salas-de-criacao", "thinkstorm-09-studio", "thinkstorm-10-podcast-e-audio", "thinkstorm-11-brainstorm", "thinkstorm-12-noite-de-evento"].at(n)}.jpg`;
+const FOTOS = [
+  [1, "A casa", "A porta de entrada", "Uma marca que o mercado reconhece."], [2, "A união", "O salão que une todos", "Hoffmann, CHOSING, líderes e talentos na mesma mesa."],
+  [3, "Think", "Pensar como um think tank", "Dados, pesquisa e quem sabe muito do assunto."], [11, "Storm", "A tempestade de ideias", "Brainstorm sem limite, cruzando áreas e setores."],
+  [6, "Tecnologia", "O lab da fonte que lidera", "Produtos, plataformas e agentes de IA."], [7, "Storm", "Onde a IA da casa mora", "Servidores próprios atrás do vidro, como vitrine."],
+  [8, "Criação", "Criação lado a lado", "Oficina, arte e style a uma porta de distância."], [9, "Studio", "Grava, transmite, publica", "Estúdio de foto e vídeo com a Social Media ao lado."],
+  [10, "Áudio", "As vozes da casa", "Podcast, trilha e som para marcas e eventos."], [5, "Palco", "O palco da Hoffmann", "LED, treliça, moving heads: onde acontece o Storm Room."],
+  [12, "Eventos", "Noites que movem o mercado", "Demo days e lançamentos com clientes e imprensa."], [4, "Networking", "Onde as conversas viram parcerias", "Lounge e copa: social meets e a noite pós-Storm Room."]
+];
+const blocos = (lista, cls = "") => `<div class="q3" style="display:flex;flex-direction:column;gap:8px">${lista.map(([t, p, y]) => `<div class="bloco ${cls} ${y ? "y" : ""}"><b>${t}</b>${p ? `<p>${p}</p>` : ""}</div>`).join("")}</div>`;
+const CAPS = [
+  { p: "A visão", t: "Thinkstorm", f: 1, h: () => `<span class="olho">Ideia inicial para a Hoffmann</span><div style="display:flex;align-items:center;gap:10px">${iconeMarca().replace("<svg", '<svg style="width:44px;height:48px;color:#F2F2F0"')}<span class="st-g" style="color:#F2F2F0">thinkstorm</span></div><p class="st-p">Um hub de inteligência para criar o que vai liderar mercados nacionais, em qualquer ramo.</p><span class="mono">Hoffmann × CHOSING© DEPT. · toque para seguir</span>` },
+  { p: "A visão", t: "Para onde vamos", h: () => `<span class="olho">Para onde vamos</span><h3 class="st-t">Um hub de inteligência para criar o que vai <em>liderar o mercado nacional</em>, em qualquer ramo.</h3>${blocos([["Sem limite de setor", "De fintechs a produtos de consumo e engenharia de produção."], ["Sem teto de escala", "Pensado desde o primeiro dia para o Brasil inteiro."], ["Com quem já lidera", "Hoffmann e CHOSING já são referência no que fazem.", 1]])}` },
+  { p: "A visão", t: "O salto", h: () => `<span class="olho">O salto</span><h3 class="st-t">Do que já fazemos ao que <em>ainda não existe.</em></h3>${blocos([["Hoje", "Cada casa é referência no que faz e inova dentro do que já faz."]])}<div class="seta-v">↓</div>${blocos([["Com o Thinkstorm", "Juntas, as casas criam líderes em mercados novos: fintech, consumo, indústria, tecnologia, mídia e novos eventos.", 1]])}` },
+  { p: "A visão", t: "Por que existir", h: () => `<span class="olho">Por que existir</span><h3 class="st-t">Três coisas travam a inovação no Brasil.</h3>${blocos([["Ideias sem casa", "Boas ideias morrem antes do protótipo por falta de método, estrutura e gente."], ["Talento separado", "O engenheiro, o economista, o designer e o cientista de dados quase nunca sentam juntos."], ["Empresas que inovam sozinhas", "Cada líder tenta inovar dentro de casa, com o mesmo time e a mesma visão."]])}<p class="st-p" style="font-family:var(--display);font-size:20px;color:var(--fg)">O Thinkstorm junta ideias, talentos e empresas num lugar só.</p>` },
+  { p: "A visão", t: "Por que agora", h: () => `<span class="olho">Por que agora</span><h3 class="st-t">O caminho até a liderança <em>nunca foi tão curto.</em></h3>${blocos([["A IA encurtou o tempo", "O que pedia anos hoje se prototipa em semanas."], ["O dinheiro virou digital", "O Pix movimentou mais de R$ 35 trilhões em 2025 (Banco Central)."], ["A indústria precisa de inteligência", "Dados, automação e IA separam quem cresce."], ["A liderança está mudando de mãos", "Os novos líderes nasceram de times pequenos com tecnologia e método."]])}` },
+  { p: "A visão", t: "Propósito", f: 11, h: () => `<span class="olho">Propósito</span><span class="st-g">Criar ideias e torná-las realidade.</span><p class="st-p">A estrutura de quem faz grandes eventos há mais de 40 anos, a engenharia com IA e as melhores cabeças de qualquer ramo.</p>` },
+  { p: "O conceito", t: "O nome", h: () => `<span class="olho">O significado do nome</span><div class="eq"><span>Think</span><span>+</span><span>Storm</span><span>=</span><span>Thinkstorm</span></div>${blocos([["Think", "Pensar, com as melhores cabeças juntas, como num think tank."], ["Storm", "A tempestade de ideias de um brainstorm: livre, rápida, sem limite."], ["Um think tank que faz", "Pensa, testa e coloca de pé.", 1]])}` },
+  { p: "As possibilidades", t: "O espaço em imagens", h: () => `<span class="olho">As possibilidades · deslize</span><h3 class="st-t">O que o Thinkstorm <em>pode ser.</em></h3><div class="carrossel" id="carrossel">${FOTOS.map(([n, e, t, s], i) => `<figure><img src="${F(n)}" alt="${esc(t)}" loading="${i < 2 ? "eager" : "lazy"}"><figcaption><span>${String(i + 1).padStart(2, "0")}/12 · ${esc(e)}</span><b>${esc(t)}</b><small>${esc(s)}</small></figcaption></figure>`).join("")}</div><div class="pontos" id="pontos">${FOTOS.map((_, i) => `<i class="${i ? "" : "on"}"></i>`).join("")}</div><span class="mono">Imagens conceituais geradas com IA; o projeto real sai com a arquitetura.</span>` },
+  { p: "O hub", t: "Três camadas", h: () => `<span class="olho">O hub de inteligência · toque para abrir</span><h3 class="st-t">Três camadas que transformam <em>ideia em liderança.</em></h3>${blocos([["Inteligência", "Pesquisa, dados e IA para entender cada mercado antes de entrar: quem lidera, por quê e onde está a brecha."], ["Criação", "As áreas da casa, do estúdio à engenharia de produção, transformam a brecha em produto, marca e experiência."], ["Escala", "Hoffmann, CHOSING e parceiros levam ao mercado o que nasce aqui, com clientes, estrutura e marca.", 1]], "acc")}<p class="st-p">Não é um coworking nem uma aceleradora. É onde se fabrica liderança.</p>` },
+  { p: "O hub", t: "Seis frentes", h: () => `<span class="olho">Onde vamos competir · toque numa frente</span><h3 class="st-t">Seis frentes para começar, <em>sem limite de setor.</em></h3>${blocos([["Fintech", "Pagamento, crédito e conta para quem as casas já atendem. Ex.: a carteira da experiência para eventos.", 1], ["Produtos de consumo", "Criados com dados de público e testados em eventos reais. Ex.: um produto lançado no palco."], ["Engenharia de produção", "Processos, automação e IA para fábricas. Ex.: a fábrica inteligente."], ["Tecnologia e IA", "Agentes, plataformas e sistemas para empresas e governo, com a CHOSING."], ["Eventos e experiências", "O mercado que a Hoffmann já lidera, com novos formatos. Ex.: o Intérprete IA."], ["Mídia e conteúdo", "Estúdio, transmissão, séries e podcasts próprios."]], "acc")}` },
+  { p: "O hub", t: "O método", h: () => `<span class="olho">O método · toque em cada tempo</span><h3 class="st-t">Think, Storm, Make, Scale.</h3><div class="fase-st" id="metodo-st">${["Think", "Storm", "Make", "Scale"].map((m, i) => `<button data-metodo="${i}" aria-pressed="${!i}">${m}</button>`).join("")}</div><div class="bloco y" id="metodo-txt"></div><p class="st-p">Exemplo real da proposta: o Intérprete IA, tradução simultânea híbrida.</p><div class="bloco" id="metodo-ex"></div>` },
+  { p: "O hub", t: "Quinze áreas", f: 8, h: () => `<span class="olho">Quinze áreas, uma casa</span><h3 class="st-t">Onze de criação, <em>quatro motores.</em></h3><div class="areas">${AREAS.map(([k, n, s]) => `<div class="area ${["TEC", "SOC", "ENG"].includes(k) ? "y" : ""}">${n}<small>${s}</small></div>`).join("")}</div><p class="st-p">Tecnologia é a fonte de receita que lidera. Engenharia de produção e Social Media são as áreas novas.</p>` },
+  { p: "A incubadora", t: "Storm Room", f: 5, h: () => `<span class="olho">A incubadora · no estilo Shark Tank e Dragon's Den</span><h3 class="st-t">Storm Room: o palco onde as ideias <em>pedem investimento.</em></h3>${blocos([["Pitch, banca, decisão", "Fundadores apresentam no palco; Hoffmann, CHOSING e investidores decidem na hora."], ["Smart money", "A casa cede espaço, estrutura, fornecedores e conexões. Um fundo do Thinkstorm investe capital por equity.", 1]])}<button class="btn" data-sair-para="room">Ver uma edição do Storm Room</button>` },
+  { p: "A incubadora", t: "A Storm", f: 7, h: () => `<span class="olho">A IA da casa</span><h3 class="st-t">Storm: a casa inteira <em>obedece a uma conversa.</em></h3>${blocos([["“Joga a abertura no telão grande.”"], ["“Modo palestra.”"], ["“Quando eu disser hora do café, acende a copa.”", "Ela aprende comandos novos e lembra.", 1]])}<button class="btn" data-sair-para="casa">Experimentar na casa</button>` },
+  { p: "O que já existe", t: "A Hoffmann", f: 5, h: () => `<span class="olho">O que já existe · Hoffmann</span><h3 class="st-t">Mais de 40 anos fazendo <em>o impossível acontecer ao vivo.</em></h3><div class="num"><div><b data-conta="35000" data-mais="1">0</b><span>eventos realizados</span></div><div><b data-conta="1983">0</b><span>fundada no Rio</span></div><div><b data-conta="150" data-mais="1">0</b><span>colaboradores diretos</span></div><div><b data-conta="20">0</b><span>hotéis com operação própria</span></div></div><div class="marcos">${["Rio-92", "Rio+20", "JMJ 2013", "Rio 2016", "G20 Rio 2024", "COP-30 2025"].map(m => `<span class="chip">${m}</span>`).join("")}</div>${blocos([["Habilidades que o hub usa", "Engenharia audiovisual, interpretação simultânea, estúdios e transmissão, palco e operação em grande escala, Hoffmann Academy."]])}<span class="mono">Fonte: hoffmann.com</span>` },
+  { p: "O que já existe", t: "A CHOSING e o que já fizemos", f: 6, h: () => `<span class="olho">O que já existe · CHOSING© DEPT.</span><h3 class="st-t">Engenharia com IA, <em>na velocidade do hub.</em></h3><p class="st-p">Para este projeto, em dois dias de trabalho:</p>${blocos([["Proposta e pitch", "Dois decks completos, com marca oficial, imagens e PDFs."], ["Storm, a IA da casa", "Opera luz, som, telões e clima por conversa, e aprende comandos."], ["storm-api", "A ponte com os equipamentos: PJLink, Art-Net, Home Assistant e Q-SYS, com testes automáticos."], ["Este app", "Laboratório de ideias com IA, Storm Room, a casa e a rede.", 1]])}<p class="st-p">Imagine o que a casa faz com um time inteiro.</p>` },
+  { p: "O modelo", t: "Como se sustenta", h: () => `<span class="olho">Como o hub se sustenta</span><h3 class="st-t">Receita recorrente que sustenta, <em>ativos sem teto.</em></h3>${blocos([["Tecnologia · a que lidera", "Criar, desenvolver, vender e gerenciar produtos e plataformas.", 1], ["Locação", "Residências, salas e estúdio."], ["Colab", "Talentos usam o espaço e pagam em serviços."], ["Palco", "Eventos, cursos e conteúdo produzidos no hub."], ["Sem teto", "Produtos, plataformas, empresas e a participação nas startups do Storm Room."]])}` },
+  { p: "O modelo", t: "O que a Hoffmann ganha", f: 2, h: () => `<span class="olho">O que a Hoffmann ganha · toque para abrir</span><h3 class="st-t">Uma porta para mercados <em>além dos eventos.</em></h3>${blocos([["Novos mercados", "Setores além dos eventos, com risco dividido.", 1], ["Receita recorrente", "Tecnologia, locação, colab e palco."], ["Ativos próprios", "Participar do que nasce na casa e, se quiser, investir pelo fundo."], ["Showroom e laboratório", "Clientes veem a inovação; formatos são testados antes dos grandes eventos."], ["Talento por perto", "As melhores cabeças trabalhando ao lado da operação."], ["Marca", "A casa que cria o que vem depois, no Rio e no Brasil."]], "acc")}` },
+  { p: "O caminho", t: "Quatro fases", h: () => `<span class="olho">O caminho · toque em cada fase</span><h3 class="st-t">Para onde vamos, <em>em quatro fases.</em></h3><div class="fase-st" id="rota-st">${["Abrir", "Provar", "Multiplicar", "Liderar"].map((m, i) => `<button data-rota="${i}" aria-pressed="${!i}">${m}</button>`).join("")}</div><div class="bloco" id="rota-txt"></div><p class="st-p">As fases não têm data: avançam quando o portão de cada uma é cumprido. Nada cresce antes de provar que funciona.</p>` },
+  { p: "O caminho", t: "Como começamos", h: () => `<span class="olho">Como começamos</span><h3 class="st-t">Abrir as portas <em>em três passos.</em></h3>${blocos([["1 · Ouvir e desenhar juntos", "Entender o que a Hoffmann espera do espaço e escolher as primeiras áreas, frentes e colabs.", 1], ["2 · Primeira turma", "Residentes e colabs escolhidos a dedo entre os melhores de cada ramo."], ["3 · Noite de abertura", "Um evento para clientes da Hoffmann, imprensa e comunidade conhecerem a casa."]])}` },
+  { p: "O caminho", t: "Para a nossa conversa", h: () => `<span class="olho">Para a nossa conversa</span><h3 class="st-t">O que queremos <em>ouvir de vocês.</em></h3>${blocos([["O que vocês esperam do espaço e o que gostariam de fazer com ele?", "", 1], ["Em que mercados gostariam de competir, além dos eventos?"], ["Quais clientes e áreas podem entrar nos primeiros pilotos?"], ["Que empresas líderes vocês trariam para a mesa?"], ["Faz sentido participar do fundo do Thinkstorm, e de que forma?"]])}` },
+  { p: "O caminho", t: "Juntos", f: 12, h: () => `<span class="olho">Thinkstorm · Hoffmann × CHOSING© DEPT.</span><span class="st-g">Acreditamos que é possível chegar lá juntos.</span><p class="st-p">Criar ideias e torná-las realidade.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button class="btn sec" data-reiniciar>Rever</button><button class="btn" data-sair-para="lab">Testar uma ideia</button></div>` }
+];
+const METODO = [["Think · entender", "Dados, pesquisa e quem sabe muito do mercado, numa mesa redonda.", "Mapear os congressos da carteira da Hoffmann e os idiomas mais pedidos."], ["Storm · gerar", "Brainstorm sem limite, cruzando as áreas e os setores da casa.", "Desenhar o modelo híbrido: IA nos idiomas de menor demanda, intérprete humano nos principais."], ["Make · fazer", "Protótipo, teste e piloto com a estrutura da Hoffmann e a engenharia da CHOSING.", "Piloto num congresso real, com pesquisa de qualidade."], ["Scale · escalar", "Levar ao Brasil com os clientes, a marca e os parceiros das casas.", "Vender como serviço para a rede de hotéis e eventos."]];
+const ROTA = [["Fase 1 · Abrir a casa", "Primeira turma, as áreas escolhidas funcionando e os primeiros pilotos.", "Segue quando: os pilotos têm clientes pagando."], ["Fase 2 · Provar", "Primeiros produtos em mercados novos: fintech, consumo e engenharia de produção.", "Segue quando: um produto cresce fora da carteira das casas."], ["Fase 3 · Multiplicar", "Empresas nascidas no hub e líderes de outros setores como parceiros fixos.", "Segue quando: a casa atrai parceiros sem precisar buscar."], ["Fase 4 · Liderar", "Referência nacional em inovação, com casas no Rio de Janeiro e em São Paulo.", "Sem teto."]];
+function painelProjeto() {
+  const partes = [...new Set(CAPS.map(c => c.p))];
+  return `<div class="capa-proj"><img src="${F(2)}" alt="Salão central do Thinkstorm"><span class="olho">Ideia inicial para a Hoffmann</span><h2>O projeto inteiro, em ${CAPS.length} capítulos.</h2><p class="sub" style="color:#CFCFCF">Toque para seguir, deslize para voltar. Com as imagens do espaço e o que as casas já sabem fazer.</p><button class="btn" data-cap="0">Assistir à apresentação</button></div>
+  <div class="indice">${partes.map(p => `<div class="parte"><h4>${esc(p)}</h4><div class="caps">${CAPS.map((c, i) => c.p !== p ? "" : `<button class="cap" data-cap="${i}">${c.f ? `<img src="${F(c.f)}" alt="" loading="lazy">` : ""}<span>${String(i + 1).padStart(2, "0")}</span><b>${esc(c.t)}</b></button>`).join("")}</div></div>`).join("")}</div>
+  <p class="aviso">Imagens conceituais geradas com IA · números da Hoffmann: hoffmann.com</p>`;
+}
+let capAtual = 0;
+function abrirStory(i) {
+  const st = $("#story"); st.classList.add("on");
+  try { history.replaceState(null, "", "#apresentacao"); } catch (_) {}
+  mostrarCap(i, 1);
+}
+function fecharStory() { $("#story").classList.remove("on"); try { history.replaceState(null, "", "#inicio"); } catch (_) {} }
+function mostrarCap(i, dir) {
+  capAtual = Math.max(0, Math.min(CAPS.length - 1, i));
+  const c = CAPS[capAtual];
+  $("#barras-st").innerHTML = CAPS.map((_, k) => `<i class="${k < capAtual ? "feito" : k === capAtual ? "atual" : ""}"></i>`).join("");
+  $("#cap-nome").textContent = `${String(capAtual + 1).padStart(2, "0")}/${CAPS.length} · ${c.p}`;
+  const sl = document.createElement("div"); sl.className = `sl ${c.f ? "foto" : ""} ${dir > 0 ? "vai" : "volta"}`;
+  sl.innerHTML = (c.f ? `<img class="bg" src="${F(c.f)}" alt=""><div class="veu-f"></div>` : "") + c.h();
+  const palco = $("#palco-st"); palco.innerHTML = ""; palco.appendChild(sl);
+  $("#st-ant").style.visibility = capAtual ? "visible" : "hidden";
+  $("#st-prox").textContent = capAtual === CAPS.length - 1 ? "✓" : "→";
+  $("#dica-st").textContent = capAtual === 0 ? "toque à direita para seguir · à esquerda para voltar" : "";
+  sl.querySelectorAll("[data-conta]").forEach(b => contar(b));
+  if ($("#metodo-st")) escolher("metodo", 0);
+  if ($("#rota-st")) escolher("rota", 0);
+  const car = $("#carrossel"); if (car) car.addEventListener("scroll", () => { const k = Math.round(car.scrollLeft / (car.firstElementChild.offsetWidth + 10)); $("#pontos").querySelectorAll("i").forEach((p, j) => p.classList.toggle("on", j === k)); }, { passive: true });
+  [CAPS[capAtual + 1], CAPS[capAtual + 2]].forEach(n => { if (n?.f) { const im = new Image(); im.src = F(n.f); } });
+}
+function contar(el) {
+  const alvo = +el.dataset.conta, mais = el.dataset.mais ? "+" : "", ano = alvo > 1900 && alvo < 2100;
+  const fmt = v => ano ? String(v) : mais + Math.round(v).toLocaleString("pt-BR");
+  if (quieto) { el.textContent = fmt(alvo); return; }
+  const t0 = performance.now(), ini = ano ? 1900 : 0;
+  const passo = t => { const p = Math.min(1, (t - t0) / 1400), e = 1 - Math.pow(1 - p, 3); el.textContent = fmt(Math.round(ini + (alvo - ini) * e)); if (p < 1) requestAnimationFrame(passo); };
+  requestAnimationFrame(passo);
+}
+function escolher(qual, i) {
+  const [lista, alvo, ex] = qual === "metodo" ? [METODO, "#metodo-txt", "#metodo-ex"] : [ROTA, "#rota-txt", null];
+  document.querySelectorAll(`#${qual}-st button`).forEach((b, k) => b.setAttribute("aria-pressed", String(k === i)));
+  const el = $(alvo); el.innerHTML = `<b>${esc(lista[i][0])}</b><p>${esc(lista[i][1])}</p>`; el.classList.remove("revela"); void el.offsetWidth; el.classList.add("revela");
+  if (ex) { const e2 = $(ex); e2.innerHTML = `<b>Intérprete IA</b><p>${esc(lista[i][2])}</p>`; }
+  else el.insertAdjacentHTML("beforeend", `<p style="color:var(--y);font-weight:600">${esc(lista[i][2])}</p>`);
+}
+function ligarStory() {
+  const st = $("#story"); let x0 = null, y0 = null, t0 = 0;
+  st.addEventListener("pointerdown", e => { if (e.target.closest(".carrossel")) return; x0 = e.clientX; y0 = e.clientY; t0 = Date.now(); });
+  st.addEventListener("pointerup", e => {
+    if (x0 === null) return; const dx = e.clientX - x0, dy = e.clientY - y0; x0 = null;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.4) { mostrarCap(capAtual + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1); return; }
+    if (Math.abs(dx) > 8 || Math.abs(dy) > 8 || Date.now() - t0 > 600) return;
+    if (e.target.closest("button, .acc, .carrossel, a, .story-top")) return;
+    const r = st.getBoundingClientRect(); const x = e.clientX - r.left;
+    mostrarCap(capAtual + (x < r.width * 0.3 ? -1 : 1), x < r.width * 0.3 ? -1 : 1);
+  });
+  st.addEventListener("click", e => {
+    const acc = e.target.closest(".acc"); if (acc) { acc.classList.toggle("aberto"); return; }
+    const m = e.target.closest("[data-metodo]"); if (m) { escolher("metodo", +m.dataset.metodo); return; }
+    const ro = e.target.closest("[data-rota]"); if (ro) { escolher("rota", +ro.dataset.rota); return; }
+    const sp = e.target.closest("[data-sair-para]"); if (sp) { fecharStory(); irPara(sp.dataset.sairPara); if (sp.dataset.sairPara === "casa") aplicarCena("room"); return; }
+    if (e.target.closest("[data-reiniciar]")) { mostrarCap(0, -1); return; }
+    if (e.target.closest("#st-fecha")) { fecharStory(); return; }
+    if (e.target.closest("#st-ant")) { mostrarCap(capAtual - 1, -1); return; }
+    if (e.target.closest("#st-prox")) { if (capAtual === CAPS.length - 1) fecharStory(); else mostrarCap(capAtual + 1, 1); return; }
+  });
+  addEventListener("keydown", e => { if (!st.classList.contains("on")) return; if (e.key === "ArrowRight") mostrarCap(capAtual + 1, 1); if (e.key === "ArrowLeft") mostrarCap(capAtual - 1, -1); if (e.key === "Escape") fecharStory(); });
 }
 
 // Animação da mente: nós (as áreas) ligados, ideias correndo e raios saindo para o mercado
@@ -771,12 +983,15 @@ function irPara(k) {
   document.querySelectorAll(".tela").forEach(t => { const on = t.dataset.tela === k; if (on && t.hidden) { t.hidden = false; t.classList.remove("entra"); void t.offsetWidth; t.classList.add("entra"); } else if (!on) t.hidden = true; });
   document.querySelectorAll(".aba").forEach(b => b.setAttribute("aria-selected", String(b.dataset.ir === k)));
   try { if (location.hash !== "#" + k) history.replaceState(null, "", "#" + k); } catch (_) {}
-  if (k === "inicio") setTimeout(iniciarMente, 30); else if (mente?.raf) { cancelAnimationFrame(mente.raf); mente.raf = 0; mente = null; }
+  if (k === "inicio" && sub === "agora") setTimeout(iniciarMente, 30); else if (mente?.raf) { cancelAnimationFrame(mente.raf); mente.raf = 0; mente = null; }
 }
 let tt = 0;
 function toast(t) { const el = $("#toast"); el.textContent = t; el.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => el.classList.remove("on"), 2200); }
 function ligar() {
   document.addEventListener("click", e => {
+    if (e.target.closest("#story")) return;
+    const sb = e.target.closest("[data-sub]"); if (sb) { trocarSub(sb.dataset.sub); return; }
+    const cp = e.target.closest("[data-cap]"); if (cp) { abrirStory(+cp.dataset.cap); return; }
     const ir = e.target.closest("[data-ir]"); if (ir) { irPara(ir.dataset.ir); return; }
     const ex = e.target.closest("[data-exemplo]"); if (ex) { rodarIdeia(ex.dataset.exemplo); return; }
     const ce = e.target.closest("[data-cena]"); if (ce) { aplicarCena(ce.dataset.cena); return; }
@@ -794,15 +1009,20 @@ function ligar() {
   });
   $("#form-ideia").addEventListener("submit", e => { e.preventDefault(); rodarIdeia($("#ideia").value); });
   $("#pergunta").addEventListener("submit", e => { e.preventDefault(); const i = $("#pergunta-txt"); const t = i.value; i.value = ""; perguntar(t); });
-  addEventListener("hashchange", () => irPara(location.hash.slice(1)));
-  addEventListener("keydown", e => { if (e.key === "Escape") abrirStorm(false); if (tela === "room" && !$("#folha").classList.contains("on") && document.activeElement?.tagName !== "INPUT") { if (e.key === "ArrowRight") decidir(true); if (e.key === "ArrowLeft") decidir(false); } });
+  addEventListener("hashchange", () => rota(location.hash.slice(1)));
+  addEventListener("keydown", e => { if (e.key === "Escape") abrirStorm(false); if (tela === "room" && !$("#folha").classList.contains("on") && !$("#story").classList.contains("on") && document.activeElement?.tagName !== "INPUT") { if (e.key === "ArrowRight") decidir(true); if (e.key === "ArrowLeft") decidir(false); } });
   let rt = 0; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (tela === "inicio") iniciarMente(); }, 200); });
+}
+
+function rota(h) {
+  if (h === "projeto" || h === "apresentacao") { if (sub !== "projeto") { sub = "projeto"; telaInicio(); } irPara("inicio"); if (h === "apresentacao") abrirStory(0); return; }
+  irPara(h);
 }
 
 // ---------- Início ----------
 function iniciar() {
   montar();
-  irPara((location.hash || "#inicio").slice(1));
+  rota((location.hash || "#inicio").slice(1));
   try { if (window.QRCode && LINK.startsWith("https")) new QRCode(document.getElementById("qrcode"), { text: LINK, width: 116, height: 116, colorDark: "#111112", colorLight: "#ffffff" }); } catch (_) {}
   const tentarApi = () => { if (!API.startsWith("https")) return; fetch(API + "/saude").then(r => r.json()).then(j => { if (j?.ia && !sample) { apiViva = true; $("#selo-ia").textContent = "IA ao vivo"; } }).catch(() => {}); };
   if (!window.claude?.use) tentarApi();
