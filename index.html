@@ -1274,7 +1274,8 @@ function rota(h) {
 // ---------- Início ----------
 function iniciar() {
   montar();
-  rota((location.hash || "#inicio").slice(1));
+  // Sem endereço, o app abre direto na apresentação; ao terminar, cai em Início > Agora.
+  rota((location.hash || "#apresentacao").slice(1));
   try { if (window.QRCode && LINK.startsWith("https")) new QRCode(document.getElementById("qrcode"), { text: LINK, width: 116, height: 116, colorDark: "#111112", colorLight: "#ffffff" }); } catch (_) {}
   const tentarApi = () => { if (!API.startsWith("https")) return; fetch(API + "/saude").then(r => r.json()).then(j => { if (j?.ia && !sample) { apiViva = true; $("#selo-ia").textContent = "IA ao vivo"; } }).catch(() => {}); };
   if (!window.claude?.use) tentarApi();
