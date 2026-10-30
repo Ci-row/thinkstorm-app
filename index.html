@@ -327,6 +327,95 @@ button.chip:active { transform: scale(.97) }
 .nav-st button { pointer-events: auto; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: rgba(20,20,22,.8); font-size: 18px }
 .nav-st button.ir { background: var(--y); color: var(--ink); border-color: var(--y) }
 
+/* Laboratório v2 */
+.campo-rodape { display: flex; justify-content: space-between; align-items: center; gap: 10px }
+.ex { flex: none; width: 172px; scroll-snap-align: start; text-align: left; border: 1px solid var(--line); background: var(--s1); border-radius: 18px; padding: 12px; display: flex; flex-direction: column; gap: 4px }
+.ex .mono { color: var(--y) }
+.ex b { font-family: var(--display); font-size: 16px; line-height: 1.1 }
+.tempestade { background: var(--s1); border: 1px solid var(--line); border-radius: 24px; padding: 16px; display: grid; grid-template-columns: 110px 1fr; gap: 14px; align-items: start }
+.anel { position: relative; width: 110px; height: 110px }
+.anel svg { width: 110px; height: 110px; transform: rotate(-90deg) }
+.anel .trilho { fill: none; stroke: var(--s3); stroke-width: 8 }
+.anel .prog { fill: none; stroke: var(--y); stroke-width: 8; stroke-linecap: round; filter: drop-shadow(0 0 6px rgba(255,204,78,.5)) }
+.anel > div { position: absolute; inset: 0; display: grid; place-content: center; text-align: center }
+.anel b { font-family: var(--display); font-size: 20px }
+.log { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 12.5px; color: #CFCFCF; max-height: 210px; overflow: hidden; justify-content: flex-end }
+.log li { display: grid; grid-template-columns: 44px 1fr; gap: 6px; animation: sobe .3s both }
+.log li:last-child { color: var(--fg) }
+.log .mono { color: var(--y); font-size: 10.5px; padding-top: 1px }
+.marca-rodape { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 6px }
+.selo-nota { background: var(--ink); color: var(--y); border-radius: 999px; padding: 4px 12px; font-size: 12px; white-space: nowrap }
+.selo-nota b { font-family: var(--display); font-size: 16px }
+.acoes-dos { display: grid; grid-template-columns: 1fr auto auto; gap: 8px }
+.btn.icone { width: 48px; padding: 0; font-size: 20px }
+.abas-dos { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; position: sticky; top: 0; z-index: 2; background: var(--bg); padding-block: 6px; margin-inline: -18px; padding-inline: 18px }
+.abas-dos::-webkit-scrollbar { display: none }
+.abas-dos button { flex: none; border: 1px solid var(--line); background: var(--s1); border-radius: 999px; padding: 8px 14px; font-size: 13px; font-weight: 600 }
+.abas-dos button[aria-selected="true"] { background: var(--y); color: var(--ink); border-color: var(--y) }
+.painel-dos { min-height: 280px }
+#resultado { display: flex; flex-direction: column; gap: 12px }
+.mock .item { border: 0; color: inherit; width: 100%; text-align: left }
+.mock button.item em { margin-left: auto; font-style: normal; color: var(--muted); font-size: 18px }
+.voltar-mock { border: 0; background: none; color: var(--muted); font-size: 12px; text-align: left; padding: 0 }
+.linha-tempo { list-style: none; margin: 0; padding: 0 0 0 18px; border-left: 2px solid var(--s3); display: flex; flex-direction: column; gap: 14px }
+.linha-tempo li { position: relative; display: flex; flex-direction: column; gap: 2px; font-size: 14px }
+.linha-tempo li::before { content: ""; position: absolute; left: -25px; top: 3px; width: 12px; height: 12px; border-radius: 50%; background: var(--s3); border: 2px solid var(--bg) }
+.linha-tempo li.fim::before { background: var(--y) }
+.linha-tempo b { font-family: var(--display); color: var(--y) }
+.pitch { font-family: var(--display); font-size: 21px; line-height: 1.12 }
+.nota-tr { display: block; height: 5px; background: var(--s3); border-radius: 9px; overflow: hidden; margin-top: 6px }
+.nota-tr i { display: block; height: 100%; width: 0; background: var(--y); border-radius: 9px; transition: width .9s cubic-bezier(.2,.8,.2,1) }
+.veredito { display: flex; justify-content: space-between; align-items: center; gap: 10px; border-radius: 16px; padding: 12px; background: var(--s2) }
+.veredito.sim { background: var(--y); color: var(--ink) }
+.veredito.sim .mono { color: #4a3d14 }
+.hist { display: grid; gap: 6px }
+.hist-i { display: grid; grid-template-columns: 14px 1fr auto; gap: 10px; align-items: center; text-align: left; border: 1px solid var(--line); background: var(--s1); border-radius: 16px; padding: 10px 12px }
+.hist-i i { width: 14px; height: 14px; border-radius: 4px }
+.hist-i b { display: block; font-family: var(--display); font-size: 15px }
+.hist-i small { color: var(--muted); font-size: 12px }
+.nota-p { font-family: var(--display); font-weight: 700; color: var(--y) }
+
+/* Storm Room v2 */
+.ao-vivo { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 11px; color: var(--y); border: 1px solid var(--line); border-radius: 999px; padding: 5px 10px; align-self: flex-start }
+.ao-vivo i { width: 7px; height: 7px; border-radius: 50%; background: var(--y); animation: pisca 1.4s infinite }
+.progresso-ed { display: flex; gap: 4px }
+.progresso-ed i { flex: 1; height: 4px; border-radius: 4px; background: var(--s3) }
+.progresso-ed i.sim { background: var(--y) } .progresso-ed i.nao { background: #555 } .progresso-ed i.atual { background: var(--fg) }
+.pilha { height: 380px }
+.startup { background: linear-gradient(160deg, #1E1E21, #121214) }
+.startup h3 { font-size: 34px }
+.banca-vivo { display: flex; flex-direction: column; gap: 8px }
+.banca-vivo:empty { display: none }
+.fala { display: grid; grid-template-columns: 38px 1fr; gap: 10px; align-items: start; background: var(--s1); border: 1px solid var(--line); border-radius: 18px 18px 18px 6px; padding: 10px 12px; animation: sobe .35s both }
+.fala b { font-size: 13.5px } .fala b em { font-style: normal; color: var(--muted); font-weight: 500 }
+.fala.sim b em { color: var(--y) }
+.fala p { font-size: 13px; color: #CFCFCF }
+.raios { position: absolute; inset: 0; pointer-events: none; z-index: 4 }
+#t-room { position: absolute }
+
+/* Casa v2 */
+.comando { display: flex; align-items: center; gap: 8px; background: var(--s1); border: 1px solid var(--line); border-radius: 999px; padding: 5px 5px 5px 14px }
+.comando > span { color: var(--y); display: grid } .comando > span svg { width: 16px; height: 16px }
+.comando input { flex: 1; min-width: 0; background: none; border: 0; padding: 8px 0 }
+.comando input:focus { outline: none }
+.comando .btn { padding: 9px 16px }
+.cenas-f .cena { flex: none; width: 150px; scroll-snap-align: start }
+.status-casa { display: flex; justify-content: space-between; gap: 10px; font-size: 12.5px; color: var(--muted); flex-wrap: wrap }
+.status-casa b { color: var(--fg) }
+.destaque { display: flex; justify-content: space-between; align-items: center; gap: 10px; background: var(--y); color: var(--ink); border-radius: 14px; padding: 8px 8px 8px 14px; font-weight: 600; font-size: 13.5px }
+.destaque button { border: 0; width: 28px; height: 28px; border-radius: 50%; background: rgba(0,0,0,.12); font-size: 16px }
+.planta-box { overflow-x: auto; margin-inline: -18px; padding-inline: 18px; scrollbar-width: none; overscroll-behavior-x: contain }
+.planta-box::-webkit-scrollbar { display: none }
+.planta-box .planta { width: 640px; max-width: none }
+.planta .sala { cursor: pointer }
+.planta .sala text.pct { font-family: var(--mono); font-size: 12px; font-weight: 400; fill: #8a8a8a }
+.planta .sala.acesa text.pct { fill: #4a3d14 }
+.planta .sala.marcada rect.b { stroke: var(--y); stroke-width: 4; stroke-dasharray: 10 6; animation: marcha 1.2s linear infinite }
+@keyframes marcha { to { stroke-dashoffset: -32 } }
+.luz-ctl { display: grid; grid-template-columns: auto 1fr 44px; gap: 10px; align-items: center }
+.luz-ctl input { width: 100%; accent-color: var(--y) }
+.luz-ctl b { font-family: var(--display); text-align: right }
+
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important } }
 </style>
 
@@ -749,31 +838,105 @@ setInterval(() => { const m = $("#metodo"); if (!m || quieto) return; passoMetod
 function telaLab() {
   $("#t-lab").innerHTML = `
   <div><span class="olho">Laboratório de ideias</span><h2 class="t1" style="margin-top:6px">Da ideia ao mercado, agora.</h2></div>
-  <p class="sub">Escreva uma ideia de negócio. A casa passa por Think, Storm, Make e Scale e devolve marca, protótipo, áreas envolvidas, plano de 90 dias e a nota da banca do Storm Room.</p>
-  <form class="campo" id="form-ideia"><textarea id="ideia" rows="3" placeholder="Ex.: um app que traduz palestras em tempo real para hotéis" aria-label="Sua ideia"></textarea>
-    <div class="chips">${Object.keys(EXEMPLOS).map(t => `<button type="button" class="chip" data-exemplo="${esc(t)}">${esc(t)}</button>`).join("")}</div>
-    <button class="btn" id="rodar">${I.raio.replace("<svg", '<svg width="16" height="16"')} Rodar a tempestade</button></form>
-  <div class="etapas" id="etapas" hidden></div>
-  <div id="resultado" style="display:flex;flex-direction:column;gap:14px"></div>`;
+  <form class="campo" id="form-ideia"><textarea id="ideia" rows="3" maxlength="600" placeholder="Descreva a ideia em uma frase. Ex.: um app que traduz palestras em tempo real para hotéis" aria-label="Sua ideia"></textarea>
+    <div class="campo-rodape"><span class="mono" id="conta-ideia">0/600</span><button class="btn" id="rodar">${I.raio.replace("<svg", '<svg width="16" height="16"')} Rodar a tempestade</button></div></form>
+  <div class="faixa" aria-label="Ideias de exemplo">${EXEMPLOS_CURTOS.map(([k, rot, setor]) => `<button type="button" class="ex" data-exemplo="${esc(k)}"><span class="mono">${esc(setor)}</span><b>${esc(rot)}</b></button>`).join("")}</div>
+  <div id="processo"></div>
+  <div id="resultado"></div>
+  <div id="como" class="cartao"><div class="cab"><span class="olho">Como funciona</span><span class="mono">cerca de 30 s</span></div>
+    <div class="metodo">${[["Think", "o mercado"], ["Storm", "marca"], ["Make", "protótipo"], ["Scale", "plano e banca"]].map(([a, b]) => `<div><b>${a}</b><span>${b}</span></div>`).join("")}</div></div>
+  <div id="historico"></div>`;
+  $("#ideia").addEventListener("input", e => { $("#conta-ideia").textContent = e.target.value.length + "/600"; });
+  desenharHistorico();
 }
+const EXEMPLOS_CURTOS = [["Tradutor com IA para congressos", "Tradutor para congressos", "Eventos"], ["Carteira digital para quem vai a eventos", "Carteira para eventos", "Fintech"], ["Bebida funcional lançada num festival", "Bebida lançada no palco", "Consumo"]];
 const ETAPAS = [["Think", "Entendendo o mercado e o problema"], ["Storm", "Gerando conceito, marca e caminhos"], ["Make", "Montando o protótipo e as áreas"], ["Scale", "Plano de 90 dias e banca do Storm Room"]];
+let historico = ler("historico", []);
+function desenharHistorico() {
+  const el = $("#historico"); if (!el) return;
+  if (!historico.length) { el.innerHTML = ""; return; }
+  el.innerHTML = `<div class="cab" style="margin-bottom:8px"><h3 class="t2">Suas ideias</h3><span class="mono">neste aparelho</span></div><div class="hist">${historico.map((r, i) => `<button class="hist-i" data-hist="${i}"><i style="background:${r.cor}"></i><span><b>${esc(r.nome)}</b><small>${esc(r.setor)}</small></span><span class="nota-p">${media(r)}</span></button>`).join("")}</div>`;
+}
+const media = r => (r.banca.reduce((s, b) => s + b[1], 0) / r.banca.length).toFixed(1);
+function linhasDoProcesso(ideia) {
+  const t = ideia.length > 54 ? ideia.slice(0, 52) + "…" : ideia;
+  return [["Think", `lendo a ideia: “${t}”`], ["Think", "cruzando com as seis frentes do hub"], ["Think", "procurando quem tem esse problema hoje"], ["Storm", "gerando nomes e escolhendo a cor da marca"], ["Storm", "escrevendo o slogan e o pitch"], ["Make", "desenhando a primeira tela do produto"], ["Make", "distribuindo o trabalho nas 15 áreas"], ["Scale", "montando o plano de 90 dias"], ["Scale", "a banca do Storm Room está avaliando"]];
+}
 async function rodarIdeia(ideia) {
   ideia = (ideia || "").trim(); if (!ideia) { toast("Escreva uma ideia primeiro"); $("#ideia").focus(); return; }
-  irPara("lab"); $("#ideia").value = ideia;
-  const bt = $("#rodar"); bt.disabled = true;
-  const et = $("#etapas"); et.hidden = false; $("#resultado").innerHTML = "";
-  et.innerHTML = ETAPAS.map(([a, b], i) => `<div class="etapa" id="et-${i}"><span class="n">${i + 1}</span><div><b>${a}</b><small>${b}</small></div><span class="st">na fila</span></div>`).join("");
-  et.scrollIntoView({ behavior: quieto ? "auto" : "smooth", block: "start" });
-  let feito = false, resultado = null, modo = "demo";
-  const animar = (async () => { for (let i = 0; i < 4; i++) { const e = $("#et-" + i); e.className = "etapa roda"; e.querySelector(".st").textContent = "pensando"; await espera(quieto ? 50 : 1100); while (i === 3 && !feito) await espera(150); e.className = "etapa ok"; e.querySelector(".st").textContent = "pronto"; } })();
+  irPara("lab"); $("#ideia").value = ideia; $("#conta-ideia").textContent = ideia.length + "/600";
+  const bt = $("#rodar"); bt.disabled = true; $("#como").hidden = true; $("#resultado").innerHTML = "";
+  const R = 52, C = 2 * Math.PI * R;
+  $("#processo").innerHTML = `<div class="tempestade"><div class="anel"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="${R}" class="trilho"/><circle cx="60" cy="60" r="${R}" class="prog" id="prog" style="stroke-dasharray:${C};stroke-dashoffset:${C}"/></svg><div><b id="fase-nome">Think</b><span class="mono" id="fase-pct">0%</span></div></div><ol class="log" id="log" aria-live="polite"></ol></div>`;
+  $("#processo").scrollIntoView({ behavior: quieto ? "auto" : "smooth", block: "start" });
+  let feito = false, resultado = null, modo = "demo", pct = 0;
+  const linhas = linhasDoProcesso(ideia);
+  const anima = (async () => {
+    for (let i = 0; i < linhas.length; i++) {
+      const [fase, txt] = linhas[i];
+      $("#fase-nome").textContent = fase;
+      $("#log").insertAdjacentHTML("beforeend", `<li><span class="mono">${fase}</span>${esc(txt)}</li>`);
+      const alvo = Math.round(((i + 1) / linhas.length) * 92);
+      while (pct < alvo) { pct++; $("#prog").style.strokeDashoffset = C * (1 - pct / 100); $("#fase-pct").textContent = pct + "%"; await espera(quieto ? 0 : 14); }
+      await espera(quieto ? 0 : 140);
+    }
+    while (!feito) await espera(120);
+    while (pct < 100) { pct++; $("#prog").style.strokeDashoffset = C * (1 - pct / 100); $("#fase-pct").textContent = pct + "%"; await espera(quieto ? 0 : 8); }
+  })();
   if ((sample || apiViva) && !EXEMPLOS[ideia]) {
     try { resultado = normalizar(sample ? await perguntarIdeia(ideia) : await chamarApi("/ideia", { ideia }), ideia); modo = "IA"; }
-    catch (e) { resultado = gerarLocal(ideia); modo = "demo"; if (e?.code && !["cancelled"].includes(e.code)) toast("A IA não respondeu; mostrando a versão de demonstração"); }
-  } else { await espera(quieto ? 100 : 2600); resultado = gerarLocal(ideia); }
-  feito = true; await animar;
-  ultimoResultado = { ...resultado, ideia }; bt.disabled = false;
-  mostrarResultado(ultimoResultado, modo);
+    catch (e) { resultado = gerarLocal(ideia); modo = "demo"; if (e?.code && e.code !== "cancelled") toast("A IA não respondeu; mostrando a versão de demonstração"); }
+  } else { await espera(quieto ? 100 : 1200); resultado = gerarLocal(ideia); }
+  feito = true; await anima; await espera(quieto ? 0 : 250);
+  ultimoResultado = { ...resultado, ideia, modo }; bt.disabled = false;
+  historico = [ultimoResultado, ...historico.filter(h => h.nome !== ultimoResultado.nome)].slice(0, 6); guardar("historico", historico);
+  $("#processo").innerHTML = "";
+  mostrarResultado(ultimoResultado);
 }
+const ABAS_DOS = [["mercado", "Mercado"], ["prototipo", "Protótipo"], ["casa", "Casa"], ["plano", "Plano"], ["banca", "Banca"]];
+let abaDos = "mercado", telaMock = -1;
+function mostrarResultado(r) {
+  abaDos = "mercado"; telaMock = -1;
+  $("#como").hidden = true;
+  $("#resultado").innerHTML = `
+  <div class="marca revela" style="background:${r.cor}">${iconeMarca("fundo")}<span class="setor">${esc(r.setor)} · ${r.modo === "IA" ? "gerado pela IA agora" : "versão de demonstração"}</span><span class="nome">${esc(r.nome)}</span><span class="slogan">${esc(r.slogan)}</span>
+    <div class="marca-rodape"><span class="selo-nota"><b>${media(r)}</b> banca</span><span class="mono" style="color:inherit;opacity:.75">${esc(r.ideia.length > 60 ? r.ideia.slice(0, 58) + "…" : r.ideia)}</span></div></div>
+  <div class="acoes-dos revela"><button class="btn" id="levar">Levar ao Storm Room</button><button class="btn sec icone" id="copiar" aria-label="Copiar o resumo">⧉</button><button class="btn sec icone" id="outra" aria-label="Nova ideia">＋</button></div>
+  <div class="abas-dos" role="tablist">${ABAS_DOS.map(([k, n]) => `<button role="tab" data-dos="${k}" aria-selected="${k === abaDos}">${n}</button>`).join("")}</div>
+  <div id="painel-dos" class="painel-dos"></div>
+  <p class="aviso">${r.modo === "IA" ? "Gerado pela IA a partir da sua ideia, sem números de mercado inventados." : "Com a IA ligada, cada ideia gera um dossiê próprio."}</p>`;
+  desenharDos();
+  $("#resultado").scrollIntoView({ behavior: quieto ? "auto" : "smooth", block: "start" });
+  desenharHistorico();
+}
+function desenharDos() {
+  const r = ultimoResultado; const p = $("#painel-dos"); if (!r || !p) return;
+  document.querySelectorAll("[data-dos]").forEach(b => b.setAttribute("aria-selected", String(b.dataset.dos === abaDos)));
+  const avc = { "Hoffmann": "h", "CHOSING": "c", "Investidor convidado": "i" };
+  let h = "";
+  if (abaDos === "mercado") h = `<div class="cartao"><span class="chip y" style="align-self:flex-start">${esc(r.setor)}</span><div class="linha"><span>problema</span><span>${esc(r.problema)}</span></div><div class="linha"><span>público</span><span>${esc(r.publico)}</span></div><div class="linha"><span>por que agora</span><span>${esc(r.porque_agora)}</span></div><div class="linha"><span>piloto</span><span>${esc(r.piloto)}</span></div></div>`;
+  if (abaDos === "prototipo") {
+    const f = r.mvp.funcoes;
+    const scr = telaMock < 0
+      ? `<span class="bar"></span><span class="mono" style="color:${r.cor}">${esc(r.nome)}</span><h4>${esc(r.mvp.titulo)}</h4>${f.map((x, i) => `<button class="item" data-mock="${i}"><i style="background:${r.cor};opacity:${1 - i * 0.25}"></i><span>${esc(x)}</span><em>›</em></button>`).join("")}<div class="acao" style="background:${r.cor}">${esc(r.mvp.cta)}</div>`
+      : `<span class="bar"></span><button class="voltar-mock" data-mock="-1">‹ ${esc(r.mvp.titulo)}</button><h4>${esc(f[telaMock])}</h4><div class="item" style="height:64px;background:${r.cor}22"></div><div class="item"><i style="background:${r.cor}"></i><span>Funcionando no piloto</span></div><div class="item"><i style="background:${r.cor};opacity:.5"></i><span>Dados para o cliente</span></div><div class="acao" style="background:${r.cor}">Continuar</div>`;
+    h = `<div class="cartao" style="align-items:center"><span class="olho" style="align-self:flex-start">Make · toque nas funções</span><div class="mock"><div class="scr">${scr}</div></div><span class="mono">protótipo de tela gerado para a ideia</span></div>`;
+  }
+  if (abaDos === "casa") h = `<div class="cartao"><div class="cab"><span class="olho">Storm · as áreas que trabalham</span><span class="mono">peso 1 a 5</span></div><div class="barras">${r.areas.map(([k, p2, papel]) => `<div class="barra"><span>${esc(AREA[k])}</span><span class="tr"><i data-w="${p2 * 20}"></i></span><small>${esc(papel)}</small></div>`).join("")}</div><button class="btn sec" id="ver-planta">Acender essas salas na planta</button></div>`;
+  if (abaDos === "plano") h = `<div class="cartao"><span class="olho">Scale · 90 dias</span><ol class="linha-tempo">${r.plano.map(([a, b], i) => `<li class="${i === 3 ? "fim" : ""}"><b>${esc(a)}</b><span>${esc(b)}</span></li>`).join("")}</ol><div class="linha"><span>piloto</span><span>${esc(r.piloto)}</span></div></div>`;
+  if (abaDos === "banca") {
+    const m = +media(r);
+    h = `<div class="cartao"><p class="pitch">“${esc(r.pitch)}”</p>${r.banca.map(([q, n, c]) => `<div class="jurado"><span class="av ${avc[q] || "i"}">${esc(q[0])}</span><div><b>${esc(q)}</b><p>${esc(c)}</p><span class="tr nota-tr"><i data-w="${n * 10}"></i></span></div><span class="nota">${n}</span></div>`).join("")}
+      <div class="veredito ${m >= 7.5 ? "sim" : ""}"><b>${m >= 7.5 ? "Pronta para o Storm Room" : "Vale ajustar antes do palco"}</b><span class="mono">média ${m.toFixed(1)}</span></div></div>`;
+  }
+  p.innerHTML = h; p.classList.remove("revela"); void p.offsetWidth; p.classList.add("revela");
+  p.querySelectorAll("[data-w]").forEach(el => requestAnimationFrame(() => requestAnimationFrame(() => el.style.width = el.dataset.w + "%")));
+}
+function resumoTexto(r) {
+  return `${r.nome} · ${r.slogan}\nFrente: ${r.setor}\nProblema: ${r.problema}\nPúblico: ${r.publico}\nPor que agora: ${r.porque_agora}\nProtótipo: ${r.mvp.funcoes.join("; ")}\nÁreas: ${r.areas.map(a => AREA[a[0]]).join(", ")}\nPlano: ${r.plano.map(p => p[0] + ": " + p[1]).join(" | ")}\nPitch: ${r.pitch}\nBanca: ${media(r)}\n— Thinkstorm App`;
+}
+function novaIdeia() { ultimoResultado = null; $("#resultado").innerHTML = ""; $("#processo").innerHTML = ""; $("#como").hidden = false; $("#ideia").value = ""; $("#conta-ideia").textContent = "0/600"; $("#t-lab").scrollTo({ top: 0, behavior: quieto ? "auto" : "smooth" }); $("#ideia").focus({ preventScroll: true }); }
+
 async function perguntarIdeia(ideia) {
   const prompt = `${SOBRE}
 
@@ -806,54 +969,60 @@ function normalizar(r, ideia) {
     areas: areas.length >= 4 ? areas : base.areas, piloto: txt(r.piloto, base.piloto), plano, pitch: txt(r.pitch, base.pitch), banca
   };
 }
-function mostrarResultado(r, modo) {
-  const media = (r.banca.reduce((s, b) => s + b[1], 0) / r.banca.length).toFixed(1);
-  const avc = { "Hoffmann": "h", "CHOSING": "c", "Investidor convidado": "i" };
-  const blocos = [
-    `<div class="marca" style="background:${r.cor}">${iconeMarca("fundo")}<span class="setor">${esc(r.setor)} · gerado ${modo === "IA" ? "pela IA" : "na demo"}</span><span class="nome">${esc(r.nome)}</span><span class="slogan">${esc(r.slogan)}</span></div>`,
-    `<div class="cartao"><span class="olho">Think · o mercado</span><div class="linha"><span>problema</span><span>${esc(r.problema)}</span></div><div class="linha"><span>público</span><span>${esc(r.publico)}</span></div><div class="linha"><span>por que agora</span><span>${esc(r.porque_agora)}</span></div></div>`,
-    `<div class="cartao"><span class="olho">Make · o protótipo</span><div class="mock"><div class="scr"><span class="bar"></span><span class="mono" style="color:${r.cor}">${esc(r.nome)}</span><h4>${esc(r.mvp.titulo)}</h4>${r.mvp.funcoes.map((f, i) => `<div class="item"><i style="background:${r.cor};opacity:${1 - i * 0.25}"></i>${esc(f)}</div>`).join("")}<div class="acao" style="background:${r.cor}">${esc(r.mvp.cta)}</div></div></div></div>`,
-    `<div class="cartao"><div class="cab"><span class="olho">Storm · as áreas da casa</span><span class="mono">peso 1 a 5</span></div><div class="barras">${r.areas.map(([k, p, papel]) => `<div class="barra"><span>${esc(AREA[k])}</span><span class="tr"><i data-w="${p * 20}"></i></span><small>${esc(papel)}</small></div>`).join("")}</div></div>`,
-    `<div class="cartao"><span class="olho">Scale · 90 dias</span><div class="plano">${r.plano.map(([a, b]) => `<div><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join("")}</div><div class="linha"><span>piloto</span><span>${esc(r.piloto)}</span></div></div>`,
-    `<div class="cartao"><div class="cab"><span class="olho">Storm Room · prévia da banca</span><span class="nota" style="color:var(--y)">${media}</span></div><p style="font-family:var(--display);font-size:19px;line-height:1.15">“${esc(r.pitch)}”</p><div class="banca">${r.banca.map(([q, n, c]) => `<div class="jurado"><span class="av ${avc[q] || "i"}">${esc(q[0])}</span><div><b>${esc(q)}</b><p>${esc(c)}</p></div><span class="nota">${n}</span></div>`).join("")}</div>
-     <button class="btn" id="levar">Levar ao Storm Room</button><button class="btn sec" id="outra">Testar outra ideia</button></div>`,
-    `<p class="aviso">${modo === "IA" ? "Gerado agora pela IA a partir da sua ideia. Sem números de mercado inventados." : "Versão de demonstração. Com a IA ligada, cada ideia gera um resultado próprio."}</p>`
-  ];
-  const box = $("#resultado"); box.innerHTML = "";
-  blocos.forEach((h, i) => setTimeout(() => {
-    const d = document.createElement("div"); d.className = "revela"; d.style.display = "contents"; d.innerHTML = h;
-    [...d.children].forEach(c => { c.classList.add("revela"); box.appendChild(c); });
-    box.querySelectorAll("[data-w]").forEach(el => requestAnimationFrame(() => el.style.width = el.dataset.w + "%"));
-    if (i === 0) box.firstElementChild.scrollIntoView({ behavior: quieto ? "auto" : "smooth", block: "start" });
-  }, quieto ? 0 : i * 260));
-}
-
 // ---------- Storm Room ----------
+const BANCA_PADRAO = {
+  "Intérprete IA": [["Hoffmann", 9, "Conversa direto com 40 anos de interpretação simultânea."], ["CHOSING", 8, "A tecnologia está madura; o cuidado é a latência no salão."], ["Investidor convidado", 8, "Receita por evento, com cliente pronto."]],
+  "Fila Zero": [["Hoffmann", 8, "Temos o público e os eventos para testar já."], ["CHOSING", 9, "Plataforma recorrente, com dados próprios."], ["Investidor convidado", 7, "Mercado disputado; o diferencial é nascer dentro dos eventos."]],
+  "Fábrica Inteligente": [["Hoffmann", 6, "Longe dos eventos, mas a rede de indústrias ajuda."], ["CHOSING", 9, "IA aplicada onde o retorno aparece rápido."], ["Investidor convidado", 8, "B2B com contrato longo, gosto disso."]],
+  "Corte ao Vivo": [["Hoffmann", 9, "Cada evento nosso vira conteúdo no mesmo dia."], ["CHOSING", 7, "Simples de construir; o valor está na operação."], ["Investidor convidado", 6, "Pode virar serviço, mas precisa de escala."]],
+  "Raio": [["Hoffmann", 7, "Ótimo para ativação, não é o nosso negócio central."], ["CHOSING", 7, "Os dados de público dão vantagem real."], ["Investidor convidado", 8, "Marca com comunidade antes do primeiro lote."]]
+};
+let fasePitch = "pitch";
 function telaRoom() {
   const fim = deck.length === 0;
+  const total = decisoes.length + deck.length;
   $("#t-room").innerHTML = `
-  <div><span class="olho">Incubadora · no estilo Shark Tank</span><h2 class="t1" style="margin-top:6px">Storm Room</h2></div>
-  <p class="sub">${fim ? "Edição encerrada. Este é o portfólio que a banca montou hoje." : `Ideias no palco hoje: ${deck.length}. Arraste para a direita para investir, para a esquerda para passar. A banca vota junto.`}</p>
-  ${fim ? portfolio() : `<div class="pilha" id="pilha">${deck.slice(0, 2).reverse().map((s, i, a) => cartaoStartup(s, i === a.length - 1)).join("")}</div>
-  <div class="votos" id="votos"></div>
-  <div class="decide"><button class="btn sec" id="passar">Passar</button><button class="btn" id="investir">Investir</button></div>`}
-  <div class="cartao"><span class="olho">Smart money</span><b style="font-family:var(--display);font-size:18px">O que a casa coloca em cada ideia</b>
+  <div class="cab"><div><span class="olho">Incubadora · no estilo Shark Tank</span><h2 class="t1" style="margin-top:6px">Storm Room</h2></div><span class="ao-vivo"><i></i>edição 01</span></div>
+  <div class="progresso-ed">${Array.from({ length: total }, (_, i) => `<i class="${i < decisoes.length ? (decisoes[i].sim ? "sim" : "nao") : i === decisoes.length ? "atual" : ""}"></i>`).join("")}</div>
+  ${fim ? portfolio() : `
+  <div class="pilha" id="pilha">${deck.slice(0, 2).reverse().map((s, i, a) => cartaoStartup(s, i === a.length - 1)).join("")}</div>
+  <div id="banca-ao-vivo" class="banca-vivo"></div>
+  ${fasePitch === "pitch" ? `<button class="btn sec" id="ouvir-banca">Ouvir a banca</button>` : ""}
+  <div class="decide"><button class="btn sec" id="passar">Passar</button><button class="btn" id="investir">Investir</button></div>
+  <p class="mono" style="text-align:center">ou arraste o cartão · você decide pelo fundo</p>`}
+  <div class="cartao"><span class="olho">Smart money · o pacote de cada aprovada</span>
     <div class="chips">${["Espaço", "Infraestrutura", "Palco da Hoffmann", "Fornecedores", "Conexões e clientes", "Engenharia e IA"].map(c => `<span class="chip">${c}</span>`).join("")}<span class="chip y">Capital por equity</span></div>
     <p class="sub" style="font-size:13px">Um fundo do Thinkstorm investe nas aprovadas. Quanto colocar no fundo é uma decisão dos parceiros.</p></div>
   <p class="aviso">Startups de exemplo, com base nas ideias da proposta</p>`;
-  if (!fim) prepararArrasto();
+  if (!fim) { prepararArrasto(); if (fasePitch === "banca") mostrarBanca(true); }
 }
 function cartaoStartup(s, topo) {
   return `<article class="startup ${topo ? "" : "atras"}" ${topo ? 'id="topo"' : ""} aria-label="${esc(s.nome)}">
     <span class="carimbo sim">INVESTE</span><span class="carimbo nao">PASSA</span>
-    <span class="chip tag">${esc(s.setor)}</span><h3>${esc(s.nome)}</h3><p class="sub">${esc(s.pitch)}</p>
-    <div class="pede"><span class="olho" style="color:var(--muted)">O que pede à casa</span>${s.pede.map(p => `<span>· ${esc(p)}</span>`).join("")}</div></article>`;
+    <div class="chips"><span class="chip">${esc(s.setor)}</span>${s.sua ? '<span class="chip y">Sua ideia</span>' : ""}</div>
+    <h3>${esc(s.nome)}</h3><p class="sub" style="font-size:15px;color:#D6D6D6">${esc(s.pitch)}</p>
+    <div class="pede"><span class="olho" style="color:var(--muted)">O que pede à casa</span><div class="chips">${s.pede.map(p => `<span class="chip">${esc(p)}</span>`).join("")}</div></div></article>`;
+}
+async function mostrarBanca(direto) {
+  const s = deck[0]; if (!s) return; fasePitch = "banca";
+  $("#ouvir-banca")?.remove();
+  const banca = s.banca || BANCA_PADRAO[s.nome] || [["Hoffmann", 7, "Quero ver onde encosta nos nossos clientes."], ["CHOSING", 7, "Dá para prototipar rápido."], ["Investidor convidado", 7, "Falta provar a demanda."]];
+  const el = $("#banca-ao-vivo"); el.innerHTML = "";
+  const avc = ["h", "c", "i"];
+  for (let i = 0; i < 3; i++) {
+    if (!direto) await espera(quieto ? 0 : 420);
+    const [q, n, c] = banca[i];
+    el.insertAdjacentHTML("beforeend", `<div class="fala ${n >= 7 ? "sim" : ""}"><span class="av ${avc[i]}">${esc(q[0])}</span><div><b>${esc(q)} <em>${n}/10</em></b><p>${esc(c)}</p></div></div>`);
+  }
+  const m = banca.reduce((t, b) => t + b[1], 0) / 3;
+  el.insertAdjacentHTML("beforeend", `<p class="mono" style="text-align:center">a banca recomenda: <b style="color:${m >= 7.5 ? "var(--y)" : "var(--fg)"}">${m >= 7.5 ? "investir" : "pensar mais"}</b> · média ${m.toFixed(1)}</p>`);
 }
 function portfolio() {
   const inv = decisoes.filter(d => d.sim);
   return `<div class="cartao"><div class="cab"><h3 class="t2">Portfólio do fundo</h3><span class="nota" style="color:var(--y)">${inv.length}/${decisoes.length}</span></div>
-    <div class="portfolio">${inv.length ? inv.map(d => `<div class="port"><div><b>${esc(d.nome)}</b><div class="mono">${esc(d.setor)} · ${d.votos}/3 votos da banca</div></div><span class="chip y">incubada</span></div>`).join("") : '<p class="sub">Nenhuma ideia recebeu investimento nesta edição.</p>'}</div>
-    <button class="btn sec" id="nova-edicao">Nova edição</button></div>`;
+    <p class="sub" style="font-size:13px">${inv.length ? "Estas entram na Incubadora com o pacote de smart money da casa." : "Nenhuma ideia recebeu investimento nesta edição."}</p>
+    <div class="portfolio">${inv.map(d => `<div class="port"><div><b>${esc(d.nome)}</b><div class="mono">${esc(d.setor)} · banca ${d.media.toFixed(1)}</div><div class="chips" style="margin-top:6px">${d.pede.slice(0, 2).map(p => `<span class="chip">${esc(p)}</span>`).join("")}<span class="chip y">equity</span></div></div></div>`).join("")}</div>
+    ${inv.length ? `<button class="btn sec" id="ver-incubadora">Ver a sala da Incubadora</button>` : ""}<button class="btn" id="nova-edicao">Nova edição</button></div>`;
 }
 function prepararArrasto() {
   const c = $("#topo"); if (!c) return;
@@ -867,43 +1036,100 @@ let decidindo = false;
 async function decidir(sim) {
   if (decidindo || !deck.length) return; decidindo = true;
   const c = $("#topo"); const s = deck[0];
-  if (c) { c.querySelector(sim ? ".sim" : ".nao").style.opacity = 1; c.style.transform = `translateX(${sim ? 420 : -420}px) rotate(${sim ? 24 : -24}deg)`; c.style.opacity = 0; }
-  const h = hash(s.nome);
-  const votos = JURADOS.map((j, i) => (sim ? ((h >> i) & 3) !== 0 : ((h >> i) & 3) === 0));
-  if (sim) votos[0] = true;
-  const vv = $("#votos"); vv.innerHTML = "";
-  for (let i = 0; i < 3; i++) { await espera(quieto ? 0 : 220); vv.insertAdjacentHTML("beforeend", `<div class="voto ${votos[i] ? "sim" : ""}"><span class="av ${JURADOS[i][1]}">${JURADOS[i][0]}</span>${JURADOS[i][2]}: ${votos[i] ? "investe" : "passa"}</div>`); }
-  decisoes.push({ nome: s.nome, setor: s.setor, sim, votos: votos.filter(Boolean).length });
-  await espera(quieto ? 0 : 750);
-  deck.shift(); decidindo = false; telaRoom();
-  toast(sim ? `${s.nome} entra na incubadora` : `${s.nome} fica para a próxima`);
+  const banca = s.banca || BANCA_PADRAO[s.nome] || [["", 7], ["", 7], ["", 7]];
+  if (c) { c.querySelector(sim ? ".sim" : ".nao").style.opacity = 1; await espera(quieto ? 0 : 260); c.style.transform = `translateX(${sim ? 440 : -440}px) rotate(${sim ? 24 : -24}deg)`; c.style.opacity = 0; }
+  if (sim && !quieto) raios();
+  decisoes.push({ nome: s.nome, setor: s.setor, sim, pede: s.pede, media: banca.reduce((t, b) => t + b[1], 0) / 3 });
+  await espera(quieto ? 0 : 420);
+  deck.shift(); fasePitch = "pitch"; decidindo = false; telaRoom();
+  toast(sim ? `${s.nome} entra na Incubadora` : `${s.nome} fica para a próxima`);
+}
+function raios() {
+  const box = $("#t-room"); const cv = document.createElement("canvas"); cv.className = "raios"; box.appendChild(cv);
+  const r = box.getBoundingClientRect(); cv.width = r.width; cv.height = r.height; const ctx = cv.getContext("2d");
+  const ps = Array.from({ length: 26 }, () => ({ x: r.width / 2, y: r.height * 0.4, vx: (Math.random() - .5) * 9, vy: -Math.random() * 9 - 2, v: 1 }));
+  let n = 0; (function q() { ctx.clearRect(0, 0, cv.width, cv.height); ps.forEach(p => { p.x += p.vx; p.y += p.vy; p.vy += 0.35; p.v -= 0.02; ctx.fillStyle = `rgba(255,204,78,${Math.max(0, p.v)})`; ctx.beginPath(); ctx.moveTo(p.x, p.y - 7); ctx.lineTo(p.x + 4, p.y); ctx.lineTo(p.x - 1, p.y); ctx.lineTo(p.x + 2, p.y + 7); ctx.lineTo(p.x - 4, p.y - 1); ctx.lineTo(p.x + 1, p.y - 1); ctx.fill(); }); if (++n < 50) requestAnimationFrame(q); else cv.remove(); })();
+}
+function levarAoRoom() {
+  const r = ultimoResultado; if (!r) return;
+  deck = deck.filter(s => s.nome !== r.nome);
+  deck.unshift({ nome: r.nome, setor: r.setor, pitch: r.pitch, pede: ["Áreas: " + r.areas.slice(0, 2).map(a => AREA[a[0]]).join(" e "), "Piloto na carteira das casas", "Capital por equity"], banca: r.banca, sua: true });
+  decisoes = decisoes.filter(d => d.nome !== r.nome); fasePitch = "pitch";
+  telaRoom(); irPara("room"); toast(`${r.nome} subiu ao palco`);
 }
 
 // ---------- Casa ----------
 const ESC = 20;
+const SALA_DA_AREA = { TEC: "Tecnologia", INT: "Inteligência", ENG: "Engenharia", SOC: "Social Media", CRI: "Criação", PRO: "Produção", ART: "Arte", STY: "Style", VIS: "Visual", AUD: "Áudio", STU: "Studio", MKT: "Marketing", NEG: "Negócios", EVT: "Eventos", ACA: "Academy" };
+const luz = {};
+let destaque = null;
 function telaCasa() {
   $("#t-casa").innerHTML = `
   <div><span class="olho">A casa · 808 m²</span><h2 class="t1" style="margin-top:6px">Tudo responde à Storm.</h2></div>
-  <p class="sub">Escolha uma cena ou peça pela Storm, no botão amarelo. Toque numa sala para ver o que acontece nela.</p>
-  <svg class="planta" id="planta" viewBox="0 0 ${36 * ESC} ${22.45 * ESC}" role="img" aria-label="Planta do Thinkstorm">${SALAS.map(([n, x0, x1, z0, z1]) => {
+  <form class="comando" id="comando"><span>${I.raio}</span><input id="comando-txt" autocomplete="off" placeholder="Ex.: luz do Studio em 40%" aria-label="Comando para a Storm"><button class="btn">Ir</button></form>
+  <div class="faixa cenas-f">${Object.entries(CENAS).map(([k, c]) => `<button class="cena ${k === cenaAtual ? "on" : ""}" data-cena="${k}"><b>${c.nome}</b><small>${c.desc}</small></button>`).join("")}</div>
+  <div class="status-casa" id="status-casa"></div>
+  <div id="faixa-destaque"></div>
+  <div class="planta-box" id="planta-box"><svg class="planta" id="planta" viewBox="0 0 ${36 * ESC} ${22.45 * ESC}" role="img" aria-label="Planta do Thinkstorm">${SALAS.map(([n, x0, x1, z0, z1]) => {
     const x = x0 * ESC, y = z0 * ESC, w = (x1 - x0) * ESC, h = (z1 - z0) * ESC;
-    return `<g class="sala" data-sala="${esc(n)}"><rect class="b" x="${x + 3}" y="${y + 3}" width="${w - 6}" height="${h - 6}" rx="12"/><rect class="l" x="${x + 3}" y="${y + 3}" width="${w - 6}" height="${h - 6}" rx="12" fill-opacity="0"/><text x="${x + 12}" y="${y + 28}">${esc(n.length > 11 && w < 120 ? n.split(" ")[0] : n)}</text></g>`;
-  }).join("")}</svg>
-  <div class="cenas">${Object.entries(CENAS).map(([k, c]) => `<button class="cena ${k === cenaAtual ? "on" : ""}" data-cena="${k}"><b>${c.nome}</b><small>${c.desc}</small></button>`).join("")}</div>
+    return `<g class="sala" data-sala="${esc(n)}" role="button" tabindex="0" aria-label="${esc(n)}"><rect class="b" x="${x + 3}" y="${y + 3}" width="${w - 6}" height="${h - 6}" rx="12"/><rect class="l" x="${x + 3}" y="${y + 3}" width="${w - 6}" height="${h - 6}" rx="12" fill-opacity="0"/><text x="${x + 12}" y="${y + 28}">${esc(n.length > 11 && w < 120 ? n.split(" ")[0] : n)}</text><text class="pct" x="${x + 12}" y="${y + 48}"></text></g>`;
+  }).join("")}</svg></div>
+  <p class="mono" style="text-align:center;margin-top:-8px">deslize a planta · toque numa sala</p>
   <div class="cartao" id="info-sala"></div>
   <p class="aviso">Equipamentos simulados · na casa real, a Storm fala com o AV da Hoffmann</p>`;
-  aplicarCena(cenaAtual, true); infoSala();
+  if (!Object.keys(luz).length) SALAS.forEach(([n]) => luz[n] = CENAS[cenaAtual].luz(n));
+  pintar(); infoSala(); desenharDestaque();
+  const box = $("#planta-box"); requestAnimationFrame(() => { box.scrollLeft = (box.scrollWidth - box.clientWidth) / 2; });
 }
-function aplicarCena(k, silencio) {
+function pintar() {
+  document.querySelectorAll("#planta .sala").forEach(g => {
+    const n = g.dataset.sala; const v = luz[n] ?? 0;
+    g.querySelector("rect.l").setAttribute("fill-opacity", (v * 0.9).toFixed(2));
+    g.classList.toggle("acesa", v >= 0.45); g.classList.toggle("sel", n === salaSel);
+    g.classList.toggle("marcada", !!destaque && destaque.salas.includes(n));
+    g.querySelector(".pct").textContent = v > 0 ? Math.round(v * 100) + "%" : "";
+  });
+  const acesas = SALAS.filter(([n]) => (luz[n] ?? 0) > 0).length;
+  const st = $("#status-casa"); if (st) st.innerHTML = `<span><b>${acesas}</b> de ${SALAS.length} ambientes com luz</span><span>cena: <b>${esc(CENAS[cenaAtual]?.nome || "personalizada")}</b></span>`;
+}
+async function aplicarCena(k, silencio) {
+  if (!CENAS[k]) return;
   cenaAtual = k; const c = CENAS[k];
-  document.querySelectorAll("#planta .sala").forEach(g => { const n = g.dataset.sala; const v = c.luz(n); g.querySelector("rect.l").setAttribute("fill-opacity", (v * 0.9).toFixed(2)); g.classList.toggle("acesa", v >= 0.45); g.classList.toggle("sel", n === salaSel); });
   document.querySelectorAll(".cena").forEach(b => b.classList.toggle("on", b.dataset.cena === k));
+  const ordem = [...SALAS].sort((a, b) => a[1] - b[1]);
+  if (!document.querySelector("#planta") || quieto) { ordem.forEach(([n]) => luz[n] = c.luz(n)); pintar(); }
+  else { let i = 0; for (const [n] of ordem) { luz[n] = c.luz(n); if (++i % 3 === 0) { pintar(); await espera(45); } } pintar(); }
   infoSala(); if (!silencio) toast(`Cena “${c.nome}” aplicada`);
 }
 function infoSala() {
   const el = $("#info-sala"); if (!el) return;
-  const v = Math.round(CENAS[cenaAtual].luz(salaSel) * 100);
-  el.innerHTML = `<div class="cab"><h3 class="t2">${esc(salaSel)}</h3><span class="mono">luz ${v}%</span></div><p class="sub">${esc(SOBRE_SALA[salaSel] || "Uma das salas da casa, ligada a uma área do hub.")}</p>`;
+  const v = Math.round((luz[salaSel] ?? 0) * 100);
+  const area = Object.entries(SALA_DA_AREA).find(([, s]) => s === salaSel);
+  el.innerHTML = `<div class="cab"><h3 class="t2">${esc(salaSel)}</h3><span class="mono">${area ? "área " + area[0] : "ambiente"}</span></div>
+    <p class="sub">${esc(SOBRE_SALA[salaSel] || "Uma das salas da casa, ligada a uma área do hub.")}</p>
+    <div class="luz-ctl"><span class="mono">luz</span><input type="range" id="luz-sala" min="0" max="100" step="5" value="${v}" aria-label="Luz de ${esc(salaSel)}"><b id="luz-val">${v}%</b></div>
+    <div class="dupla"><button class="btn sec" data-luz="0">Apagar</button><button class="btn" data-luz="100">Acender</button></div>`;
+  $("#luz-sala").addEventListener("input", e => { luz[salaSel] = +e.target.value / 100; cenaAtual = "livre"; $("#luz-val").textContent = e.target.value + "%"; pintar(); document.querySelectorAll(".cena").forEach(b => b.classList.remove("on")); });
+}
+function marcarSalas(nomes, titulo) {
+  destaque = { salas: nomes, titulo };
+  nomes.forEach(n => { luz[n] = Math.max(luz[n] ?? 0, 0.85); });
+  cenaAtual = "livre"; irPara("casa"); pintar(); desenharDestaque();
+  salaSel = nomes[0] || salaSel; infoSala(); pintar();
+}
+function desenharDestaque() {
+  const el = $("#faixa-destaque"); if (!el) return;
+  el.innerHTML = destaque ? `<div class="destaque"><span>${esc(destaque.titulo)}</span><button id="limpar-destaque" aria-label="Limpar destaque">×</button></div>` : "";
+}
+function comandoCasa(t) {
+  const n = t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+  for (const [k, c] of Object.entries(CENAS)) { const nome = c.nome.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""); if (n.includes(nome) || (k === "room" && /palco|pitch/.test(n)) || (k === "fechar" && /fecha|boa noite/.test(n))) { aplicarCena(k); return true; } }
+  const sala = SALAS.map(s => s[0]).sort((a, b) => b.length - a.length).find(s => n.includes(s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "")) || (s === "Salão central" && /salao|lounge/.test(n)));
+  if (!sala) return false;
+  const pct = n.match(/(\d{1,3})\s*%/); let v = luz[sala] ?? 0;
+  if (pct) v = Math.min(100, +pct[1]) / 100; else if (/apaga|desliga/.test(n)) v = 0; else if (/acende|liga/.test(n)) v = 0.85; else if (/aumenta|sobe/.test(n)) v = Math.min(1, v + 0.2); else if (/baixa|diminui/.test(n)) v = Math.max(0, v - 0.2); else return false;
+  luz[sala] = v; salaSel = sala; cenaAtual = "livre"; document.querySelectorAll(".cena").forEach(b => b.classList.remove("on")); pintar(); infoSala();
+  toast(`${sala}: luz ${Math.round(v * 100)}%`); return true;
 }
 
 // ---------- Rede ----------
@@ -995,19 +1221,31 @@ function ligar() {
     const ir = e.target.closest("[data-ir]"); if (ir) { irPara(ir.dataset.ir); return; }
     const ex = e.target.closest("[data-exemplo]"); if (ex) { rodarIdeia(ex.dataset.exemplo); return; }
     const ce = e.target.closest("[data-cena]"); if (ce) { aplicarCena(ce.dataset.cena); return; }
-    const sa = e.target.closest("#planta .sala"); if (sa) { salaSel = sa.dataset.sala; aplicarCena(cenaAtual, true); return; }
+    const sa = e.target.closest("#planta .sala"); if (sa) { salaSel = sa.dataset.sala; pintar(); infoSala(); $("#info-sala").scrollIntoView({ behavior: quieto ? "auto" : "smooth", block: "nearest" }); return; }
     const vb = e.target.closest("[data-vou]"); if (vb) { const i = +vb.dataset.vou; vou = vou.includes(i) ? vou.filter(x => x !== i) : [...vou, i]; guardar("vou", vou); telaRede(); toast(vou.includes(i) ? "Presença confirmada na demo" : "Presença retirada"); return; }
     const cb = e.target.closest("[data-conecta]"); if (cb) { const i = +cb.dataset.conecta; if (!conectados.includes(i)) { conectados.push(i); guardar("conectados", conectados); telaRede(); toast("Conexão marcada na demo"); } return; }
     if (e.target.closest("#passar")) { decidir(false); return; }
     if (e.target.closest("#investir")) { decidir(true); return; }
-    if (e.target.closest("#nova-edicao")) { deck = STARTUPS.map(s => ({ ...s })); decisoes = []; telaRoom(); return; }
-    if (e.target.closest("#levar") && ultimoResultado) { const r = ultimoResultado; deck = deck.filter(s => s.nome !== r.nome); deck.unshift({ nome: r.nome, setor: r.setor, pitch: r.pitch, pede: ["Estrutura e áreas da casa", r.piloto, "Capital por equity"] }); if (!deck.length) deck = [r]; decisoes = decisoes.filter(d => d.nome !== r.nome); telaRoom(); irPara("room"); toast(`${r.nome} subiu ao palco`); return; }
-    if (e.target.closest("#outra")) { $("#resultado").innerHTML = ""; $("#etapas").hidden = true; $("#ideia").value = ""; $("#t-lab").scrollTo({ top: 0, behavior: "smooth" }); $("#ideia").focus(); return; }
+    if (e.target.closest("#nova-edicao")) { deck = STARTUPS.map(s => ({ ...s })); decisoes = []; fasePitch = "pitch"; telaRoom(); return; }
+    if (e.target.closest("#ouvir-banca")) { mostrarBanca(false); return; }
+    if (e.target.closest("#ver-incubadora")) { marcarSalas(["Incubadora"], "As aprovadas trabalham na Incubadora"); return; }
+    const hi = e.target.closest("[data-hist]"); if (hi) { ultimoResultado = historico[+hi.dataset.hist]; mostrarResultado(ultimoResultado); return; }
+    const dd = e.target.closest("[data-dos]"); if (dd) { abaDos = dd.dataset.dos; desenharDos(); return; }
+    const mk = e.target.closest("[data-mock]"); if (mk) { telaMock = +mk.dataset.mock; desenharDos(); return; }
+    if (e.target.closest("#ver-planta") && ultimoResultado) { marcarSalas(ultimoResultado.areas.map(a => SALA_DA_AREA[a[0]]).filter(Boolean), "Áreas de " + ultimoResultado.nome); return; }
+    if (e.target.closest("#copiar") && ultimoResultado) { const t = resumoTexto(ultimoResultado); navigator.clipboard?.writeText(t).then(() => toast("Resumo copiado"), () => toast("Não deu para copiar neste aparelho")) ?? toast("Não deu para copiar neste aparelho"); return; }
+    if (e.target.closest("#limpar-destaque")) { destaque = null; desenharDestaque(); pintar(); return; }
+    const lz = e.target.closest("[data-luz]"); if (lz) { luz[salaSel] = +lz.dataset.luz / 100; cenaAtual = "livre"; document.querySelectorAll(".cena").forEach(b => b.classList.remove("on")); pintar(); infoSala(); return; }
+    if (e.target.closest("#levar")) { levarAoRoom(); return; }
+    if (false) { const r = ultimoResultado; deck = deck.filter(s => s.nome !== r.nome); deck.unshift({ nome: r.nome, setor: r.setor, pitch: r.pitch, pede: ["Estrutura e áreas da casa", r.piloto, "Capital por equity"] }); if (!deck.length) deck = [r]; decisoes = decisoes.filter(d => d.nome !== r.nome); telaRoom(); irPara("room"); toast(`${r.nome} subiu ao palco`); return; }
+    if (e.target.closest("#outra")) { novaIdeia(); return; }
+    if (false) { $("#resultado").innerHTML = ""; $("#etapas").hidden = true; $("#ideia").value = ""; $("#t-lab").scrollTo({ top: 0, behavior: "smooth" }); $("#ideia").focus(); return; }
     if (e.target.closest("#abre-storm")) { abrirStorm(true); return; }
     if (e.target.closest("#fecha-storm") || e.target.id === "veu") { abrirStorm(false); return; }
     const sg = e.target.closest("#sugs .chip"); if (sg) { perguntar(sg.textContent); return; }
   });
   $("#form-ideia").addEventListener("submit", e => { e.preventDefault(); rodarIdeia($("#ideia").value); });
+  $("#comando").addEventListener("submit", e => { e.preventDefault(); const i = $("#comando-txt"); const t = i.value.trim(); if (!t) return; i.value = ""; if (!comandoCasa(t)) { abrirStorm(true); perguntar(t); } });
   $("#pergunta").addEventListener("submit", e => { e.preventDefault(); const i = $("#pergunta-txt"); const t = i.value; i.value = ""; perguntar(t); });
   addEventListener("hashchange", () => rota(location.hash.slice(1)));
   addEventListener("keydown", e => { if (e.key === "Escape") abrirStorm(false); if (tela === "room" && !$("#folha").classList.contains("on") && !$("#story").classList.contains("on") && document.activeElement?.tagName !== "INPUT") { if (e.key === "ArrowRight") decidir(true); if (e.key === "ArrowLeft") decidir(false); } });
