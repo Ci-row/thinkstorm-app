@@ -376,6 +376,18 @@ button.chip:active { transform: scale(.97) }
 .veredito { display: flex; justify-content: space-between; align-items: center; gap: 10px; border-radius: 16px; padding: 12px; background: var(--s2) }
 .veredito.sim { background: var(--y); color: var(--ink) }
 .veredito.sim .mono { color: #4a3d14 }
+.regua-nums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px }
+.regua-nums div { border-radius: 14px; padding: 10px; background: var(--s2); display: flex; flex-direction: column; gap: 2px }
+.regua-nums b { font-family: var(--display); font-size: 26px; color: var(--y); line-height: 1 }
+.regua-nums span { font-size: 11.5px; color: var(--muted) }
+.criterio { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; padding-block: 9px; border-top: 1px solid var(--line); font-size: 14px }
+.criterio p { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: 13px }
+.estado { font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 999px; background: var(--s2); border: 1px solid var(--line) }
+.estado.cabe { background: var(--good); color: var(--ink); border-color: var(--good) }
+.estado.premissa { background: var(--y); color: var(--ink); border-color: var(--y) }
+.estado.nao { background: var(--bad); color: var(--ink); border-color: var(--bad) }
+.virada { border-radius: 14px; padding: 10px 12px; background: var(--s2); font-size: 14px }
+.virada b { color: var(--y) }
 .hist { display: grid; gap: 6px }
 .hist-i { display: grid; grid-template-columns: 14px 1fr auto; gap: 10px; align-items: center; text-align: left; border: 1px solid var(--line); background: var(--s1); border-radius: 16px; padding: 10px 12px }
 .hist-i i { width: 14px; height: 14px; border-radius: 4px }
@@ -478,6 +490,7 @@ Frentes: fintech, produtos de consumo, engenharia de produção, tecnologia e IA
 Incubadora: ideias entram, passam pelo Storm Room (programa de pitch no estilo Shark Tank e Dragon's Den, no palco do salão, banca com Hoffmann, CHOSING, investidores e empresas líderes convidadas) e as aprovadas são incubadas. Smart money: a casa cede espaço, infraestrutura, estrutura, fornecedores e conexões; e um fundo do Thinkstorm pode investir capital em troca de equity. Quanto colocar no fundo se decide junto, sem valores por enquanto.
 Receita recorrente: tecnologia, locação, colab (pagar em serviço) e palco. Networking: social meets, jantares temáticos, cafés de fundadores, noite pós-Storm Room.
 Storm é a IA da casa: opera luz, som, telões e clima por conversa e aprende comandos.
+Régua 40/40/50: toda empresa que o Thinkstorm cria nasce para crescer 40% ao ano, com margem EBITDA de 40% para entrar no portfólio e de 50% para ficar. Só passa negócio de receita recorrente e custo baixo para servir mais um cliente (software, IA, plataforma, licença, dados). Serviço sob medida, eventos, indústria e varejo físico não viram empresa do hub: viram cliente, canal ou laboratório, ou mudam de modelo (a virada). A régua é critério de desenho, não promessa de resultado; a banca do Storm Room só aprova o que cabe nela.
 Este app é uma demonstração: os dados do dia, as startups e os perfis são exemplos.`;
 
 // ---------- Exemplos do laboratório (também usados sem IA) ----------
@@ -492,7 +505,8 @@ const EXEMPLOS = {
     piloto: "Um congresso médico de médio porte da carteira da Hoffmann, com dois idiomas por IA e um humano.",
     plano: [["Think", "Mapear os congressos da carteira e os idiomas mais pedidos."], ["Storm", "Desenhar o modelo híbrido com intérpretes da casa."], ["Make", "Piloto em um evento real, com pesquisa de qualidade."], ["Scale", "Vender como serviço para a rede de hotéis e eventos."]],
     pitch: "A cabine de interpretação que cabe no bolso de cada participante.",
-    banca: [["Hoffmann", 9, "Conversa direto com o que já fazemos em 40 anos de interpretação."], ["CHOSING", 8, "Tecnologia madura; o desafio é a latência no salão."], ["Investidor convidado", 8, "Receita recorrente por evento, com cliente pronto."]]
+    banca: [["Hoffmann", 9, "Conversa direto com o que já fazemos em 40 anos de interpretação."], ["CHOSING", 8, "Tecnologia madura; o desafio é a latência no salão."], ["Investidor convidado", 8, "Receita recorrente por evento, com cliente pronto."]],
+    regua: { modelo: "Licença da plataforma por evento e assinatura para organizadores", itens: [["crescimento", "premissa", "Cresce com a rede de eventos e hotéis, sem montar cabine nova."], ["margem", "premissa", "O custo é o modelo de voz; o intérprete humano entra como parceiro, fora da folha."], ["ebitda", "premissa", "Fica acima de 50% se a receita for licença, não horas de intérprete."]], virada: "" }
   },
   "Carteira digital para quem vai a eventos": {
     nome: "Fila Zero", slogan: "Pague, ganhe de volta e nunca mais pegue fila.", cor: "#9BE7C4", setor: "Fintech",
@@ -504,7 +518,8 @@ const EXEMPLOS = {
     piloto: "Um festival da carteira da Hoffmann, com os bares de uma área do evento.",
     plano: [["Think", "Medir as filas e o ticket médio em dois eventos."], ["Storm", "Desenhar cashback e parceria com os fornecedores."], ["Make", "Lançar num setor do festival e comparar com o resto."], ["Scale", "Levar para o mercado de experiências do país."]],
     pitch: "O dinheiro do evento passa por nós, e o público ganha tempo e cashback.",
-    banca: [["Hoffmann", 8, "Temos o público e os eventos para testar já."], ["CHOSING", 9, "Plataforma recorrente, com dados próprios."], ["Investidor convidado", 7, "Mercado disputado; o diferencial é nascer dentro dos eventos."]]
+    banca: [["Hoffmann", 8, "Temos o público e os eventos para testar já."], ["CHOSING", 9, "Plataforma recorrente, com dados próprios."], ["Investidor convidado", 7, "Mercado disputado; o diferencial é nascer dentro dos eventos."]],
+    regua: { modelo: "Comissão sobre cada pagamento, com a plataforma no centro", itens: [["crescimento", "premissa", "Cada evento novo traz público e fornecedores sem custo de venda alto."], ["margem", "cabe", "Comissão sobre software: servir mais um evento custa quase nada."], ["ebitda", "premissa", "Passa de 50% quando o volume paga o custo de pagamento e antifraude."]], virada: "" }
   },
   "Bebida funcional lançada num festival": {
     nome: "Raio", slogan: "Energia limpa para quem cria até tarde.", cor: "#FF9E6B", setor: "Produtos de consumo",
@@ -516,9 +531,31 @@ const EXEMPLOS = {
     piloto: "Ativação num festival da carteira, com degustação e pesquisa ao vivo.",
     plano: [["Think", "Ler os dados de público e as tendências de consumo."], ["Storm", "Criar três conceitos e testar na comunidade da casa."], ["Make", "Lote piloto e ativação num evento real."], ["Scale", "Parceria com um fabricante e distribuição nacional."]],
     pitch: "Uma marca que nasce no palco, com o público decidindo o sabor.",
-    banca: [["Hoffmann", 7, "Ótimo para eventos, mas não é o nosso negócio central."], ["CHOSING", 7, "Os dados de público dão vantagem real."], ["Investidor convidado", 8, "Marca com comunidade antes do primeiro lote."]]
+    banca: [["Hoffmann", 7, "Ótimo para eventos, mas não é o nosso negócio central."], ["CHOSING", 7, "Os dados de público dão vantagem real."], ["Investidor convidado", 8, "Marca com comunidade antes do primeiro lote."]],
+    regua: { modelo: "Fabricar e distribuir a bebida", itens: [["crescimento", "premissa", "Marca com comunidade pode crescer rápido no lançamento."], ["margem", "nao", "Lata, líquido, frete e prateleira comem a margem."], ["ebitda", "nao", "Indústria de bebida não chega a 50% de EBITDA."]], virada: "O Thinkstorm cria a marca e licencia a um fabricante, que produz e distribui. A receita vira royalty, e a régua passa a caber." }
   }
 };
+// ---------- Régua 40/40/50: toda empresa criada nasce para ela ----------
+const REGUA_CRIT = [["crescimento", "Crescimento", "40% ao ano"], ["margem", "Margem EBITDA", "40% para entrar"], ["ebitda", "EBITDA", "50% para ficar"]];
+const ESTADO = { cabe: "cabe", premissa: "premissa a provar", nao: "não cabe" };
+const REGUA_DO_SETOR = {
+  "Tecnologia e IA": { modelo: "Assinatura do software ou do agente de IA", ok: true },
+  "Fintech": { modelo: "Comissão ou assinatura sobre a plataforma", ok: true },
+  "Mídia e conteúdo": { modelo: "Assinatura e licença do conteúdo", ok: true },
+  "Eventos e experiências": { modelo: "Produzir e operar eventos", ok: false, virada: "Vender o software ou a licença do formato aos organizadores; o evento vira laboratório e cliente." },
+  "Produtos de consumo": { modelo: "Fabricar e vender o produto", ok: false, virada: "Criar a marca e licenciar a um fabricante; a receita vira royalty." },
+  "Engenharia de produção": { modelo: "Projetos sob medida para cada fábrica", ok: false, virada: "Transformar o projeto em software por assinatura que roda em várias fábricas." }
+};
+const SERVICO = /consultori|ag[eê]ncia|sob medida|servi[cç]o de|terceiriz|freela|m[aã]o de obra|loja f[ií]sica|restaurante|franquia/;
+function reguaLocal(ideia, setor) {
+  const base = REGUA_DO_SETOR[setor] || REGUA_DO_SETOR["Tecnologia e IA"];
+  const ok = base.ok && !SERVICO.test((ideia || "").toLowerCase());
+  return ok
+    ? { modelo: base.modelo, itens: [["crescimento", "premissa", "Provar no piloto que cada cliente novo chega sem custo de venda alto."], ["margem", "premissa", "Software e IA: servir mais um cliente custa pouco."], ["ebitda", "premissa", "Os números do piloto precisam apontar para 50% na maturidade."]], virada: "" }
+    : { modelo: SERVICO.test((ideia || "").toLowerCase()) ? "Serviço feito por gente, cliente a cliente" : base.modelo, itens: [["crescimento", "premissa", "Pode crescer, mas cada cliente novo pede mais gente ou mais estrutura."], ["margem", "nao", "Custo cresce junto com a receita."], ["ebitda", "nao", "Esse modelo não chega a 50% de EBITDA."]], virada: base.virada || "Empacotar o que se repete em software ou licença; o serviço vira canal." };
+}
+const reguaDe = r => r.regua || reguaLocal(r.ideia, r.setor);
+const reguaNaoCabe = r => reguaDe(r).itens.some(i => i[1] === "nao");
 const SETOR_DE = [
   [/pag|banc|cr[eé]dit|carteira|pix|financ|dinheiro|cashback|seguro|invest/, "Fintech"],
   [/f[aá]brica|ind[uú]stri|produ[cç][aã]o|manuten|log[ií]stic|energia|obra|engenh/, "Engenharia de produção"],
@@ -554,17 +591,18 @@ function gerarLocal(ideia) {
     areas: AREAS_DO_SETOR[setor], piloto: "Um cliente da carteira das casas, com um teste de quatro semanas.",
     plano: [["Think", "Entrevistar clientes da carteira e medir o problema."], ["Storm", "Gerar três caminhos e escolher um com a banca da casa."], ["Make", "Protótipo funcionando com um cliente real."], ["Scale", "Levar ao mercado nacional com a marca e os parceiros das casas."]],
     pitch: `${nome}: ${ideia.trim().charAt(0).toLowerCase() + ideia.trim().slice(1)}.`,
-    banca: [["Hoffmann", 7, "Quero ver onde isso encosta nos nossos clientes."], ["CHOSING", 8, "Dá para ter um protótipo rápido."], ["Investidor convidado", 7, "Bom começo; falta provar demanda."]]
+    banca: [["Hoffmann", 7, "Quero ver onde isso encosta nos nossos clientes."], ["CHOSING", 8, "Dá para ter um protótipo rápido."], ["Investidor convidado", 7, "Bom começo; falta provar demanda."]],
+    regua: reguaLocal(ideia, setor)
   };
 }
 
 // ---------- Storm Room ----------
 const STARTUPS = [
-  { nome: "Intérprete IA", setor: "Eventos", pitch: "Tradução simultânea híbrida: IA para os idiomas de menor demanda, intérprete humano nos principais.", pede: ["Palco e eventos da Hoffmann para pilotar", "Engenharia de voz da CHOSING", "Capital para o primeiro ano"] },
-  { nome: "Fila Zero", setor: "Fintech", pitch: "Carteira do evento: pagamento, cashback e retirada sem fila para o público e os fornecedores.", pede: ["Acesso aos eventos da carteira", "Parceria com os bares", "Capital por equity"] },
-  { nome: "Fábrica Inteligente", setor: "Engenharia de produção", pitch: "IA que planeja a produção e prevê manutenção, começando por indústrias clientes das casas.", pede: ["Duas indústrias para o piloto", "Sala de Engenharia", "Capital para sensores"] },
-  { nome: "Corte ao Vivo", setor: "Mídia", pitch: "Cortes de vídeo prontos para as redes poucos minutos depois de cada palestra.", pede: ["Studio e Social Media da casa", "Transmissão da Hoffmann", "Só estrutura, sem capital"] },
-  { nome: "Raio", setor: "Consumo", pitch: "Bebida funcional para quem cria até tarde, lançada e ajustada ao vivo num festival.", pede: ["Palco para o lançamento", "Áreas de Criação e Style", "Capital para o lote piloto"] }
+  { nome: "Intérprete IA", setor: "Eventos", pitch: "Tradução simultânea híbrida: IA para os idiomas de menor demanda, intérprete humano nos principais.", pede: ["Palco e eventos da Hoffmann para pilotar", "Engenharia de voz da CHOSING", "Capital para o primeiro ano"], regua: ["premissa", "licença da plataforma por evento"] },
+  { nome: "Fila Zero", setor: "Fintech", pitch: "Carteira do evento: pagamento, cashback e retirada sem fila para o público e os fornecedores.", pede: ["Acesso aos eventos da carteira", "Parceria com os bares", "Capital por equity"], regua: ["cabe", "comissão sobre a plataforma"] },
+  { nome: "Fábrica Inteligente", setor: "Engenharia de produção", pitch: "IA que planeja a produção e prevê manutenção, começando por indústrias clientes das casas.", pede: ["Duas indústrias para o piloto", "Sala de Engenharia", "Capital para sensores"], regua: ["cabe", "software por assinatura em várias fábricas"] },
+  { nome: "Corte ao Vivo", setor: "Mídia", pitch: "Cortes de vídeo prontos para as redes poucos minutos depois de cada palestra.", pede: ["Studio e Social Media da casa", "Transmissão da Hoffmann", "Só estrutura, sem capital"], regua: ["premissa", "assinatura, se o corte for automático"] },
+  { nome: "Raio", setor: "Consumo", pitch: "Bebida funcional para quem cria até tarde, lançada e ajustada ao vivo num festival.", pede: ["Palco para o lançamento", "Áreas de Criação e Style", "Capital para o lote piloto"], regua: ["nao", "só cabe se virar licença de marca"] }
 ];
 const JURADOS = [["H", "h", "Hoffmann"], ["C", "c", "CHOSING"], ["I", "i", "Investidor"]];
 
@@ -723,8 +761,9 @@ const CAPS = [
   { p: "O hub", t: "Três camadas", h: () => `<span class="olho">O hub de inteligência · toque para abrir</span><h3 class="st-t">Três camadas que transformam <em>ideia em liderança.</em></h3>${blocos([["Inteligência", "Pesquisa, dados e IA para entender cada mercado antes de entrar: quem lidera, por quê e onde está a brecha."], ["Criação", "As áreas da casa, do estúdio à engenharia de produção, transformam a brecha em produto, marca e experiência."], ["Escala", "Hoffmann, CHOSING e parceiros levam ao mercado o que nasce aqui, com clientes, estrutura e marca.", 1]], "acc")}<p class="st-p">Não é um coworking nem uma aceleradora. É onde se fabrica liderança.</p>` },
   { p: "O hub", t: "Seis frentes", h: () => `<span class="olho">Onde vamos competir · toque numa frente</span><h3 class="st-t">Seis frentes para começar, <em>sem limite de setor.</em></h3>${blocos([["Fintech", "Pagamento, crédito e conta para quem as casas já atendem. Ex.: a carteira da experiência para eventos.", 1], ["Produtos de consumo", "Criados com dados de público e testados em eventos reais. Ex.: um produto lançado no palco."], ["Engenharia de produção", "Processos, automação e IA para fábricas. Ex.: a fábrica inteligente."], ["Tecnologia e IA", "Agentes, plataformas e sistemas para empresas e governo, com a CHOSING."], ["Eventos e experiências", "O mercado que a Hoffmann já lidera, com novos formatos. Ex.: o Intérprete IA."], ["Mídia e conteúdo", "Estúdio, transmissão, séries e podcasts próprios."]], "acc")}` },
   { p: "O hub", t: "O método", h: () => `<span class="olho">O método · toque em cada tempo</span><h3 class="st-t">Think, Storm, Make, Scale.</h3><div class="fase-st" id="metodo-st">${["Think", "Storm", "Make", "Scale"].map((m, i) => `<button data-metodo="${i}" aria-pressed="${!i}">${m}</button>`).join("")}</div><div class="bloco y" id="metodo-txt"></div><p class="st-p">Exemplo real da proposta: o Intérprete IA, tradução simultânea híbrida.</p><div class="bloco" id="metodo-ex"></div>` },
+  { p: "O hub", t: "A régua", h: () => `<span class="olho">A régua de toda empresa criada</span><h3 class="st-t">Toda empresa nasce para crescer 40% <em>e ficar com 50%.</em></h3><div class="regua-nums"><div><b>40%</b><span>crescimento ao ano</span></div><div><b>40%</b><span>margem EBITDA para entrar</span></div><div><b>50%</b><span>EBITDA para ficar</span></div></div>${blocos([["Passa", "Software, IA, plataforma, licença, dados: receita recorrente e custo baixo para servir mais um cliente.", 1], ["Vira cliente ou laboratório", "Serviço sob medida, eventos, indústria e varejo físico. Ou muda de modelo: a bebida vira licença de marca, o projeto vira software."], ["Um portão em cada tempo", "Think no papel, Storm e Make no piloto, Scale com dois trimestres acima de 50%."]])}<span class="mono">critério de desenho, não promessa de resultado</span>` },
   { p: "O hub", t: "Quinze áreas", f: 8, h: () => `<span class="olho">Quinze áreas, uma casa</span><h3 class="st-t">Onze de criação, <em>quatro motores.</em></h3><div class="areas">${AREAS.map(([k, n, s]) => `<div class="area ${["TEC", "SOC", "ENG"].includes(k) ? "y" : ""}">${n}<small>${s}</small></div>`).join("")}</div><p class="st-p">Tecnologia é a fonte de receita que lidera. Engenharia de produção e Social Media são as áreas novas.</p>` },
-  { p: "A incubadora", t: "Storm Room", f: 5, h: () => `<span class="olho">A incubadora · no estilo Shark Tank e Dragon's Den</span><h3 class="st-t">Storm Room: o palco onde as ideias <em>pedem investimento.</em></h3>${blocos([["Pitch, banca, decisão", "Fundadores apresentam no palco; Hoffmann, CHOSING e investidores decidem na hora."], ["Smart money", "A casa cede espaço, estrutura, fornecedores e conexões. Um fundo do Thinkstorm investe capital por equity.", 1]])}<button class="btn" data-sair-para="room">Ver uma edição do Storm Room</button>` },
+  { p: "A incubadora", t: "Storm Room", f: 5, h: () => `<span class="olho">A incubadora · no estilo Shark Tank e Dragon's Den</span><h3 class="st-t">Storm Room: o palco onde as ideias <em>pedem investimento.</em></h3>${blocos([["Pitch, banca, decisão", "Fundadores apresentam no palco; Hoffmann, CHOSING e investidores decidem na hora, pela régua 40/40/50."], ["Smart money", "A casa cede espaço, estrutura, fornecedores e conexões. Um fundo do Thinkstorm investe capital por equity.", 1]])}<button class="btn" data-sair-para="room">Ver uma edição do Storm Room</button>` },
   { p: "A incubadora", t: "A Storm", f: 7, h: () => `<span class="olho">A IA da casa</span><h3 class="st-t">Storm: a casa inteira <em>obedece a uma conversa.</em></h3>${blocos([["“Joga a abertura no telão grande.”"], ["“Modo palestra.”"], ["“Quando eu disser hora do café, acende a copa.”", "Ela aprende comandos novos e lembra.", 1]])}<button class="btn" data-sair-para="casa">Experimentar na casa</button>` },
   { p: "O que já existe", t: "A Hoffmann", f: 5, h: () => `<span class="olho">O que já existe · Hoffmann</span><h3 class="st-t">Mais de 40 anos fazendo <em>o impossível acontecer ao vivo.</em></h3><div class="num"><div><b data-conta="35000" data-mais="1">0</b><span>eventos realizados</span></div><div><b data-conta="1983">0</b><span>fundada no Rio</span></div><div><b data-conta="150" data-mais="1">0</b><span>colaboradores diretos</span></div><div><b data-conta="20">0</b><span>hotéis com operação própria</span></div></div><div class="marcos">${["Rio-92", "Rio+20", "JMJ 2013", "Rio 2016", "G20 Rio 2024", "COP-30 2025"].map(m => `<span class="chip">${m}</span>`).join("")}</div>${blocos([["Habilidades que o hub usa", "Engenharia audiovisual, interpretação simultânea, estúdios e transmissão, palco e operação em grande escala, Hoffmann Academy."]])}<span class="mono">Fonte: hoffmann.com</span>` },
   { p: "O que já existe", t: "A CHOSING e o que já fizemos", f: 6, h: () => `<span class="olho">O que já existe · CHOSING© DEPT.</span><h3 class="st-t">Engenharia com IA, <em>na velocidade do hub.</em></h3><p class="st-p">Para este projeto, em dois dias de trabalho:</p>${blocos([["Proposta e pitch", "Dois decks completos, com marca oficial, imagens e PDFs."], ["Storm, a IA da casa", "Opera luz, som, telões e clima por conversa, e aprende comandos."], ["storm-api", "A ponte com os equipamentos: PJLink, Art-Net, Home Assistant e Q-SYS, com testes automáticos."], ["Este app", "Laboratório de ideias com IA, Storm Room, a casa e a rede.", 1]])}<p class="st-p">Imagine o que a casa faz com um time inteiro.</p>` },
@@ -736,7 +775,7 @@ const CAPS = [
   { p: "O caminho", t: "Juntos", f: 12, h: () => `<span class="olho">Thinkstorm · Hoffmann × CHOSING© DEPT.</span><span class="st-g">Acreditamos que é possível chegar lá juntos.</span><p class="st-p">Criar ideias e torná-las realidade.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button class="btn sec" data-reiniciar>Rever</button><button class="btn" data-sair-para="lab">Testar uma ideia</button></div>` }
 ];
 const METODO = [["Think · entender", "Dados, pesquisa e quem sabe muito do mercado, numa mesa redonda.", "Mapear os congressos da carteira da Hoffmann e os idiomas mais pedidos."], ["Storm · gerar", "Brainstorm sem limite, cruzando as áreas e os setores da casa.", "Desenhar o modelo híbrido: IA nos idiomas de menor demanda, intérprete humano nos principais."], ["Make · fazer", "Protótipo, teste e piloto com a estrutura da Hoffmann e a engenharia da CHOSING.", "Piloto num congresso real, com pesquisa de qualidade."], ["Scale · escalar", "Levar ao Brasil com os clientes, a marca e os parceiros das casas.", "Vender como serviço para a rede de hotéis e eventos."]];
-const ROTA = [["Fase 1 · Abrir a casa", "Primeira turma, as áreas escolhidas funcionando e os primeiros pilotos.", "Segue quando: os pilotos têm clientes pagando."], ["Fase 2 · Provar", "Primeiros produtos em mercados novos: fintech, consumo e engenharia de produção.", "Segue quando: um produto cresce fora da carteira das casas."], ["Fase 3 · Multiplicar", "Empresas nascidas no hub e líderes de outros setores como parceiros fixos.", "Segue quando: a casa atrai parceiros sem precisar buscar."], ["Fase 4 · Liderar", "Referência nacional em inovação, com casas no Rio de Janeiro e em São Paulo.", "Sem teto."]];
+const ROTA = [["Fase 1 · Abrir a casa", "Primeira turma, as áreas escolhidas funcionando e os primeiros pilotos.", "Segue quando: os pilotos têm clientes pagando."], ["Fase 2 · Provar", "Primeiros produtos em mercados novos: fintech, consumo e engenharia de produção.", "Segue quando: um produto cresce fora da carteira das casas, dentro da régua 40/40/50."], ["Fase 3 · Multiplicar", "Empresas nascidas no hub e líderes de outros setores como parceiros fixos.", "Segue quando: a casa atrai parceiros sem precisar buscar."], ["Fase 4 · Liderar", "Referência nacional em inovação, com casas no Rio de Janeiro e em São Paulo.", "Sem teto."]];
 function painelProjeto() {
   const partes = [...new Set(CAPS.map(c => c.p))];
   return `<div class="capa-proj"><img src="${F(2)}" alt="Salão central do Thinkstorm"><span class="olho">Ideia inicial para a Hoffmann</span><h2>O projeto inteiro, em ${CAPS.length} capítulos.</h2><p class="sub" style="color:#CFCFCF">Toque para seguir, deslize para voltar. Com as imagens do espaço e o que as casas já sabem fazer.</p><button class="btn" data-cap="0">Assistir à apresentação</button></div>
@@ -905,7 +944,7 @@ async function rodarIdeia(ideia) {
   $("#processo").innerHTML = "";
   mostrarResultado(ultimoResultado);
 }
-const ABAS_DOS = [["mercado", "Mercado"], ["prototipo", "Protótipo"], ["casa", "Casa"], ["plano", "Plano"], ["banca", "Banca"]];
+const ABAS_DOS = [["mercado", "Mercado"], ["prototipo", "Protótipo"], ["casa", "Casa"], ["plano", "Plano"], ["regua", "Régua"], ["banca", "Banca"]];
 let abaDos = "mercado", telaMock = -1;
 function mostrarResultado(r) {
   abaDos = "mercado"; telaMock = -1;
@@ -936,16 +975,25 @@ function desenharDos() {
   }
   if (abaDos === "casa") h = `<div class="cartao"><div class="cab"><span class="olho">Storm · as áreas que trabalham</span><span class="mono">peso 1 a 5</span></div><div class="barras">${r.areas.map(([k, p2, papel]) => `<div class="barra"><span>${esc(AREA[k])}</span><span class="tr"><i data-w="${p2 * 20}"></i></span><small>${esc(papel)}</small></div>`).join("")}</div><button class="btn sec" id="ver-planta">Acender essas salas na planta</button></div>`;
   if (abaDos === "plano") h = `<div class="cartao"><span class="olho">Scale · 90 dias</span><ol class="linha-tempo">${r.plano.map(([a, b], i) => `<li class="${i === 3 ? "fim" : ""}"><b>${esc(a)}</b><span>${esc(b)}</span></li>`).join("")}</ol><div class="linha"><span>piloto</span><span>${esc(r.piloto)}</span></div></div>`;
+  if (abaDos === "regua") {
+    const g = reguaDe(r);
+    h = `<div class="cartao"><span class="olho">Régua 40/40/50 · toda empresa do hub nasce para ela</span>
+      <div class="regua-nums">${REGUA_CRIT.map(([, n, v]) => `<div><b>${v.slice(0, 3)}</b><span>${esc(n)} · ${esc(v.slice(4))}</span></div>`).join("")}</div>
+      <div class="linha"><span>modelo</span><span>${esc(g.modelo)}</span></div>
+      ${g.itens.map(([k, e, m]) => `<div class="criterio" data-criterio="${k}"><b>${esc((REGUA_CRIT.find(c => c[0] === k) || [, k])[1])}</b><span class="estado ${e}">${ESTADO[e] || e}</span><p>${esc(m)}</p></div>`).join("")}
+      ${g.virada ? `<div class="virada" id="virada"><b>A virada.</b> ${esc(g.virada)}</div>` : ""}
+      <span class="mono">critério de desenho, não promessa de resultado</span></div>`;
+  }
   if (abaDos === "banca") {
-    const m = +media(r);
+    const m = +media(r), fora = reguaNaoCabe(r), sim = m >= 7.5 && !fora;
     h = `<div class="cartao"><p class="pitch">“${esc(r.pitch)}”</p>${r.banca.map(([q, n, c]) => `<div class="jurado"><span class="av ${avc[q] || "i"}">${esc(q[0])}</span><div><b>${esc(q)}</b><p>${esc(c)}</p><span class="tr nota-tr"><i data-w="${n * 10}"></i></span></div><span class="nota">${n}</span></div>`).join("")}
-      <div class="veredito ${m >= 7.5 ? "sim" : ""}"><b>${m >= 7.5 ? "Pronta para o Storm Room" : "Vale ajustar antes do palco"}</b><span class="mono">média ${m.toFixed(1)}</span></div></div>`;
+      <div class="veredito ${sim ? "sim" : ""}"><b>${sim ? "Pronta para o Storm Room" : fora ? "Ajustar o modelo para a régua 40/40/50" : "Vale ajustar antes do palco"}</b><span class="mono">média ${m.toFixed(1)}</span></div></div>`;
   }
   p.innerHTML = h; p.classList.remove("revela"); void p.offsetWidth; p.classList.add("revela");
   p.querySelectorAll("[data-w]").forEach(el => requestAnimationFrame(() => requestAnimationFrame(() => el.style.width = el.dataset.w + "%")));
 }
 function resumoTexto(r) {
-  return `${r.nome} · ${r.slogan}\nFrente: ${r.setor}\nProblema: ${r.problema}\nPúblico: ${r.publico}\nPor que agora: ${r.porque_agora}\nProtótipo: ${r.mvp.funcoes.join("; ")}\nÁreas: ${r.areas.map(a => AREA[a[0]]).join(", ")}\nPlano: ${r.plano.map(p => p[0] + ": " + p[1]).join(" | ")}\nPitch: ${r.pitch}\nBanca: ${media(r)}\n— Thinkstorm App`;
+  return `${r.nome} · ${r.slogan}\nFrente: ${r.setor}\nProblema: ${r.problema}\nPúblico: ${r.publico}\nPor que agora: ${r.porque_agora}\nProtótipo: ${r.mvp.funcoes.join("; ")}\nÁreas: ${r.areas.map(a => AREA[a[0]]).join(", ")}\nPlano: ${r.plano.map(p => p[0] + ": " + p[1]).join(" | ")}\nPitch: ${r.pitch}\nRégua 40/40/50: ${reguaDe(r).itens.map(i => i[0] + " " + (ESTADO[i[1]] || i[1])).join(", ")}${reguaDe(r).virada ? " · virada: " + reguaDe(r).virada : ""}\nBanca: ${media(r)}\n— Thinkstorm App`;
 }
 function novaIdeia() { ultimoResultado = null; $("#resultado").innerHTML = ""; $("#processo").innerHTML = ""; $("#como").hidden = false; $("#ideia").value = ""; $("#conta-ideia").textContent = "0/600"; $("#t-lab").scrollTo({ top: 0, behavior: quieto ? "auto" : "smooth" }); $("#ideia").focus({ preventScroll: true }); }
 
@@ -963,7 +1011,9 @@ Formato exato:
 "areas": [["código da área", peso 1 a 5, "papel em até 4 palavras"]] com 6 itens, códigos válidos: ${AREAS.map(a => a[0]).join(", ")},
 "piloto": "1 frase", "plano": [["Think","ação"],["Storm","ação"],["Make","ação"],["Scale","ação"]],
 "pitch": "1 frase de efeito",
-"banca": [["Hoffmann", nota, "comentário curto"], ["CHOSING", nota, "comentário curto"], ["Investidor convidado", nota, "comentário curto"]]}`;
+"banca": [["Hoffmann", nota, "comentário curto"], ["CHOSING", nota, "comentário curto"], ["Investidor convidado", nota, "comentário curto"]],
+"regua": {"modelo": "modelo de receita em 1 frase", "itens": [["crescimento", "cabe|premissa|nao", "motivo em 1 frase"], ["margem", "cabe|premissa|nao", "motivo"], ["ebitda", "cabe|premissa|nao", "motivo"]], "virada": "se algum item for nao: a mudança de modelo que faria caber, em 1 frase; senão vazio"}}
+Régua 40/40/50: julgue o modelo de negócio, não invente números. crescimento = consegue crescer 40% ao ano; margem = margem EBITDA de 40% para entrar; ebitda = 50% na maturidade. Software, IA, plataforma, licença e dados tendem a caber; serviço feito por gente, eventos, indústria e varejo físico tendem a não caber. Use "premissa" quando depender do piloto. A banca não dá nota alta a ideia que não cabe.`;
   return sample.json(prompt, { modelTier: "quick", cache: false });
 }
 function normalizar(r, ideia) {
@@ -978,8 +1028,19 @@ function normalizar(r, ideia) {
     nome: txt(r.nome, base.nome).slice(0, 28), slogan: txt(r.slogan, base.slogan), cor, setor: FRENTES.includes(r.setor) ? r.setor : base.setor,
     problema: txt(r.problema, base.problema), publico: txt(r.publico, base.publico), porque_agora: txt(r.porque_agora, base.porque_agora),
     mvp: { titulo: txt(r.mvp?.titulo, base.mvp.titulo).slice(0, 24), funcoes: f.length === 3 ? f : base.mvp.funcoes, cta: txt(r.mvp?.cta, base.mvp.cta).slice(0, 22) },
-    areas: areas.length >= 4 ? areas : base.areas, piloto: txt(r.piloto, base.piloto), plano, pitch: txt(r.pitch, base.pitch), banca
+    areas: areas.length >= 4 ? areas : base.areas, piloto: txt(r.piloto, base.piloto), plano, pitch: txt(r.pitch, base.pitch), banca,
+    regua: normalizarRegua(r.regua, base.regua)
   };
+}
+function normalizarRegua(g, base) {
+  if (!g || typeof g !== "object" || !Array.isArray(g.itens)) return base;
+  const itens = REGUA_CRIT.map(([k], i) => {
+    const it = g.itens.find(x => Array.isArray(x) && x[0] === k) || g.itens[i];
+    const e = Array.isArray(it) && ESTADO[it[1]] ? it[1] : base.itens[i][1];
+    return [k, e, Array.isArray(it) && typeof it[2] === "string" && it[2].trim() ? it[2].trim().slice(0, 200) : base.itens[i][2]];
+  });
+  const virada = typeof g.virada === "string" ? g.virada.trim().slice(0, 240) : "";
+  return { modelo: typeof g.modelo === "string" && g.modelo.trim() ? g.modelo.trim().slice(0, 120) : base.modelo, itens, virada: itens.some(i => i[1] === "nao") ? (virada || base.virada || "Empacotar o que se repete em software ou licença.") : virada };
 }
 // ---------- Storm Room ----------
 const BANCA_PADRAO = {
@@ -1011,8 +1072,8 @@ function telaRoom() {
 function cartaoStartup(s, topo) {
   return `<article class="startup ${topo ? "" : "atras"}" ${topo ? 'id="topo"' : ""} aria-label="${esc(s.nome)}">
     <span class="carimbo sim">INVESTE</span><span class="carimbo nao">PASSA</span>
-    <div class="chips"><span class="chip">${esc(s.setor)}</span>${s.sua ? '<span class="chip y">Sua ideia</span>' : ""}</div>
-    <h3>${esc(s.nome)}</h3><p class="sub" style="font-size:15px;color:#D6D6D6">${esc(s.pitch)}</p>
+    <div class="chips"><span class="chip">${esc(s.setor)}</span>${s.sua ? '<span class="chip y">Sua ideia</span>' : ""}${s.regua ? `<span class="estado ${s.regua[0]}" data-regua="${s.regua[0]}">régua 40/40/50: ${ESTADO[s.regua[0]]}</span>` : ""}</div>
+    <h3>${esc(s.nome)}</h3><p class="sub" style="font-size:15px;color:#D6D6D6">${esc(s.pitch)}</p>${s.regua ? `<p class="mono" style="margin:0">${esc(s.regua[1])}</p>` : ""}
     <div class="pede"><span class="olho" style="color:var(--muted)">O que pede à casa</span><div class="chips">${s.pede.map(p => `<span class="chip">${esc(p)}</span>`).join("")}</div></div></article>`;
 }
 async function mostrarBanca(direto) {
@@ -1065,7 +1126,7 @@ function raios() {
 function levarAoRoom() {
   const r = ultimoResultado; if (!r) return;
   deck = deck.filter(s => s.nome !== r.nome);
-  deck.unshift({ nome: r.nome, setor: r.setor, pitch: r.pitch, pede: ["Áreas: " + r.areas.slice(0, 2).map(a => AREA[a[0]]).join(" e "), "Piloto na carteira das casas", "Capital por equity"], banca: r.banca, sua: true });
+  deck.unshift({ nome: r.nome, setor: r.setor, pitch: r.pitch, pede: ["Áreas: " + r.areas.slice(0, 2).map(a => AREA[a[0]]).join(" e "), "Piloto na carteira das casas", "Capital por equity"], banca: r.banca, sua: true, regua: reguaNaoCabe(r) ? ["nao", reguaDe(r).virada || "mudar o modelo"] : [reguaDe(r).itens.every(i => i[1] === "cabe") ? "cabe" : "premissa", reguaDe(r).modelo] });
   decisoes = decisoes.filter(d => d.nome !== r.nome); fasePitch = "pitch";
   telaRoom(); irPara("room"); toast(`${r.nome} subiu ao palco`);
 }
