@@ -323,7 +323,7 @@ button.chip:active { transform: scale(.97) }
 .g-cho { background: var(--chos); color: #111 }
 .g-ts { background: var(--y); color: var(--ink) }
 #st-pausa { font-size: 13px }
-.foto-sala { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 16px; margin-bottom: 10px; animation: sobe .35s both }
+.foto-sala { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 16px; margin-bottom: 10px; animation: sobe .35s both; transition: filter .35s ease }
 .story:has(.sl.t-amarelo) .nav-st button.ir { background: var(--ink); color: var(--y); border-color: var(--ink) }
 .story:has(.sl.t-amarelo) .story-top { background: linear-gradient(180deg, rgba(120,90,10,.35), transparent) }
 .story:has(.sl.t-amarelo) .story-cab span { color: #3d3210 }
@@ -1275,6 +1275,7 @@ function pintar() {
   });
   const acesas = SALAS.filter(([n]) => (luz[n] ?? 0) > 0).length;
   const st = $("#status-casa"); if (st) st.innerHTML = `<span><b>${acesas}</b> de ${SALAS.length} ambientes com luz</span><span>cena: <b>${esc(CENAS[cenaAtual]?.nome || "personalizada")}</b></span>`;
+  luzFoto();
 }
 async function aplicarCena(k, silencio) {
   if (!CENAS[k]) return;
@@ -1286,16 +1287,19 @@ async function aplicarCena(k, silencio) {
   infoSala(); if (!silencio) toast(`Cena “${c.nome}” aplicada`);
 }
 const FOTO_SALA = { "Studio": "studio", "Social Media": "social-media", "CHOSING": "tecnologia", "Hoffmann Lab": "eventos", "Sala do parceiro": "sala-parceiro", "Produção": "producao", "Áudio": "audio", "Copa": "copa", "Academy": "academy", "Servidores": "servidores", "Recepção": "recepcao", "Negócios": "negocios", "Marketing": "marketing", "Visual": "visual", "Style": "style", "Arte": "arte", "Criação": "criacao", "Inteligência": "inteligencia", "Engenharia": "engenharia", "Salão central": "salao", "Incubadora": "incubadora" };
+// A foto da sala acompanha o dimmer: apagada fica no escuro (só a luz da cidade), 100% clareia por inteiro.
+function filtroLuz(v) { return `brightness(${(0.14 + 0.96 * v).toFixed(2)}) saturate(${(0.45 + 0.6 * v).toFixed(2)})`; }
+function luzFoto() { const f = $("#foto-sala"); if (f) f.style.filter = filtroLuz(luz[salaSel] ?? 0); }
 function infoSala() {
   const el = $("#info-sala"); if (!el) return;
   const v = Math.round((luz[salaSel] ?? 0) * 100);
   const area = Object.entries(SALA_DA_AREA).find(([, s]) => s === salaSel);
   const foto = FOTO_SALA[salaSel];
-  el.innerHTML = (foto ? `<img class="foto-sala" src="${F(foto)}" alt="Imagem conceitual: ${esc(salaSel)}" loading="lazy">` : "") + `<div class="cab"><h3 class="t2">${esc(salaSel)}</h3><span class="mono">${area ? "área " + area[0] : "ambiente"}</span></div>
+  el.innerHTML = (foto ? `<img class="foto-sala" id="foto-sala" src="${F(foto)}" alt="Imagem conceitual: ${esc(salaSel)}" loading="lazy" style="filter:${filtroLuz(v / 100)}">` : "") + `<div class="cab"><h3 class="t2">${esc(salaSel)}</h3><span class="mono">${area ? "área " + area[0] : "ambiente"}</span></div>
     <p class="sub">${esc(SOBRE_SALA[salaSel] || "Uma das salas da casa, ligada a uma área do hub.")}</p>
     <div class="luz-ctl"><span class="mono">luz</span><input type="range" id="luz-sala" min="0" max="100" step="5" value="${v}" aria-label="Luz de ${esc(salaSel)}"><b id="luz-val">${v}%</b></div>
     <div class="dupla"><button class="btn sec" data-luz="0">Apagar</button><button class="btn" data-luz="100">Acender</button></div>`;
-  $("#luz-sala").addEventListener("input", e => { luz[salaSel] = +e.target.value / 100; cenaAtual = "livre"; $("#luz-val").textContent = e.target.value + "%"; pintar(); document.querySelectorAll(".cena").forEach(b => b.classList.remove("on")); });
+  $("#luz-sala").addEventListener("input", e => { luz[salaSel] = +e.target.value / 100; cenaAtual = "livre"; $("#luz-val").textContent = e.target.value + "%"; pintar(); luzFoto(); document.querySelectorAll(".cena").forEach(b => b.classList.remove("on")); });
 }
 function marcarSalas(nomes, titulo) {
   destaque = { salas: nomes, titulo };
