@@ -3,12 +3,13 @@
 <meta name="theme-color" content="#0A0A0B">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: no celular, o app ocupa a tela inteira com barra de abas embaixo; no computador, o app fica num aparelho à esquerda e o convite para abrir no celular à direita. */
 :root {
   --bg: #0A0A0B; --s1: #141416; --s2: #1D1D20; --s3: #28282C; --line: #2E2E33;
   --fg: #F2F2F0; --muted: #9B9B9F; --dim: #6C6C72;
+  --hoff: #E8112D; --tik1: #25F4EE; --tik2: #FE2C55; --chos: #EFEAE0;
   --y: #FFCC4E; --y2: #FFE29A; --ink: #111112; --good: #7FD89B; --bad: #FF8A7A;
   --display: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
   --body: "Inter", "Helvetica Neue", Arial, sans-serif;
@@ -273,7 +274,60 @@ button.chip:active { transform: scale(.97) }
 .barras-st { display: flex; gap: 3px }
 .barras-st i { flex: 1; height: 3px; border-radius: 3px; background: rgba(255,255,255,.22); overflow: hidden; position: relative }
 .barras-st i.feito { background: var(--fg) }
-.barras-st i.atual { background: var(--y) }
+.barras-st i.atual { background: rgba(255,255,255,.22) }
+.barras-st i.atual::after { content: ""; position: absolute; inset: 0; background: var(--y); transform-origin: left; transform: scaleX(0); animation: enche var(--dur, 8s) linear forwards }
+.story.pausado .barras-st i.atual::after { animation-play-state: paused }
+@keyframes enche { to { transform: scaleX(1) } }
+/* temas por marca: amarelo Thinkstorm, vermelho Hoffmann, ciano e rosa TikTok, creme CHOSING */
+.sl.t-amarelo { background: var(--y); color: var(--ink) }
+.sl.t-amarelo .olho, .sl.t-amarelo .st-g, .sl.t-amarelo .mono { color: var(--ink) }
+.sl.t-amarelo .st-t em { color: var(--ink); background: rgba(17,17,18,.1); border-radius: 8px; padding: 0 4px }
+.sl.t-amarelo .st-p { color: #3d3210 }
+.sl.t-amarelo .bloco { background: rgba(17,17,18,.06); border-color: rgba(17,17,18,.18) }
+.sl.t-amarelo .bloco p { color: #3d3210 }
+.sl.t-amarelo .bloco.y { background: var(--ink); color: var(--y); border-color: var(--ink) }
+.sl.t-amarelo .bloco.y p { color: #E9D9A6 }
+.sl.t-hoff { background: radial-gradient(120% 70% at 100% 0%, rgba(232,17,45,.38), transparent 62%), #0B0B0D; font-family: Poppins, var(--sans, Inter), sans-serif }
+.sl.t-hoff .olho, .sl.t-hoff .st-t em, .sl.t-hoff .num b { color: var(--hoff) }
+.sl.t-hoff .bloco.y { background: var(--hoff); color: #fff; border-color: var(--hoff) }
+.sl.t-hoff .bloco.y p { color: #FFE3E7 }
+.sl.t-tik { background: radial-gradient(90% 55% at 0% 0%, rgba(37,244,238,.26), transparent 60%), radial-gradient(90% 55% at 100% 100%, rgba(254,44,85,.32), transparent 60%), #000 }
+.sl.t-tik .olho { color: var(--tik1) }
+.sl.t-tik .st-t em { background: linear-gradient(90deg, var(--tik1), var(--tik2)); -webkit-background-clip: text; background-clip: text; color: transparent }
+.sl.t-tik .bloco.y { background: linear-gradient(135deg, var(--tik1), var(--tik2)); color: #000; border: 0 }
+.sl.t-tik .bloco.y p { color: #161616 }
+.sl.t-cho { background: #0B0B0A }
+.sl.t-cho .olho, .sl.t-cho .st-t em { color: var(--chos) }
+.sl.t-cho .bloco.y { background: var(--chos); color: #111; border-color: var(--chos) }
+.sl.t-cho .bloco.y p { color: #3a3a36 }
+.sl.foto.t-hoff, .sl.foto.t-tik, .sl.foto.t-cho, .sl.foto.t-amarelo { background: #050505 }
+.tags { display: flex; flex-wrap: wrap; gap: 6px }
+.tag { display: inline-flex; align-items: center; padding: 5px 11px; border-radius: 999px; font-size: 12.5px; font-weight: 600 }
+.tag-hoff { background: var(--hoff); color: #fff }
+.tag-tik { background: linear-gradient(90deg, var(--tik1), var(--tik2)); color: #000 }
+.tag-cho { background: var(--chos); color: #111 }
+.tag-ts { background: var(--y); color: var(--ink) }
+.dia { display: flex; flex-direction: column; gap: 6px }
+.dia div { display: grid; grid-template-columns: 44px 1fr 12px; align-items: center; gap: 10px; background: rgba(17,17,18,.07); border-radius: 14px; padding: 10px 12px; animation: sobe .5s both }
+.dia div:nth-child(2) { animation-delay: .5s } .dia div:nth-child(3) { animation-delay: 1s } .dia div:nth-child(4) { animation-delay: 1.5s } .dia div:nth-child(5) { animation-delay: 2s }
+.dia b { font-family: var(--display); font-size: 18px }
+.dia span { font-size: 14px }
+.dia i.tag { width: 12px; height: 12px; padding: 0 }
+.ganhos { display: grid; grid-template-columns: 1fr 1fr; gap: 8px }
+.ganhos > div { border-radius: 18px; padding: 12px; display: flex; flex-direction: column; gap: 4px; animation: sobe .5s both }
+.ganhos > div:nth-child(2) { animation-delay: .15s } .ganhos > div:nth-child(3) { animation-delay: .3s } .ganhos > div:nth-child(4) { animation-delay: .45s }
+.ganhos b { font-family: var(--display); font-size: 17px }
+.ganhos p { font-size: 12.5px; line-height: 1.35 }
+.g-hoff { background: var(--hoff); color: #fff } .g-hoff p { color: #FFE3E7 }
+.g-tik { background: linear-gradient(135deg, var(--tik1), var(--tik2)); color: #000 }
+.g-cho { background: var(--chos); color: #111 }
+.g-ts { background: var(--y); color: var(--ink) }
+#st-pausa { font-size: 13px }
+.foto-sala { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 16px; margin-bottom: 10px; animation: sobe .35s both }
+.story:has(.sl.t-amarelo) .nav-st button.ir { background: var(--ink); color: var(--y); border-color: var(--ink) }
+.story:has(.sl.t-amarelo) .story-top { background: linear-gradient(180deg, rgba(120,90,10,.35), transparent) }
+.story:has(.sl.t-amarelo) .story-cab span { color: #3d3210 }
+.sl.t-amarelo .tag-ts { background: var(--ink) }
 .story-cab { display: flex; justify-content: space-between; align-items: center; gap: 8px }
 .story-cab span { font-family: var(--mono); font-size: 11px; color: #CFCFCF }
 .story-cab button { border: 0; width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,.12); font-size: 18px; line-height: 1 }
@@ -481,7 +535,7 @@ const AREAS = [
 ];
 const AREA = Object.fromEntries(AREAS.map(a => [a[0], a[1]]));
 const FRENTES = ["Fintech", "Produtos de consumo", "Engenharia de produção", "Tecnologia e IA", "Eventos e experiências", "Mídia e conteúdo"];
-const SOBRE = `O Thinkstorm é um hub de inteligência no Rio de Janeiro: um andar de 808 m² no Centro, proposto pela CHOSING© DEPT. aos donos da Hoffmann. Propósito: criar ideias e torná-las realidade, em qualquer ramo, para disputar a liderança de mercados nacionais. Nome: think (pensar, como num think tank) + storm (a tempestade de ideias de um brainstorm) = um think tank que faz.
+const SOBRE = `O Thinkstorm é um hub de inteligência no Rio de Janeiro: um andar de 732 m² em L no Centro, proposto pela CHOSING© DEPT. aos donos da Hoffmann. Propósito: criar ideias e torná-las realidade, em qualquer ramo, para disputar a liderança de mercados nacionais. Nome: think (pensar, como num think tank) + storm (a tempestade de ideias de um brainstorm) = um think tank que faz.
 Hoffmann: engenharia audiovisual de grandes eventos desde 1983 no Rio, mais de 35 mil eventos, Rio-92, Rio 2016, G20 no MAM Rio e COP-30 em Belém, interpretação simultânea, estúdios, Hoffmann Academy.
 CHOSING© DEPT.: engenharia digital com IA para empresas e governo.
 Três camadas: inteligência (entender o mercado), criação (as áreas da casa), escala (levar ao mercado com clientes e estrutura das casas).
@@ -607,21 +661,28 @@ const STARTUPS = [
 const JURADOS = [["H", "h", "Hoffmann"], ["C", "c", "CHOSING"], ["I", "i", "Investidor"]];
 
 // ---------- Planta e cenas ----------
+// Planta real: MC-160 (Hoffmann), 11º andar, 732 m² em L. Metros da folha: x de 0 a 39,1, z de 0 a 27,42.
+// Mesma geometria de site/src/content/dados.ts e storm-api/src/casa/planta.ts.
+const ANDAR = { x: 39.1, z: 27.42 };
 const SALAS = [
-  ["Áudio", 0, 4.5, 0, 4.5], ["Visual", 4.5, 9.25, 0, 4.5], ["Marketing", 9.25, 14, 0, 4.5], ["WC", 14, 17.5, 0, 4.5], ["Hall", 17.5, 20.5, 0, 4.5], ["WC", 20.5, 24, 0, 4.5],
-  ["Produção", 24, 28, 0, 4.5], ["Arte", 28, 32, 0, 4.5], ["Style", 32, 36, 0, 4.5], ["Inteligência", 0, 4.5, 4.5, 8.98], ["Criação", 0, 4.5, 8.98, 13.47], ["Reunião", 0, 4.5, 13.47, 17.95],
-  ["Academy", 31.5, 36, 4.5, 8.98], ["Negócios", 31.5, 36, 8.98, 13.47], ["Eventos", 31.5, 36, 13.47, 17.95], ["Studio", 0, 6, 17.95, 22.45], ["Social Media", 6, 10, 17.95, 22.45], ["Incubadora", 10, 14, 17.95, 22.45],
-  ["Copa", 14, 22, 17.95, 22.45], ["Engenharia", 22, 26, 17.95, 22.45], ["Servidores", 26, 30, 17.95, 22.45], ["Tecnologia", 30, 36, 17.95, 22.45], ["Salão central", 4.5, 31.5, 4.5, 17.95]
+  ["Studio", 13.84, 20.44, 0, 8.08], ["Banheiro masc.", 20.6, 22.84, 0.2, 7.61], ["Cabine", 24.5, 25.9, 5.4, 7.9], ["Depósito Hoffmann", 26, 29.5, 5.4, 7.9],
+  ["Áudio", 29.6, 33.4, 5.4, 7.9], ["Copa", 26.3, 33.3, 0.1, 5.2], ["Academy", 31.95, 39.1, 7.95, 13.2], ["Servidores", 37.1, 39.1, 13.3, 18.73],
+  ["Recepção", 33.8, 39.1, 18.83, 23.4], ["Negócios", 33.8, 39.1, 23.5, 27.05], ["Hall", 24.6, 33.7, 14.9, 27.42], ["Marketing", 0, 5.25, 8.1, 11.5],
+  ["Visual", 0, 5.25, 11.6, 14.35], ["Style", 0, 5.25, 14.45, 17.63], ["Arte", 0, 5.25, 17.73, 20.73], ["Criação", 0, 5.25, 20.83, 23.92],
+  ["Inteligência", 17.73, 20.17, 22.51, 27.42], ["Social Media", 5.35, 8.45, 20.59, 27.42], ["Sala do parceiro", 8.55, 11.49, 22.51, 27.42], ["Hoffmann Lab", 11.59, 14.53, 22.51, 27.42],
+  ["Produção", 14.63, 17.63, 22.51, 27.42], ["CHOSING", 0, 5.25, 24.02, 27.42], ["Engenharia", 20.27, 22.69, 22.51, 27.42], ["Banheiro fem.", 20, 22.3, 14.5, 20.88],
+  ["Salão central", 5.35, 18.13, 8.1, 20.59], ["Incubadora", 18.22, 31.89, 8.1, 14.8]
 ];
 const SOBRE_SALA = {
-  "Salão central": "Cowork de dia, palco à noite. É aqui que acontece o Storm Room.", "Studio": "Gravação e transmissão, com o LED de fundo.", "Social Media": "Publica o que o Studio grava, ao lado dele.",
-  "Incubadora": "As startups aprovadas no Storm Room trabalham aqui.", "Tecnologia": "O lab da fonte de receita que lidera.", "Servidores": "A Storm roda aqui, com os dados da casa.",
+  "Salão central": "Cowork de dia, palco à noite. É aqui que acontece o Storm Room.", "Studio": "Espaço TikTok: set de LIVE diante do LED, dois sets verticais e videocast.", "Social Media": "Publica o que o Studio grava, ao lado dele.",
+  "Incubadora": "As startups aprovadas no Storm Room trabalham aqui.", "CHOSING": "O escritório da CHOSING, que vem da Barra da Tijuca: daqui saem a Storm, a Fabric e a IA da casa.", "Hoffmann Lab": "A sala da Hoffmann: LED de teste, bancada AV e rack, para o hardware virar produto com IA.", "Sala do parceiro": "Proposta como a sala dedicada do TikTok: equipe, criadores e lojistas.", "Depósito Hoffmann": "O hardware da Hoffmann que gira entre palco, Studio e Academy.", "Cabine": "Cabine de ligação para uma pessoa.", "Negócios": "Comercial e reuniões.", "Servidores": "A Storm roda aqui, com os dados da casa.",
   "Copa": "Onde as pessoas se encontram sem marcar.", "Engenharia": "Engenharia de produção e processos.", "Inteligência": "Dados, pesquisa e IA aplicada.", "Academy": "Cursos, workshops e mentorias."
 };
 const CENAS = {
   bomdia: { nome: "Bom dia", desc: "Persianas abertas, casa clara", luz: () => 0.8 },
   room: { nome: "Storm Room", desc: "Palco aceso, salão em meia luz", luz: n => n === "Salão central" ? 0.35 : ["Studio", "Social Media"].includes(n) ? 0.9 : 0.15 },
   evento: { nome: "Noite de evento", desc: "Salão e copa, o resto apagado", luz: n => ["Salão central", "Copa"].includes(n) ? 0.55 : n === "Servidores" ? 0.3 : 0.05 },
+  live: { nome: "Live do TikTok", desc: "Studio no ar, Social Media e sala do parceiro acesas", luz: n => ["Studio", "Social Media", "Sala do parceiro"].includes(n) ? 0.95 : n === "CHOSING" ? 0.6 : 0.12 },
   fechar: { nome: "Fechar a casa", desc: "Tudo apagado, só os servidores", luz: n => n === "Servidores" ? 0.25 : 0 }
 };
 
@@ -689,7 +750,7 @@ function montar() {
     <form class="pergunta" id="pergunta"><input id="pergunta-txt" autocomplete="off" placeholder="Pergunte ou peça algo" aria-label="Mensagem para a Storm"><button class="btn">Enviar</button></form>
   </div>
   <div class="story" id="story" role="dialog" aria-label="Apresentação do Thinkstorm">
-    <div class="story-top"><div class="barras-st" id="barras-st"></div><div class="story-cab"><span id="cap-nome"></span><button id="st-fecha" aria-label="Fechar a apresentação">×</button></div></div>
+    <div class="story-top"><div class="barras-st" id="barras-st"></div><div class="story-cab"><span id="cap-nome"></span><span style="display:flex;gap:6px"><button id="st-pausa" aria-label="Pausar">❚❚</button><button id="st-fecha" aria-label="Fechar a apresentação">×</button></span></div></div>
     <div class="palco-st" id="palco-st" aria-live="polite"></div>
     <div class="dica" id="dica-st"></div>
     <div class="nav-st"><button id="st-ant" aria-label="Capítulo anterior">←</button><button id="st-prox" class="ir" aria-label="Próximo capítulo">→</button></div>
@@ -712,7 +773,7 @@ function telaInicio() {
   <div class="cab"><h3 class="t2">Agora na casa</h3><span class="mono">simulação</span></div>
   <div class="faixa">
     <div class="vivo"><span class="ponto"><i></i>ao vivo</span><b>Studio gravando o podcast da casa</b><span class="mono">Social Media publica em seguida</span></div>
-    <div class="vivo"><span class="ponto"><i></i>hoje · 19h</span><b>Storm Room: cinco ideias no palco</b><span class="mono">banca: Hoffmann, CHOSING, investidores</span></div>
+    <div class="vivo"><span class="ponto"><i></i>próxima edição · 19h</span><b>Storm Room: cinco ideias no palco</b><span class="mono">banca: Hoffmann, CHOSING, investidores</span></div>
     <div class="vivo"><span class="ponto"><i></i>Make</span><b>Três ideias em protótipo na Incubadora</b><span class="mono">portão: cliente pagando</span></div>
     <div class="vivo"><span class="ponto"><i></i>Storm</span><b>Salão em 60%, ar em 23 °C</b><span class="mono">a casa opera por conversa</span></div>
   </div>
@@ -723,7 +784,7 @@ function telaInicio() {
     <div class="areas">${AREAS.map(([k, n, s]) => `<div class="area ${["TEC", "SOC", "ENG"].includes(k) ? "y" : ""}">${n}<small>${k} · ${s}</small></div>`).join("")}</div></div>
   <div class="dupla">
     <button class="cartao" data-ir="room" style="text-align:left"><span class="olho">Incubadora</span><b>Storm Room</b><span class="sub" style="font-size:12.5px">Decida em que ideias a casa investe.</span></button>
-    <button class="cartao" data-ir="casa" style="text-align:left"><span class="olho">A casa</span><b>808 m² por conversa</b><span class="sub" style="font-size:12.5px">Luz, som e palco pela Storm.</span></button>
+    <button class="cartao" data-ir="casa" style="text-align:left"><span class="olho">A casa</span><b>732 m² por conversa</b><span class="sub" style="font-size:12.5px">Luz, som e palco pela Storm.</span></button>
   </div>
   <div class="cartao"><span class="olho">Quem está junto</span><b style="font-family:var(--display);font-size:20px;line-height:1.1">Hoffmann × CHOSING© DEPT.</b>
     <p class="sub">A estrutura de quem faz grandes eventos desde 1983, do G20 à COP-30, com a engenharia digital com IA da CHOSING. Cada casa já é referência no que faz; juntas, disputam os próximos mercados.</p></div>
@@ -739,7 +800,8 @@ function trocarSub(k) {
 }
 
 // ---------- O projeto: a apresentação para a Hoffmann ----------
-const F = n => `fotos/${["", "thinkstorm-01-entrada", "thinkstorm-02-salao-central", "thinkstorm-03-sala-think-tank", "thinkstorm-04-lounge-e-copa", "thinkstorm-05-palco-e-audiovisual", "thinkstorm-06-tecnologia", "thinkstorm-07-servidores", "thinkstorm-08-salas-de-criacao", "thinkstorm-09-studio", "thinkstorm-10-podcast-e-audio", "thinkstorm-11-brainstorm", "thinkstorm-12-noite-de-evento"].at(n)}.jpg`;
+// número = foto conceitual antiga; texto = foto da sala (Google Flow, fotos/salas/<id>.jpg)
+const F = n => typeof n === "string" ? `fotos/salas/${n}.jpg` : `fotos/${["", "thinkstorm-01-entrada", "thinkstorm-02-salao-central", "thinkstorm-03-sala-think-tank", "thinkstorm-04-lounge-e-copa", "thinkstorm-05-palco-e-audiovisual", "thinkstorm-06-tecnologia", "thinkstorm-07-servidores", "thinkstorm-08-salas-de-criacao", "thinkstorm-09-studio", "thinkstorm-10-podcast-e-audio", "thinkstorm-11-brainstorm", "thinkstorm-12-noite-de-evento"].at(n)}.jpg`;
 const FOTOS = [
   [1, "A casa", "A porta de entrada", "Uma marca que o mercado reconhece."], [2, "A união", "O salão que une todos", "Hoffmann, CHOSING, líderes e talentos na mesma mesa."],
   [3, "Think", "Pensar como um think tank", "Dados, pesquisa e quem sabe muito do assunto."], [11, "Storm", "A tempestade de ideias", "Brainstorm sem limite, cruzando áreas e setores."],
@@ -749,7 +811,27 @@ const FOTOS = [
   [12, "Eventos", "Noites que movem o mercado", "Demo days e lançamentos com clientes e imprensa."], [4, "Networking", "Onde as conversas viram parcerias", "Lounge e copa: social meets e a noite pós-Storm Room."]
 ];
 const blocos = (lista, cls = "") => `<div class="q3" style="display:flex;flex-direction:column;gap:8px">${lista.map(([t, p, y]) => `<div class="bloco ${cls} ${y ? "y" : ""}"><b>${t}</b>${p ? `<p>${p}</p>` : ""}</div>`).join("")}</div>`;
+// Apresentação da parceria: curta, corre sozinha (cada capítulo tem seu tempo) e usa a cor de quem fala:
+// amarelo Thinkstorm, vermelho Hoffmann (#E8112D, hoffmann.com), ciano e rosa TikTok, creme CHOSING.
+const tags = (...l) => `<div class="tags">${l.map(([c, t]) => `<span class="tag tag-${c}">${t}</span>`).join("")}</div>`;
 const CAPS = [
+  { p: "A parceria", t: "Hoffmann × CHOSING", tema: "amarelo", d: 6500, h: () => `<span class="olho">Thinkstorm · Centro do Rio</span><div style="display:flex;align-items:center;gap:10px">${iconeMarca().replace("<svg", '<svg style="width:44px;height:48px;color:#111112"')}<span class="st-g">thinkstorm</span></div><h3 class="st-t">Hoffmann e CHOSING criam um hub de <em>tecnologia e conteúdo</em>.</h3>${tags(["hoff", "Hoffmann"], ["cho", "CHOSING© DEPT."], ["tik", "com o TikTok em vista"])}<span class="mono">a apresentação corre sozinha · toque e segure para pausar</span>` },
+  { p: "A parceria", t: "A ideia em uma frase", f: "salao", h: () => `<span class="olho">A ideia</span><h3 class="st-t">Um andar no Centro do Rio onde <em>tecnologia e produção de conteúdo</em> viram negócio.</h3><p class="st-p">732 m² no 11º andar da Av. Marechal Câmara, 160. O espaço é da Hoffmann; o propósito é de quem entrar: criar ideias e torná-las realidade.</p>` },
+  { p: "Tecnologia", t: "A CHOSING muda para cá", tema: "cho", f: "tecnologia", h: () => `<span class="olho">CHOSING© DEPT. · Sala 12</span><h3 class="st-t">O escritório sai da Barra da Tijuca e vem <em>para dentro da casa</em>.</h3>${blocos([["O canto de vidro", "A Sala 12, com vidro em duas faces, vira o escritório da CHOSING."], ["Tecnologia morando no hub", "A mesma porta, o mesmo café, a mesma reunião: ideia e engenharia lado a lado.", 1]])}<button class="btn sec" data-ver-salas="CHOSING|Servidores">Ver na planta</button>` },
+  { p: "Tecnologia", t: "O que a tecnologia faz", tema: "cho", h: () => `<span class="olho">Tecnologia · CHOSING</span><h3 class="st-t">IA que <em>opera, cria e mede</em>.</h3>${blocos([["Storm", "A IA da casa: luz, som, telas e cenas por conversa."], ["Fabric", "Do briefing ao sistema de teste, na frente do cliente."], ["Servidores próprios", "No CPD, atrás do vidro: os dados da casa ficam na casa."], ["Ferramentas para criadores", "Cortes, legendas e métricas no mesmo dia.", 1]])}` },
+  { p: "Conteúdo", t: "Produção de conteúdo", tema: "tik", f: "studio", h: () => `<span class="olho">Produção de conteúdo · Sala 05</span><h3 class="st-t">Grava, corta e publica <em>no mesmo dia</em>.</h3>${blocos([["Quatro sets no Studio", "LIVE de vendas diante do LED, dois sets verticais e videocast."], ["Social Media ao lado", "A Sala 11 recebe o material e publica.", 1]])}<button class="btn sec" data-ver-salas="Studio|Social Media|Sala do parceiro">Ver na planta</button>` },
+  { p: "Conteúdo", t: "O TikTok na casa", tema: "tik", f: "studio-verticais", h: () => `<span class="olho">O objetivo</span><h3 class="st-t">Uma casa para o TikTok <em>no Brasil</em>.</h3>${blocos([["Espaço TikTok", "O Studio inteiro, pronto para criadores e marcas."], ["Sala dedicada", "A Sala 10 fica para a equipe do TikTok."], ["Quem abre a porta", "A Hoffmann, que já tem a relação; a CHOSING entra com a tecnologia.", 1]])}<span class="mono">proposta da casa: nada aqui fala em nome do TikTok</span>` },
+  { p: "Hoffmann", t: "A Hoffmann escolhe como entra", tema: "hoff", f: "salao-palco", d: 9000, h: () => `<span class="olho">Hoffmann · por escolha livre</span><h3 class="st-t">A Hoffmann participa <em>no que quiser, do jeito que quiser</em>.</h3>${tags(["hoff", "Espaço"], ["hoff", "Hoffmann Lab"], ["hoff", "Palco"], ["hoff", "Produção de eventos"], ["hoff", "Academy"], ["hoff", "Hardware"], ["hoff", "Clientes"])}<p class="st-p">Cada peça é uma porta, não uma obrigação. A parceria cresce no ritmo que a Hoffmann escolher.</p>` },
+  { p: "Hoffmann", t: "O Hoffmann Lab", tema: "hoff", f: "eventos", h: () => `<span class="olho">Hoffmann Lab · Sala 09</span><h3 class="st-t">Quarenta anos de evento <em>viram produto com IA</em>.</h3>${blocos([["Intérprete IA", "O intérprete humano no comando; a IA cobre mais idiomas e salas."], ["Storm no palco", "Luz, LED e som por conversa, com a técnica sempre no comando."], ["Gêmeo digital do evento", "O evento montado em 3D antes de chegar ao pavilhão.", 1]])}<button class="btn sec" data-ver-salas="Hoffmann Lab|Depósito Hoffmann|Salão central">Ver na planta</button>` },
+  { p: "Hoffmann", t: "A Hoffmann em números", tema: "hoff", h: () => `<span class="olho">Hoffmann · hoffmann.com</span><h3 class="st-t">Quem faz <em>o impossível acontecer ao vivo</em>.</h3><div class="num"><div><b data-conta="40" data-mais="1">0</b><span>anos de eventos</span></div><div><b data-conta="35000" data-mais="1">0</b><span>eventos realizados</span></div><div><b data-conta="6">0</b><span>capitais com estrutura</span></div><div><b data-conta="300" data-mais="1">0</b><span>m² de LED no estúdio virtual da Globo</span></div></div><div class="marcos">${["Rio 2016", "G20 Rio 2024", "COP-30 2025"].map(m => `<span class="chip">${m}</span>`).join("")}</div>` },
+  { p: "A casa", t: "Um dia na casa", tema: "amarelo", d: 10000, h: () => `<span class="olho">Um dia no Thinkstorm</span><h3 class="st-t">Tecnologia e conteúdo, <em>da manhã à noite</em>.</h3><div class="dia">${[["9h", "Gravação vertical no Studio", "tik"], ["11h", "Reunião com uma marca na Sala 01", "ts"], ["14h", "LIVE de vendas com a carteira da Hoffmann", "tik"], ["16h", "Teste do Intérprete IA no Lab", "hoff"], ["19h", "Storm Room no palco", "ts"]].map(([h, t, c]) => `<div><b>${h}</b><span>${t}</span><i class="tag tag-${c}"></i></div>`).join("")}</div>` },
+  { p: "A casa", t: "A Storm", f: "servidores", h: () => `<span class="olho">A IA da casa</span><h3 class="st-t">A casa inteira <em>obedece a uma conversa</em>.</h3>${blocos([["“Liga a live do TikTok.”"], ["“Modo palestra.”"], ["“Acende o Hoffmann Lab.”", "Elevador, incêndio e gás ficam fora: são sistemas de vida.", 1]])}<button class="btn" data-sair-para="casa">Experimentar na casa</button>` },
+  { p: "A casa", t: "O que cada um ganha", h: () => `<span class="olho">Uma casa, quatro ganhos</span><h3 class="st-t">Cada um sai <em>maior do que entrou</em>.</h3><div class="ganhos">${[["hoff", "Hoffmann", "Um laboratório para virar produto e um palco que vende o próprio equipamento."], ["cho", "CHOSING", "Endereço no Centro, perto de clientes e criadores, com a casa como vitrine."], ["tik", "TikTok", "Estúdio, palco e comunidade prontos, sem montar do zero."], ["ts", "Thinkstorm", "Espaço, tecnologia e audiência numa casa só."]].map(([c, n, t]) => `<div class="g-${c}"><b>${n}</b><p>${t}</p></div>`).join("")}</div>` },
+  { p: "A conversa", t: "Aberto a proposta", tema: "amarelo", d: 9000, h: () => `<span class="olho">Aberto a proposta</span><h3 class="st-t">Isto é <em>um ponto de partida</em>.</h3>${blocos([["O que vocês esperam do espaço?"], ["O que a Hoffmann quer transformar primeiro?"], ["Quem abre a conversa com o TikTok?"]])}<p class="st-p">Salas, formato e papéis mudam com o que vocês trouxerem.</p>` },
+  { p: "A conversa", t: "Juntos", f: "salao-palco", h: () => `<span class="olho">Thinkstorm · Hoffmann × CHOSING© DEPT.</span><span class="st-g">Acreditamos que é possível chegar lá juntos.</span><p class="st-p">Criar ideias e torná-las realidade.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button class="btn sec" data-reiniciar>Rever</button><button class="btn" data-sair-para="casa">Ver a casa</button></div>` }
+];
+let LISTA = CAPS;
+const CAPS_PROJETO = [
   { p: "A visão", t: "Thinkstorm", f: 1, h: () => `<span class="olho">Ideia inicial para a Hoffmann</span><div style="display:flex;align-items:center;gap:10px">${iconeMarca().replace("<svg", '<svg style="width:44px;height:48px;color:#F2F2F0"')}<span class="st-g" style="color:#F2F2F0">thinkstorm</span></div><p class="st-p">Um hub de inteligência para criar o que vai liderar mercados nacionais, em qualquer ramo.</p><span class="mono">Hoffmann × CHOSING© DEPT. · toque para seguir</span>` },
   { p: "A visão", t: "Para onde vamos", h: () => `<span class="olho">Para onde vamos</span><h3 class="st-t">Um hub de inteligência para criar o que vai <em>liderar o mercado nacional</em>, em qualquer ramo.</h3>${blocos([["Sem limite de setor", "De fintechs a produtos de consumo e engenharia de produção."], ["Sem teto de escala", "Pensado desde o primeiro dia para o Brasil inteiro."], ["Com quem já lidera", "Hoffmann e CHOSING já são referência no que fazem.", 1]])}` },
   { p: "A visão", t: "O salto", h: () => `<span class="olho">O salto</span><h3 class="st-t">Do que já fazemos ao que <em>ainda não existe.</em></h3>${blocos([["Hoje", "Cada casa é referência no que faz e inova dentro do que já faz."]])}<div class="seta-v">↓</div>${blocos([["Com o Thinkstorm", "Juntas, as casas criam líderes em mercados novos: fintech, consumo, indústria, tecnologia, mídia e novos eventos.", 1]])}` },
@@ -765,8 +847,8 @@ const CAPS = [
   { p: "O hub", t: "Quinze áreas", f: 8, h: () => `<span class="olho">Quinze áreas, uma casa</span><h3 class="st-t">Onze de criação, <em>quatro motores.</em></h3><div class="areas">${AREAS.map(([k, n, s]) => `<div class="area ${["TEC", "SOC", "ENG"].includes(k) ? "y" : ""}">${n}<small>${s}</small></div>`).join("")}</div><p class="st-p">Tecnologia é a fonte de receita que lidera. Engenharia de produção e Social Media são as áreas novas.</p>` },
   { p: "A incubadora", t: "Storm Room", f: 5, h: () => `<span class="olho">A incubadora · no estilo Shark Tank e Dragon's Den</span><h3 class="st-t">Storm Room: o palco onde as ideias <em>pedem investimento.</em></h3>${blocos([["Pitch, banca, decisão", "Fundadores apresentam no palco; Hoffmann, CHOSING e investidores decidem na hora, pela régua 40/40/50."], ["Smart money", "A casa cede espaço, estrutura, fornecedores e conexões. Um fundo do Thinkstorm investe capital por equity.", 1]])}<button class="btn" data-sair-para="room">Ver uma edição do Storm Room</button>` },
   { p: "A incubadora", t: "A Storm", f: 7, h: () => `<span class="olho">A IA da casa</span><h3 class="st-t">Storm: a casa inteira <em>obedece a uma conversa.</em></h3>${blocos([["“Joga a abertura no telão grande.”"], ["“Modo palestra.”"], ["“Quando eu disser hora do café, acende a copa.”", "Ela aprende comandos novos e lembra.", 1]])}<button class="btn" data-sair-para="casa">Experimentar na casa</button>` },
-  { p: "O que já existe", t: "A Hoffmann", f: 5, h: () => `<span class="olho">O que já existe · Hoffmann</span><h3 class="st-t">Mais de 40 anos fazendo <em>o impossível acontecer ao vivo.</em></h3><div class="num"><div><b data-conta="35000" data-mais="1">0</b><span>eventos realizados</span></div><div><b data-conta="1983">0</b><span>fundada no Rio</span></div><div><b data-conta="150" data-mais="1">0</b><span>colaboradores diretos</span></div><div><b data-conta="20">0</b><span>hotéis com operação própria</span></div></div><div class="marcos">${["Rio-92", "Rio+20", "JMJ 2013", "Rio 2016", "G20 Rio 2024", "COP-30 2025"].map(m => `<span class="chip">${m}</span>`).join("")}</div>${blocos([["Habilidades que o hub usa", "Engenharia audiovisual, interpretação simultânea, estúdios e transmissão, palco e operação em grande escala, Hoffmann Academy."]])}<span class="mono">Fonte: hoffmann.com</span>` },
-  { p: "O que já existe", t: "A CHOSING e o que já fizemos", f: 6, h: () => `<span class="olho">O que já existe · CHOSING© DEPT.</span><h3 class="st-t">Engenharia com IA, <em>na velocidade do hub.</em></h3><p class="st-p">Para este projeto, em dois dias de trabalho:</p>${blocos([["Proposta e pitch", "Dois decks completos, com marca oficial, imagens e PDFs."], ["Storm, a IA da casa", "Opera luz, som, telões e clima por conversa, e aprende comandos."], ["storm-api", "A ponte com os equipamentos: PJLink, Art-Net, Home Assistant e Q-SYS, com testes automáticos."], ["Este app", "Laboratório de ideias com IA, Storm Room, a casa e a rede.", 1]])}<p class="st-p">Imagine o que a casa faz com um time inteiro.</p>` },
+  { p: "O que já existe", t: "A Hoffmann", f: 5, h: () => `<span class="olho">O que já existe · Hoffmann</span><h3 class="st-t">Mais de 40 anos fazendo <em>o impossível acontecer ao vivo.</em></h3><div class="num"><div><b data-conta="35000" data-mais="1">0</b><span>eventos realizados</span></div><div><b data-conta="1983">0</b><span>fundada no Rio</span></div><div><b data-conta="6">0</b><span>capitais com estrutura própria</span></div><div><b data-conta="300" data-mais="1">0</b><span>m² de LED no estúdio virtual da Globo</span></div></div><div class="marcos">${["Rio-92", "Rio+20", "JMJ 2013", "Rio 2016", "G20 Rio 2024", "COP-30 2025"].map(m => `<span class="chip">${m}</span>`).join("")}</div>${blocos([["Habilidades que o hub usa", "Engenharia audiovisual, interpretação simultânea, estúdios e transmissão, palco e operação em grande escala, Hoffmann Academy."]])}<span class="mono">Fonte: hoffmann.com</span>` },
+  { p: "O que já existe", t: "A CHOSING e o que já fizemos", f: 6, h: () => `<span class="olho">O que já existe · CHOSING© DEPT.</span><h3 class="st-t">Engenharia com IA, <em>na velocidade do hub.</em></h3><p class="st-p">O que a CHOSING já construiu para este projeto:</p>${blocos([["Proposta e pitch", "Dois decks completos, com marca oficial, imagens e PDFs."], ["Storm, a IA da casa", "Opera luz, som, telões e clima por conversa, e aprende comandos."], ["storm-api", "A ponte com os equipamentos: PJLink, Art-Net, Home Assistant e Q-SYS, com testes automáticos."], ["Este app", "Laboratório de ideias com IA, Storm Room, a casa e a rede.", 1]])}<p class="st-p">E agora o time inteiro vem morar na casa.</p>` },
   { p: "O modelo", t: "Como se sustenta", h: () => `<span class="olho">Como o hub se sustenta</span><h3 class="st-t">Receita recorrente que sustenta, <em>ativos sem teto.</em></h3>${blocos([["Tecnologia · a que lidera", "Criar, desenvolver, vender e gerenciar produtos e plataformas.", 1], ["Locação", "Residências, salas e estúdio."], ["Colab", "Talentos usam o espaço e pagam em serviços."], ["Palco", "Eventos, cursos e conteúdo produzidos no hub."], ["Sem teto", "Produtos, plataformas, empresas e a participação nas startups do Storm Room."]])}` },
   { p: "O modelo", t: "O que a Hoffmann ganha", f: 2, h: () => `<span class="olho">O que a Hoffmann ganha · toque para abrir</span><h3 class="st-t">Uma porta para mercados <em>além dos eventos.</em></h3>${blocos([["Novos mercados", "Setores além dos eventos, com risco dividido.", 1], ["Receita recorrente", "Tecnologia, locação, colab e palco."], ["Ativos próprios", "Participar do que nasce na casa e, se quiser, investir pelo fundo."], ["Showroom e laboratório", "Clientes veem a inovação; formatos são testados antes dos grandes eventos."], ["Talento por perto", "As melhores cabeças trabalhando ao lado da operação."], ["Marca", "A casa que cria o que vem depois, no Rio e no Brasil."]], "acc")}` },
   { p: "O caminho", t: "Quatro fases", h: () => `<span class="olho">O caminho · toque em cada fase</span><h3 class="st-t">Para onde vamos, <em>em quatro fases.</em></h3><div class="fase-st" id="rota-st">${["Abrir", "Provar", "Multiplicar", "Liderar"].map((m, i) => `<button data-rota="${i}" aria-pressed="${!i}">${m}</button>`).join("")}</div><div class="bloco" id="rota-txt"></div><p class="st-p">As fases não têm data: avançam quando o portão de cada uma é cumprido. Nada cresce antes de provar que funciona.</p>` },
@@ -777,40 +859,60 @@ const CAPS = [
 const METODO = [["Think · entender", "Dados, pesquisa e quem sabe muito do mercado, numa mesa redonda.", "Mapear os congressos da carteira da Hoffmann e os idiomas mais pedidos."], ["Storm · gerar", "Brainstorm sem limite, cruzando as áreas e os setores da casa.", "Desenhar o modelo híbrido: IA nos idiomas de menor demanda, intérprete humano nos principais."], ["Make · fazer", "Protótipo, teste e piloto com a estrutura da Hoffmann e a engenharia da CHOSING.", "Piloto num congresso real, com pesquisa de qualidade."], ["Scale · escalar", "Levar ao Brasil com os clientes, a marca e os parceiros das casas.", "Vender como serviço para a rede de hotéis e eventos."]];
 const ROTA = [["Fase 1 · Abrir a casa", "Primeira turma, as áreas escolhidas funcionando e os primeiros pilotos.", "Segue quando: os pilotos têm clientes pagando."], ["Fase 2 · Provar", "Primeiros produtos em mercados novos: fintech, consumo e engenharia de produção.", "Segue quando: um produto cresce fora da carteira das casas, dentro da régua 40/40/50."], ["Fase 3 · Multiplicar", "Empresas nascidas no hub e líderes de outros setores como parceiros fixos.", "Segue quando: a casa atrai parceiros sem precisar buscar."], ["Fase 4 · Liderar", "Referência nacional em inovação, com casas no Rio de Janeiro e em São Paulo.", "Sem teto."]];
 function painelProjeto() {
-  const partes = [...new Set(CAPS.map(c => c.p))];
-  return `<div class="capa-proj"><img src="${F(2)}" alt="Salão central do Thinkstorm"><span class="olho">Ideia inicial para a Hoffmann</span><h2>O projeto inteiro, em ${CAPS.length} capítulos.</h2><p class="sub" style="color:#CFCFCF">Toque para seguir, deslize para voltar. Com as imagens do espaço e o que as casas já sabem fazer.</p><button class="btn" data-cap="0">Assistir à apresentação</button></div>
-  <div class="indice">${partes.map(p => `<div class="parte"><h4>${esc(p)}</h4><div class="caps">${CAPS.map((c, i) => c.p !== p ? "" : `<button class="cap" data-cap="${i}">${c.f ? `<img src="${F(c.f)}" alt="" loading="lazy">` : ""}<span>${String(i + 1).padStart(2, "0")}</span><b>${esc(c.t)}</b></button>`).join("")}</div></div>`).join("")}</div>
+  const grupo = (lista, chave) => [...new Set(lista.map(c => c.p))].map(p => `<div class="parte"><h4>${esc(p)}</h4><div class="caps">${lista.map((c, i) => c.p !== p ? "" : `<button class="cap" data-${chave}="${i}">${c.f ? `<img src="${F(c.f)}" alt="" loading="lazy">` : ""}<span>${String(i + 1).padStart(2, "0")}</span><b>${esc(c.t)}</b></button>`).join("")}</div></div>`).join("");
+  return `<div class="capa-proj"><img src="${F(2)}" alt="Salão central do Thinkstorm"><span class="olho">Hoffmann × CHOSING© DEPT.</span><h2>A parceria em ${CAPS.length} capítulos curtos.</h2><p class="sub" style="color:#CFCFCF">Corre sozinha, em cerca de dois minutos. Toque e segure para pausar.</p><button class="btn" data-cap="0">Assistir à apresentação</button></div>
+  <div class="indice">${grupo(CAPS, "cap")}<h3 class="sub" style="margin:18px 0 4px">Para aprofundar</h3>${grupo(CAPS_PROJETO, "cap-p")}</div>
   <p class="aviso">Imagens conceituais geradas com IA · números da Hoffmann: hoffmann.com</p>`;
 }
+
 let capAtual = 0;
-function abrirStory(i) {
+function abrirStory(i, lista = CAPS) {
+  LISTA = lista;
   const st = $("#story"); st.classList.add("on");
   try { history.replaceState(null, "", "#apresentacao"); } catch (_) {}
   mostrarCap(i, 1);
 }
 function fecharStory(paraInicio = true) {
-  $("#story").classList.remove("on");
+  $("#story").classList.remove("on"); clearTimeout(autoSt.timer);
   if (!paraInicio) return;
   if (sub !== "agora") trocarSub("agora");
   irPara("inicio");
   try { history.replaceState(null, "", "#inicio"); } catch (_) {}
 }
 function mostrarCap(i, dir) {
-  capAtual = Math.max(0, Math.min(CAPS.length - 1, i));
-  const c = CAPS[capAtual];
-  $("#barras-st").innerHTML = CAPS.map((_, k) => `<i class="${k < capAtual ? "feito" : k === capAtual ? "atual" : ""}"></i>`).join("");
-  $("#cap-nome").textContent = `${String(capAtual + 1).padStart(2, "0")}/${CAPS.length} · ${c.p}`;
-  const sl = document.createElement("div"); sl.className = `sl ${c.f ? "foto" : ""} ${dir > 0 ? "vai" : "volta"}`;
+  capAtual = Math.max(0, Math.min(LISTA.length - 1, i));
+  const c = LISTA[capAtual];
+  $("#barras-st").innerHTML = LISTA.map((_, k) => `<i class="${k < capAtual ? "feito" : k === capAtual ? "atual" : ""}"></i>`).join("");
+  $("#cap-nome").textContent = `${String(capAtual + 1).padStart(2, "0")}/${LISTA.length} · ${c.p}`;
+  const sl = document.createElement("div"); sl.className = `sl ${c.f ? "foto" : ""} ${c.tema ? "t-" + c.tema : ""} ${dir > 0 ? "vai" : "volta"}`;
   sl.innerHTML = (c.f ? `<img class="bg" src="${F(c.f)}" alt=""><div class="veu-f"></div>` : "") + c.h();
   const palco = $("#palco-st"); palco.innerHTML = ""; palco.appendChild(sl);
   $("#st-ant").style.visibility = capAtual ? "visible" : "hidden";
-  $("#st-prox").textContent = capAtual === CAPS.length - 1 ? "✓" : "→";
-  $("#dica-st").textContent = capAtual === 0 ? "toque à direita para seguir · à esquerda para voltar" : "";
+  $("#st-prox").textContent = capAtual === LISTA.length - 1 ? "✓" : "→";
+  $("#dica-st").textContent = "";
   sl.querySelectorAll("[data-conta]").forEach(b => contar(b));
   if ($("#metodo-st")) escolher("metodo", 0);
   if ($("#rota-st")) escolher("rota", 0);
   const car = $("#carrossel"); if (car) car.addEventListener("scroll", () => { const k = Math.round(car.scrollLeft / (car.firstElementChild.offsetWidth + 10)); $("#pontos").querySelectorAll("i").forEach((p, j) => p.classList.toggle("on", j === k)); }, { passive: true });
-  [CAPS[capAtual + 1], CAPS[capAtual + 2]].forEach(n => { if (n?.f) { const im = new Image(); im.src = F(n.f); } });
+  [LISTA[capAtual + 1], LISTA[capAtual + 2]].forEach(n => { if (n?.f) { const im = new Image(); im.src = F(n.f); } });
+  // corre sozinha: o tempo vem do capítulo ou do tamanho do texto; o último fica parado
+  const palavras = sl.textContent.trim().split(/\s+/).length;
+  const dur = c.d || Math.min(12000, Math.max(6500, palavras * 230));
+  $("#barras-st").style.setProperty("--dur", dur + "ms");
+  agendarSt(capAtual < LISTA.length - 1 ? dur : 0);
+}
+const autoSt = { timer: 0, ini: 0, resta: 0, pausado: false, segurando: false };
+function agendarSt(ms) {
+  clearTimeout(autoSt.timer); autoSt.resta = ms; autoSt.ini = Date.now();
+  if (ms && !autoSt.pausado && !autoSt.segurando) autoSt.timer = setTimeout(() => { if ($("#story").classList.contains("on") && capAtual < LISTA.length - 1) mostrarCap(capAtual + 1, 1); }, ms);
+}
+function pausarSt(sim, porSegurar = false) {
+  if (porSegurar) { if (autoSt.segurando === sim) return; autoSt.segurando = sim; } else autoSt.pausado = sim;
+  const parado = autoSt.pausado || autoSt.segurando;
+  $("#story").classList.toggle("pausado", parado);
+  const b = $("#st-pausa"); if (b) { b.textContent = autoSt.pausado ? "▶" : "❚❚"; b.setAttribute("aria-label", autoSt.pausado ? "Continuar" : "Pausar"); }
+  if (parado) { clearTimeout(autoSt.timer); autoSt.resta = Math.max(0, autoSt.resta - (Date.now() - autoSt.ini)); }
+  else if (autoSt.resta) agendarSt(autoSt.resta);
 }
 function contar(el) {
   const alvo = +el.dataset.conta, mais = el.dataset.mais ? "+" : "", ano = alvo > 1900 && alvo < 2100;
@@ -829,8 +931,10 @@ function escolher(qual, i) {
 }
 function ligarStory() {
   const st = $("#story"); let x0 = null, y0 = null, t0 = 0;
-  st.addEventListener("pointerdown", e => { if (e.target.closest(".carrossel")) return; x0 = e.clientX; y0 = e.clientY; t0 = Date.now(); });
+  st.addEventListener("pointerdown", e => { if (e.target.closest(".carrossel, button")) return; x0 = e.clientX; y0 = e.clientY; t0 = Date.now(); pausarSt(true, true); });
+  st.addEventListener("pointercancel", () => { x0 = null; pausarSt(false, true); });
   st.addEventListener("pointerup", e => {
+    pausarSt(false, true);
     if (x0 === null) return; const dx = e.clientX - x0, dy = e.clientY - y0; x0 = null;
     if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.4) { mostrarCap(capAtual + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1); return; }
     if (Math.abs(dx) > 8 || Math.abs(dy) > 8 || Date.now() - t0 > 600) return;
@@ -842,13 +946,15 @@ function ligarStory() {
     const acc = e.target.closest(".acc"); if (acc) { acc.classList.toggle("aberto"); return; }
     const m = e.target.closest("[data-metodo]"); if (m) { escolher("metodo", +m.dataset.metodo); return; }
     const ro = e.target.closest("[data-rota]"); if (ro) { escolher("rota", +ro.dataset.rota); return; }
+    const vs = e.target.closest("[data-ver-salas]"); if (vs) { fecharStory(false); irPara("casa"); marcarSalas(vs.dataset.verSalas.split("|"), "A parceria na planta"); return; }
     const sp = e.target.closest("[data-sair-para]"); if (sp) { fecharStory(false); irPara(sp.dataset.sairPara); if (sp.dataset.sairPara === "casa") aplicarCena("room"); return; }
     if (e.target.closest("[data-reiniciar]")) { mostrarCap(0, -1); return; }
     if (e.target.closest("#st-fecha")) { fecharStory(); return; }
+    if (e.target.closest("#st-pausa")) { pausarSt(!autoSt.pausado); return; }
     if (e.target.closest("#st-ant")) { mostrarCap(capAtual - 1, -1); return; }
-    if (e.target.closest("#st-prox")) { if (capAtual === CAPS.length - 1) fecharStory(); else mostrarCap(capAtual + 1, 1); return; }
+    if (e.target.closest("#st-prox")) { if (capAtual === LISTA.length - 1) fecharStory(); else mostrarCap(capAtual + 1, 1); return; }
   });
-  addEventListener("keydown", e => { if (!st.classList.contains("on")) return; if (e.key === "ArrowRight") mostrarCap(capAtual + 1, 1); if (e.key === "ArrowLeft") mostrarCap(capAtual - 1, -1); if (e.key === "Escape") fecharStory(); });
+  addEventListener("keydown", e => { if (!st.classList.contains("on")) return; if (e.key === "ArrowRight") mostrarCap(capAtual + 1, 1); if (e.key === "ArrowLeft") mostrarCap(capAtual - 1, -1); if (e.key === "Escape") fecharStory(); if (e.key === " ") { e.preventDefault(); pausarSt(!autoSt.pausado); } });
 }
 
 // Animação da mente: nós (as áreas) ligados, ideias correndo e raios saindo para o mercado
@@ -1133,25 +1239,25 @@ function levarAoRoom() {
 
 // ---------- Casa ----------
 const ESC = 20;
-const SALA_DA_AREA = { TEC: "Tecnologia", INT: "Inteligência", ENG: "Engenharia", SOC: "Social Media", CRI: "Criação", PRO: "Produção", ART: "Arte", STY: "Style", VIS: "Visual", AUD: "Áudio", STU: "Studio", MKT: "Marketing", NEG: "Negócios", EVT: "Eventos", ACA: "Academy" };
+const SALA_DA_AREA = { TEC: "CHOSING", INT: "Inteligência", ENG: "Engenharia", SOC: "Social Media", CRI: "Criação", PRO: "Produção", ART: "Arte", STY: "Style", VIS: "Visual", AUD: "Áudio", STU: "Studio", MKT: "Marketing", NEG: "Negócios", EVT: "Hoffmann Lab", ACA: "Academy" };
 const luz = {};
 let destaque = null;
 function telaCasa() {
   $("#t-casa").innerHTML = `
-  <div><span class="olho">A casa · 808 m²</span><h2 class="t1" style="margin-top:6px">Tudo responde à Storm.</h2></div>
+  <div><span class="olho">A casa · 732 m²</span><h2 class="t1" style="margin-top:6px">Tudo responde à Storm.</h2></div>
   <form class="comando" id="comando"><span>${I.raio}</span><input id="comando-txt" autocomplete="off" placeholder="Ex.: luz do Studio em 40%" aria-label="Comando para a Storm"><button class="btn">Ir</button></form>
   <div class="faixa cenas-f">${Object.entries(CENAS).map(([k, c]) => `<button class="cena ${k === cenaAtual ? "on" : ""}" data-cena="${k}"><b>${c.nome}</b><small>${c.desc}</small></button>`).join("")}</div>
   <div class="status-casa" id="status-casa"></div>
   <div id="faixa-destaque"></div>
-  <div class="planta-box" id="planta-box"><svg class="planta" id="planta" viewBox="0 0 ${22.45 * ESC} ${36 * ESC}" role="img" aria-label="Planta do Thinkstorm">${SALAS.map(([n, x0, x1, z0, z1]) => {
-    // Em pé: o comprimento do andar vira a altura da tela.
-    const x = z0 * ESC, y = x0 * ESC, w = (z1 - z0) * ESC, h = (x1 - x0) * ESC;
+  <div class="planta-box" id="planta-box"><svg class="planta" id="planta" viewBox="0 0 ${ANDAR.z * ESC} ${ANDAR.x * ESC}" role="img" aria-label="Planta do Thinkstorm">${SALAS.map(([n, x0, x1, z0, z1]) => {
+    // Em pé: a planta gira 90° (sem espelhar) e o comprimento do andar vira a altura da tela.
+    const x = (ANDAR.z - z1) * ESC, y = x0 * ESC, w = (z1 - z0) * ESC, h = (x1 - x0) * ESC;
     // Rótulo do tamanho da sala: encolhe até 13 e, se ainda não couber, abrevia (o nome inteiro aparece ao tocar).
     let rotulo = n.length > 10 && w < 120 ? n.split(" ")[0] : n;
     const cabe = Math.floor((w - 16) / (13 * 0.58));
     if (rotulo.length > cabe) rotulo = rotulo.slice(0, cabe - 1) + ".";
     const tam = Math.max(13, Math.min(16, (w - 16) / (rotulo.length * 0.58))).toFixed(1);
-    return `<g class="sala" data-sala="${esc(n)}" role="button" tabindex="0" aria-label="${esc(n)}"><rect class="b" x="${x + 3}" y="${y + 3}" width="${w - 6}" height="${h - 6}" rx="10"/><rect class="l" x="${x + 3}" y="${y + 3}" width="${w - 6}" height="${h - 6}" rx="10" fill-opacity="0"/><text x="${x + 9}" y="${y + 25}" style="font-size:${tam}px">${esc(rotulo)}</text><text class="pct" x="${x + 9}" y="${y + 43}"></text></g>`;
+    return `<g class="sala" data-sala="${esc(n)}" role="button" tabindex="0" aria-label="${esc(n)}"><rect class="b" x="${x + 3}" y="${y + 3}" width="${w - 6}" height="${h - 6}" rx="10"/><rect class="l" x="${x + 3}" y="${y + 3}" width="${w - 6}" height="${h - 6}" rx="10" fill-opacity="0"/>${h >= 44 && w >= 50 ? `<text x="${x + 9}" y="${y + 25}" style="font-size:${tam}px">${esc(rotulo)}</text>` : ""}<text class="pct" x="${x + 9}" y="${y + (h >= 44 ? Math.min(43, h - 8) : Math.min(25, h - 8))}"></text></g>`;
   }).join("")}</svg></div>
   <p class="mono" style="text-align:center;margin-top:-8px">toque numa sala para ver e ajustar</p>
   <div class="cartao" id="info-sala"></div>
@@ -1179,11 +1285,13 @@ async function aplicarCena(k, silencio) {
   else { let i = 0; for (const [n] of ordem) { luz[n] = c.luz(n); if (++i % 3 === 0) { pintar(); await espera(45); } } pintar(); }
   infoSala(); if (!silencio) toast(`Cena “${c.nome}” aplicada`);
 }
+const FOTO_SALA = { "Studio": "studio", "Social Media": "social-media", "CHOSING": "tecnologia", "Hoffmann Lab": "eventos", "Sala do parceiro": "sala-parceiro", "Produção": "producao", "Áudio": "audio", "Copa": "copa", "Academy": "academy", "Servidores": "servidores", "Recepção": "recepcao", "Negócios": "negocios", "Marketing": "marketing", "Visual": "visual", "Style": "style", "Arte": "arte", "Criação": "criacao", "Inteligência": "inteligencia", "Engenharia": "engenharia", "Salão central": "salao", "Incubadora": "incubadora" };
 function infoSala() {
   const el = $("#info-sala"); if (!el) return;
   const v = Math.round((luz[salaSel] ?? 0) * 100);
   const area = Object.entries(SALA_DA_AREA).find(([, s]) => s === salaSel);
-  el.innerHTML = `<div class="cab"><h3 class="t2">${esc(salaSel)}</h3><span class="mono">${area ? "área " + area[0] : "ambiente"}</span></div>
+  const foto = FOTO_SALA[salaSel];
+  el.innerHTML = (foto ? `<img class="foto-sala" src="${F(foto)}" alt="Imagem conceitual: ${esc(salaSel)}" loading="lazy">` : "") + `<div class="cab"><h3 class="t2">${esc(salaSel)}</h3><span class="mono">${area ? "área " + area[0] : "ambiente"}</span></div>
     <p class="sub">${esc(SOBRE_SALA[salaSel] || "Uma das salas da casa, ligada a uma área do hub.")}</p>
     <div class="luz-ctl"><span class="mono">luz</span><input type="range" id="luz-sala" min="0" max="100" step="5" value="${v}" aria-label="Luz de ${esc(salaSel)}"><b id="luz-val">${v}%</b></div>
     <div class="dupla"><button class="btn sec" data-luz="0">Apagar</button><button class="btn" data-luz="100">Acender</button></div>`;
@@ -1295,6 +1403,7 @@ function ligar() {
   document.addEventListener("click", e => {
     if (e.target.closest("#story")) return;
     const sb = e.target.closest("[data-sub]"); if (sb) { trocarSub(sb.dataset.sub); return; }
+    const cpp = e.target.closest("[data-cap-p]"); if (cpp) { abrirStory(+cpp.dataset.capP, CAPS_PROJETO); return; }
     const cp = e.target.closest("[data-cap]"); if (cp) { abrirStory(+cp.dataset.cap); return; }
     const ir = e.target.closest("[data-ir]"); if (ir) { irPara(ir.dataset.ir); return; }
     const ex = e.target.closest("[data-exemplo]"); if (ex) { rodarIdeia(ex.dataset.exemplo); return; }
